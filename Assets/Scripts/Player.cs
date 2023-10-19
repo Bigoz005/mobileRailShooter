@@ -75,6 +75,11 @@ public class Player : MonoBehaviour
     {
         switch (health)
         {
+            case 0:
+                HealthTexture1.SetActive(false);
+                HealthTexture2.SetActive(false);
+                HealthTexture3.SetActive(false);
+                break;
             case 1:
                 HealthTexture1.SetActive(true);
                 HealthTexture2.SetActive(false);

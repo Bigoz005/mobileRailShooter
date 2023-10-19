@@ -9,6 +9,10 @@ public class Enemy : MonoBehaviour
     private float time = 0;
     private const int TIME_TO_ATTACK = 10;
 
+    private bool start = false;
+    [SerializeField]
+    AnimationCurve curve;
+
     Vector3 startingPos;
 
     void Awake()
@@ -25,14 +29,15 @@ public class Enemy : MonoBehaviour
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
         explosion.GetComponent<ParticleSystem>().Stop();
         StartCoroutine(CountdownToAttack());
+        StartCoroutine(Shaking());
     }
 
     private void Attack()
     {
         gameObject.layer = 0;
         explosion.SetActive(true);
-        explosion.GetComponent<ParticleSystem>().Play();
         Camera.main.GetComponentInChildren<Player>().GetHit();
+        explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(CountdownToExtinction());
     }
@@ -62,6 +67,21 @@ public class Enemy : MonoBehaviour
             TimeCount();
             yield return new WaitForSeconds(1);
         }
+    }
+
+    private IEnumerator Shaking()
+    {
+        Debug.Log("Shaking");
+        Vector3 startPostition = transform.position;
+
+        while (time <= TIME_TO_ATTACK)
+        {
+            float strength = curve.Evaluate(time / 10);
+            transform.position = startPostition + Random.insideUnitSphere * strength;
+            yield return null;
+        }
+
+        transform.position = startPostition;
     }
 
     private void Countdown()
