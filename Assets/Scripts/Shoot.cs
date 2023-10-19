@@ -28,7 +28,7 @@ public class Shoot : MonoBehaviour
 
         gun.transform.LookAt(crosshair);
         Ray ray = new Ray(gun.transform.position, gun.transform.forward * 100000000);
-        /*Camera.main.ScreenPointToRay(crosshair.position);*/
+        Debug.DrawRay(gun.transform.position, gun.transform.forward * 10000000, Color.green);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 1000000, mask))
@@ -36,7 +36,21 @@ public class Shoot : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Destroy(hit.collider.gameObject);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(100);
             }
+
+            if (hit.collider.CompareTag("ScorePowerUp"))
+            {
+                Destroy(hit.collider.gameObject);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(1000);
+            }
+
+            if (hit.collider.CompareTag("BonusHealth"))
+            {
+                Destroy(hit.collider.gameObject);
+                Camera.main.gameObject.GetComponent<Player>().AddHealth();
+            }
+
             Debug.Log(hit.transform.name);
         }
     }
