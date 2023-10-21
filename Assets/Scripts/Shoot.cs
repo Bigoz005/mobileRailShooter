@@ -11,6 +11,7 @@ public class Shoot : MonoBehaviour
     private PointerEventData m_PointerEventData;
     private EventSystem m_EventSystem;
     public GameObject gun;
+    private Zooming zoomController;
     public LayerMask mask;
 
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class Shoot : MonoBehaviour
     {
         crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
         m_EventSystem = GetComponent<EventSystem>();
+        zoomController = Camera.main.GetComponent<Zooming>();
     }
 
     public void ShootRay()
@@ -37,8 +39,10 @@ public class Shoot : MonoBehaviour
             {
                 Destroy(hit.collider.gameObject);
                 Camera.main.gameObject.GetComponent<Player>().AddScore(100);
-                StopCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
-                StopCoroutine(Camera.main.GetComponent<Zooming>().Move());
+                StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());
+                StartCoroutine(zoomController.ZoomOutEnemy());
+                StartCoroutine(zoomController.MoveBack());
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))

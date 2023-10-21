@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private GameObject aimCircle1;
     private GameObject aimCircle2;
     private Material aimlockMaterial;
+    private Zooming zoomController;
 
     private bool start = false;
     [SerializeField]
@@ -37,9 +38,10 @@ public class Enemy : MonoBehaviour
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
-        Camera.main.GetComponent<Zooming>().SetEnemy(this.gameObject);
-        StartCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
-        StartCoroutine(Camera.main.GetComponent<Zooming>().Move());
+        zoomController = Camera.main.GetComponent<Zooming>();
+        zoomController.SetEnemy(this.gameObject);
+        StartCoroutine(zoomController.ZoomOnEnemy());
+        StartCoroutine(zoomController.Move());
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         explosion.SetActive(false);
@@ -84,9 +86,10 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                StopCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
-                StopCoroutine(Camera.main.GetComponent<Zooming>().Move());
-                StartCoroutine(Camera.main.GetComponent<Zooming>().ZoomOutEnemy());
+                StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());
+                StartCoroutine(zoomController.ZoomOutEnemy());
+                StartCoroutine(zoomController.MoveBack());
             }
             TimeCount();
             yield return new WaitForSeconds(1);

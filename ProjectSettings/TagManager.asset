@@ -10,6 +10,7 @@ TagManager:
   - BonusHealth
   - LeftBox
   - RightBox
+  - MainGameObjectToWatch
   layers:
   - Default
   - TransparentFX
