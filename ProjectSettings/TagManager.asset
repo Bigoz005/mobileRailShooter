@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - ScorePowerUp
   - BonusHealth
+  - LeftBox
+  - RightBox
   layers:
   - Default
   - TransparentFX

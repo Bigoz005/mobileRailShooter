@@ -37,6 +37,8 @@ public class Shoot : MonoBehaviour
             {
                 Destroy(hit.collider.gameObject);
                 Camera.main.gameObject.GetComponent<Player>().AddScore(100);
+                StopCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
+                StopCoroutine(Camera.main.GetComponent<Zooming>().Move());
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))

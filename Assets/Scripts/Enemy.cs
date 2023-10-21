@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
 
     Vector3 startingPos;
 
+    public float _Time { get => time; set => time = value; }
+
+    public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
+
     void Awake()
     {
         startingPos.x = transform.position.x;
@@ -33,6 +37,9 @@ public class Enemy : MonoBehaviour
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
+        Camera.main.GetComponent<Zooming>().SetEnemy(this.gameObject);
+        StartCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
+        StartCoroutine(Camera.main.GetComponent<Zooming>().Move());
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         explosion.SetActive(false);
@@ -77,6 +84,9 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
+                StopCoroutine(Camera.main.GetComponent<Zooming>().ZoomOnEnemy());
+                StopCoroutine(Camera.main.GetComponent<Zooming>().Move());
+                StartCoroutine(Camera.main.GetComponent<Zooming>().ZoomOutEnemy());
             }
             TimeCount();
             yield return new WaitForSeconds(1);
