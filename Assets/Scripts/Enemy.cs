@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     private GameObject explosion;
     private float duration;
     private float time = 0;
-    private const int TIME_TO_ATTACK = 8;
+    private float TIME_TO_ATTACK = 1;
     private GameObject aimlock;
     private GameObject aimCircle1;
     private GameObject aimCircle2;
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
 
-        audioSource = Camera.main.GetComponent<AudioSource>();
+        audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         explosion.SetActive(false);
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
     {
         while (time <= TIME_TO_ATTACK)
         {
-            if (time == TIME_TO_ATTACK - 1)
+            if (time == TIME_TO_ATTACK - 0.5f)
             {
                 audioSource.clip = explosionClip;
                 audioSource.Play();
@@ -143,11 +143,11 @@ public class Enemy : MonoBehaviour
 
             if (wasYellow)
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.4f, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.b);
             }
             else
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.35f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.g, aimlockMaterial.color.b);
                 if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
                 {
                     wasYellow = true;
@@ -179,6 +179,6 @@ public class Enemy : MonoBehaviour
 
     private void TimeCount()
     {
-        time += 1;
+        time += 0.25f;
     }
 }

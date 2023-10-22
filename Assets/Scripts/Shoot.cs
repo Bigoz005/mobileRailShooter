@@ -13,9 +13,11 @@ public class Shoot : MonoBehaviour
     public GameObject gun;
     private Zooming zoomController;
     public LayerMask mask;
+    private float duration = 17.0f;
+    private int points = 1000;
 
     private AudioSource audioSource;
-
+    private MusicManager musicManager;
 
     [SerializeField]
     public AudioClip shootClip;
@@ -32,7 +34,8 @@ public class Shoot : MonoBehaviour
         crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
         m_EventSystem = GetComponent<EventSystem>();
         zoomController = Camera.main.GetComponent<Zooming>();
-        audioSource = Camera.main.GetComponent<AudioSource>();
+        audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
     }
 
     public void ShootRay()
@@ -52,7 +55,7 @@ public class Shoot : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Destroy(hit.collider.gameObject);
-                Camera.main.gameObject.GetComponent<Player>().AddScore(100);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.Move());
                 StartCoroutine(zoomController.ZoomOutEnemy());
@@ -63,25 +66,52 @@ public class Shoot : MonoBehaviour
             {
                 audioSource.clip = bonusClip;
                 Destroy(hit.collider.gameObject);
-                Camera.main.gameObject.GetComponent<Player>().AddScore(1000);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(points);
             }
 
             if (hit.collider.CompareTag("BonusHealth"))
             {
                 audioSource.clip = healthClip;
                 Destroy(hit.collider.gameObject);
-                Camera.main.gameObject.GetComponent<Player>().AddHealth();
+                Camera.main.gameObject.GetComponent<Player>().AddHealth(points);
             }
 
 
             if (hit.collider.CompareTag("PowerUp"))
             {
+                musicManager.playPowerUpMusic();
                 audioSource.clip = powerUpClip;
                 Destroy(hit.collider.gameObject);
-                Camera.main.gameObject.GetComponent<Player>().AddHealth();
+                StartCoroutine(powerUpDuration());
             }
         }
 
-        audioSource.Play();        
+        audioSource.Play();
+    }
+
+
+    private IEnumerator powerUpDuration()
+    {
+        while (musicManager.powerUpOn)
+        {
+            if (duration > 0)
+            {
+                points = 10000;
+
+            }
+            else
+            {
+                points = 1000;
+            }
+
+            Countdown();
+            yield return new WaitForSeconds(1);
+
+        }
+    }
+
+    private void Countdown()
+    {
+        duration -= 1;
     }
 }

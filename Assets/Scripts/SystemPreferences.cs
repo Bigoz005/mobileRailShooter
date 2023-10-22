@@ -5,14 +5,8 @@ using UnityEngine;
 public class SystemPreferences : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        Application.targetFrameRate = 30;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Application.targetFrameRate = PlayerPrefs.GetInt("FPS", 0);
     }
 }

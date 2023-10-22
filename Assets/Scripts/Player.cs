@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject gameplayCanvas;
+    [SerializeField]
+    private GameObject pauseCanvas;
+
     private int score;
+    private int highScore;
     private int health;
     private bool isDeath;
 
@@ -22,6 +28,20 @@ public class Player : MonoBehaviour
 
     const string SCORETEXT = "Score: ";
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameplayCanvas.activeInHierarchy)
+            {
+                Time.timeScale = 0;
+                gameplayCanvas.SetActive(false);
+                pauseCanvas.SetActive(true);
+                Debug.Log("back");
+            }
+        }
+    }
+
     void Start()
     {
         health = 3;
@@ -29,6 +49,7 @@ public class Player : MonoBehaviour
         isDeath = false;
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
     public void AddScore(int scoreToAdd)
@@ -58,11 +79,11 @@ public class Player : MonoBehaviour
         CheckHealth();
     }
 
-    public void AddHealth()
+    public void AddHealth(int scoreToAdd)
     {
-        if (health == 3 || health >= 3)
+        if (health >= 3)
         {
-            AddScore(1000);
+            AddScore(scoreToAdd);
         }
         else
         {
@@ -76,22 +97,23 @@ public class Player : MonoBehaviour
         switch (health)
         {
             case 0:
-                HealthTexture1.SetActive(false);
-                HealthTexture2.SetActive(false);
-                HealthTexture3.SetActive(false);
+                isDeath = true;
+                if (score > highScore)
+                {
+                    PlayerPrefs.SetInt("HighScore", score);
+                    PlayerPrefs.Save();
+                }
+
                 break;
             case 1:
-                HealthTexture1.SetActive(true);
                 HealthTexture2.SetActive(false);
                 HealthTexture3.SetActive(false);
                 break;
             case 2:
-                HealthTexture1.SetActive(true);
                 HealthTexture2.SetActive(true);
                 HealthTexture3.SetActive(false);
                 break;
             case 3:
-                HealthTexture1.SetActive(true);
                 HealthTexture2.SetActive(true);
                 HealthTexture3.SetActive(true);
                 break;

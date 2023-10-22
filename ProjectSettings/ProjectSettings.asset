@@ -787,7 +787,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   cloudProjectId: a20992fc-4e28-47c5-a337-d02a25bf7b90
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

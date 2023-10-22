@@ -12,6 +12,13 @@ TagManager:
   - RightBox
   - MainGameObjectToWatch
   - PowerUp
+  - MusicManager
+  - SoundPlayer
+  - Canvas_Options
+  - Canvas_Pause
+  - Canvas_Gameplay
+  - Canvas_MainMenu
+  - Canvas_GameOver
   layers:
   - Default
   - TransparentFX
