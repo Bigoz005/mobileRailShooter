@@ -46,9 +46,9 @@ public class Shoot : MonoBehaviour
         Debug.DrawRay(gun.transform.position, gun.transform.forward * 10000000, Color.green);
         RaycastHit hit;
 
+        audioSource.clip = shootClip;
         if (Physics.Raycast(ray, out hit, 1000000, mask))
         {
-            audioSource.clip = shootClip;
             if (hit.collider.CompareTag("Enemy"))
             {
                 Destroy(hit.collider.gameObject);
