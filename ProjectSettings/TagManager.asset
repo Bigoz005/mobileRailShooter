@@ -11,6 +11,7 @@ TagManager:
   - LeftBox
   - RightBox
   - MainGameObjectToWatch
+  - PowerUp
   layers:
   - Default
   - TransparentFX

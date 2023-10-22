@@ -21,7 +21,6 @@ public class Zooming : MonoBehaviour
         cam = Camera.main;
         zoom = cam.fieldOfView;
         gameobjectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
-        Debug.Log(gameobjectToWatch);
     }
 
     public IEnumerator ZoomOnEnemy()
@@ -32,7 +31,7 @@ public class Zooming : MonoBehaviour
         {
             zoom -= 10 * zoomMultiplier;
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
-            Debug.Log(zoom);
+
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             yield return null;
         }
@@ -44,7 +43,6 @@ public class Zooming : MonoBehaviour
         {
             zoom += 10 * zoomMultiplier;
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
-            Debug.Log(zoom);
 
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             yield return null;

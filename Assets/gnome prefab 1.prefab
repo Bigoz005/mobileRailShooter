@@ -447,6 +447,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
+        type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -508,6 +513,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  explosionClip: {fileID: 8300000, guid: 77d1901319d4eac4aa71353f69627ebd, type: 3}
 --- !u!4 &1739367085346406225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,

@@ -16,7 +16,11 @@ public class Enemy : MonoBehaviour
 
     private bool start = false;
     [SerializeField]
-    AnimationCurve curve;
+    public AnimationCurve curve;
+    [SerializeField]
+    public AudioClip explosionClip;
+
+    private AudioSource audioSource;
 
     Vector3 startingPos;
 
@@ -42,6 +46,8 @@ public class Enemy : MonoBehaviour
         zoomController.SetEnemy(this.gameObject);
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
+
+        audioSource = Camera.main.GetComponent<AudioSource>();
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         explosion.SetActive(false);
@@ -82,6 +88,12 @@ public class Enemy : MonoBehaviour
     {
         while (time <= TIME_TO_ATTACK)
         {
+            if (time == TIME_TO_ATTACK - 1)
+            {
+                audioSource.clip = explosionClip;
+                audioSource.Play();
+            }
+
             if (time == TIME_TO_ATTACK)
             {
                 Attack();
@@ -98,7 +110,6 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator AimlockController()
     {
-        Debug.Log("Aimlock");
         Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
 
         bool wasYellow = false;
