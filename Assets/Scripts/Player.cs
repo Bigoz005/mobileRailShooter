@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private GameObject gameplayCanvas;
     [SerializeField]
     private GameObject pauseCanvas;
+    [SerializeField]
+    private GameObject gameOverCanvas;
 
     private int score;
     private int highScore;
@@ -23,8 +25,11 @@ public class Player : MonoBehaviour
     private GameObject HealthTexture3;
     [SerializeField]
     private GameObject ScoreText;
-
     private TextMeshProUGUI textMesh;
+
+    [SerializeField]
+    private GameObject ScoreText2;
+    private TextMeshProUGUI textMesh2;
 
     const string SCORETEXT = "Score: ";
 
@@ -37,7 +42,6 @@ public class Player : MonoBehaviour
                 Time.timeScale = 0;
                 gameplayCanvas.SetActive(false);
                 pauseCanvas.SetActive(true);
-                Debug.Log("back");
             }
         }
     }
@@ -49,7 +53,7 @@ public class Player : MonoBehaviour
         isDeath = false;
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScore = PlayerPrefs.GetInt("HighScore");
     }
 
     public void AddScore(int scoreToAdd)
@@ -103,7 +107,11 @@ public class Player : MonoBehaviour
                     PlayerPrefs.SetInt("HighScore", score);
                     PlayerPrefs.Save();
                 }
-
+                textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
+                Debug.Log(this.GetScore());
+                textMesh2.SetText("Score: " + this.GetScore());
+                gameOverCanvas.SetActive(true);
+                gameplayCanvas.SetActive(false);
                 break;
             case 1:
                 HealthTexture2.SetActive(false);

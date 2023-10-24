@@ -15,7 +15,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject gameplayCanvas;
 
-
     public void ShowOptions()
     {
         pauseCanvas.SetActive(false);

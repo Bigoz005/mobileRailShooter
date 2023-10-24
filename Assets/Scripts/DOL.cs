@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class DOL : MonoBehaviour
 {
-       void Awake()
+    void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 }
+
+

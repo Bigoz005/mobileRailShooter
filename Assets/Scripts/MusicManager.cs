@@ -9,8 +9,21 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     AudioClip powerUpMusic;
 
+    private static MusicManager musicManagerInstance;
     public bool powerUpOn;
 
+    void Awake()
+    {
+        if (musicManagerInstance == null)
+        {
+            musicManagerInstance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (musicManagerInstance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     public void Update()
     {
         if (!this.GetComponent<AudioSource>().isPlaying)

@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class Options : MonoBehaviour
 {
     [SerializeField]
     private GameObject mainMenuCanvas;
-
     [SerializeField]
     private GameObject optionCanvas;
+
+    private GameObject musicManager;
+    private GameObject soundPlayer;
+    private GameObject enemyPlayer;
+
 
     [SerializeField]
     private GameObject sliderFps;
@@ -21,11 +26,18 @@ public class Options : MonoBehaviour
     [SerializeField]
     private GameObject sliderSFX;
 
+    [SerializeField]
+    private GameObject text;
+
     public void Awake()
     {
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+        soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
+        enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+
         sliderFps.GetComponent<Slider>().value = PlayerPrefs.GetInt("FPS", 0);
         sliderDifficulty.GetComponent<Slider>().value = PlayerPrefs.GetInt("Difficulty", 0);
-        sliderMusic.GetComponent<Slider>().value = PlayerPrefs.GetInt("MuiscVolume", 0);
+        sliderMusic.GetComponent<Slider>().value = PlayerPrefs.GetInt("MusicVolume", 0);
         sliderSFX.GetComponent<Slider>().value = PlayerPrefs.GetInt("SFXVolume", 0);
     }
 
@@ -39,11 +51,15 @@ public class Options : MonoBehaviour
     {
         PlayerPrefs.SetInt("HighScore", 0);
         PlayerPrefs.Save();
+        if(text != null) { 
+            text.GetComponent<TextMeshProUGUI>().text = "HighScore: 0";
+        }
     }
 
-    public void SetFPS(int newValue)
+    public void SetFPS()
     {
-        if (newValue == 0)
+        int fps = (int)sliderFps.GetComponent<Slider>().value;
+        if (fps == 0)
         {
             PlayerPrefs.SetInt("FPS", 30);
             Application.targetFrameRate = 30;
@@ -56,19 +72,25 @@ public class Options : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void SetMusic(int newValue)
+    public void SetMusic()
     {
-        PlayerPrefs.SetInt("MusicVolume", newValue);
+        int volume = (int)sliderMusic.GetComponent<Slider>().value;
+        musicManager.GetComponent<AudioSource>().volume = volume/100f;
+        PlayerPrefs.SetInt("MusicVolume", volume);
         PlayerPrefs.Save();
     }
-    public void SetSFX(int newValue)
+    public void SetSFX()
     {
-        PlayerPrefs.SetInt("SFXVolume", newValue);
+        int volume = (int)sliderSFX.GetComponent<Slider>().value;
+        soundPlayer.GetComponent<AudioSource>().volume = volume/100f;
+        enemyPlayer.GetComponent<AudioSource>().volume = volume/100f;
+        PlayerPrefs.SetInt("SFXVolume", volume);
         PlayerPrefs.Save();
     }
-    public void SetDifficulty(int newValue)
+    public void SetDifficulty()
     {
-        PlayerPrefs.SetInt("Difficulty", newValue);
+        int volume = (int)sliderDifficulty.GetComponent<Slider>().value;
+        PlayerPrefs.SetInt("Difficulty", volume);
         PlayerPrefs.Save();
     }
 }

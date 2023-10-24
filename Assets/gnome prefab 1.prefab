@@ -388,47 +388,47 @@ PrefabInstance:
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 110.87
+      value: 114.26
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.7197
+      value: 7.61
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.93
+      value: 35.21
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7141475
+      value: 0.71809673
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.011323479
+      value: -0.011387278
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6998157
+      value: -0.69576263
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.011096233
+      value: -0.011033114
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -1.817
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -88.19
       objectReference: {fileID: 0}
     - target: {fileID: 1404122031564031300, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
@@ -438,7 +438,7 @@ PrefabInstance:
     - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_Name
-      value: gnome prefab 1
+      value: gnome prefab 1 (7)
       objectReference: {fileID: 0}
     - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
@@ -448,7 +448,7 @@ PrefabInstance:
     - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
         type: 3}

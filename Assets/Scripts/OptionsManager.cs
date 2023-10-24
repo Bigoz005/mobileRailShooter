@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class OptionsManager : MonoBehaviour
@@ -21,10 +22,24 @@ public class OptionsManager : MonoBehaviour
         GetHighScore();
     }
 
-    public void SetFPS(int fps)
+    public void SetFPS()
     {
-        PlayerPrefs.SetInt("FPS", fps);
+        int fps = (int)this.gameObject.GetComponent<Slider>().value;
+        Debug.Log(fps);
+        if (fps == 0)
+        {
+            PlayerPrefs.SetInt("FPS", 30);
+            Application.targetFrameRate = 30;
+            Debug.Log(Application.targetFrameRate);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("FPS", 60);
+            Application.targetFrameRate = 60;
+            Debug.Log(Application.targetFrameRate);
+        }
         PlayerPrefs.Save();
+        Debug.Log(PlayerPrefs.GetInt("FPS"));
     }
 
     public void SetMusicVolume(int musicVolume)
@@ -51,31 +66,31 @@ public class OptionsManager : MonoBehaviour
 
     public int GetFPS()
     {
-        fps = PlayerPrefs.GetInt("FPS", 30);
+        fps = PlayerPrefs.GetInt("FPS");
         return fps;
     }
 
     public int GetMusicVolume()
     {
-        musicVolume = PlayerPrefs.GetInt("MusicVolume", 50);
+        musicVolume = PlayerPrefs.GetInt("MusicVolume");
         return musicVolume;
     }
 
     public int GetSFXVolume()
     {
-        sfxVolume = PlayerPrefs.GetInt("SFXVolume", 50);
+        sfxVolume = PlayerPrefs.GetInt("SFXVolume");
         return sfxVolume;
     }
 
     public int GetDifficulty()
     {
-        difficulty = PlayerPrefs.GetInt("Difficulty", 0);
+        difficulty = PlayerPrefs.GetInt("Difficulty");
         return difficulty;
     }
 
     public int GetHighScore()
     {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScore = PlayerPrefs.GetInt("HighScore");
         return highScore;
     }
     

@@ -19,6 +19,8 @@ TagManager:
   - Canvas_Gameplay
   - Canvas_MainMenu
   - Canvas_GameOver
+  - EnemyPlayer
+  - HighScore
   layers:
   - Default
   - TransparentFX
