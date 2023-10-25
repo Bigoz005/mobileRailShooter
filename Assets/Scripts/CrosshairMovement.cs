@@ -16,7 +16,7 @@ public class CrosshairMovement : MonoBehaviour
         if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
         {
             previousPosition = joystick.transform.localPosition;
-            self.transform.localPosition = new Vector3(previousPosition.x*6.5f, previousPosition.y*3.5f, previousPosition.z);
+            self.transform.localPosition = new Vector3(previousPosition.x*11f, previousPosition.y*5f, previousPosition.z);
         }
     }
 
