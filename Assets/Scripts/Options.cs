@@ -51,7 +51,8 @@ public class Options : MonoBehaviour
     {
         PlayerPrefs.SetInt("HighScore", 0);
         PlayerPrefs.Save();
-        if(text != null) { 
+        if (text != null)
+        {
             text.GetComponent<TextMeshProUGUI>().text = "HighScore: 0";
         }
     }
@@ -59,15 +60,33 @@ public class Options : MonoBehaviour
     public void SetFPS()
     {
         int fps = (int)sliderFps.GetComponent<Slider>().value;
-        if (fps == 0)
+
+        switch (fps)
         {
-            PlayerPrefs.SetInt("FPS", 30);
-            Application.targetFrameRate = 30;
-        }
-        else
-        {
-            PlayerPrefs.SetInt("FPS", 60);
-            Application.targetFrameRate = 60;
+            case 0:
+                {
+                    PlayerPrefs.SetInt("FPS", 0);
+                    Application.targetFrameRate = 30;
+                    break;
+                }
+            case 1:
+                {
+                    PlayerPrefs.SetInt("FPS", 1);
+                    Application.targetFrameRate = 60;
+                    break;
+                }
+            case 2:
+                {
+                    PlayerPrefs.SetInt("FPS", 2);
+                    Application.targetFrameRate = 90;
+                    break;
+                }
+            case 3:
+                {
+                    PlayerPrefs.SetInt("FPS", 3);
+                    Application.targetFrameRate = 120;
+                    break;
+                }
         }
         PlayerPrefs.Save();
     }
@@ -75,15 +94,15 @@ public class Options : MonoBehaviour
     public void SetMusic()
     {
         int volume = (int)sliderMusic.GetComponent<Slider>().value;
-        musicManager.GetComponent<AudioSource>().volume = volume/100f;
+        musicManager.GetComponent<AudioSource>().volume = volume / 100f;
         PlayerPrefs.SetInt("MusicVolume", volume);
         PlayerPrefs.Save();
     }
     public void SetSFX()
     {
         int volume = (int)sliderSFX.GetComponent<Slider>().value;
-        soundPlayer.GetComponent<AudioSource>().volume = volume/100f;
-        enemyPlayer.GetComponent<AudioSource>().volume = volume/100f;
+        soundPlayer.GetComponent<AudioSource>().volume = volume / 100f;
+        enemyPlayer.GetComponent<AudioSource>().volume = volume / 100f;
         PlayerPrefs.SetInt("SFXVolume", volume);
         PlayerPrefs.Save();
     }
