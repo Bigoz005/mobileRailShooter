@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyHard : MonoBehaviour
 {
     private GameObject explosion;
     private float duration;
     private float time = 0;
     private float TIME_TO_ATTACK = 1;
-    private GameObject aimlock;
-    private GameObject aimCircle1;
-    private GameObject aimCircle2;
-    private Material aimlockMaterial;
     private Zooming zoomController;
 
     private bool start = false;
@@ -39,9 +35,6 @@ public class Enemy : MonoBehaviour
     {
         transform.LookAt(Camera.main.transform);
         explosion = this.gameObject.transform.GetChild(0).gameObject;
-        aimlock = this.gameObject.transform.GetChild(1).gameObject;
-        aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
-        aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
         zoomController = Camera.main.GetComponent<Zooming>();
         zoomController.SetEnemy(this.gameObject);
         StartCoroutine(zoomController.ZoomOnEnemy());
@@ -49,20 +42,16 @@ public class Enemy : MonoBehaviour
 
         audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
 
-        aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         explosion.SetActive(false);
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
         explosion.GetComponent<ParticleSystem>().Stop();
         StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
-        StartCoroutine(AimlockController());
     }
 
     private void Attack()
     {
         gameObject.layer = 0;
-        Destroy(aimlock);
-        StopCoroutine(AimlockController());
         explosion.SetActive(true);
         Camera.main.GetComponentInChildren<Player>().GetHit();
         explosion.GetComponent<ParticleSystem>().Play();
@@ -77,8 +66,7 @@ public class Enemy : MonoBehaviour
         {
             if (duration == 0)
             {
-                /*Destroy(gameObject);*/
-                gameObject.SetActive(false);
+                Destroy(gameObject);
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -109,55 +97,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator AimlockController()
-    {
-        Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
-
-        bool wasYellow = false;
-
-        while (time <= TIME_TO_ATTACK)
-        {
-            if (aimlock.transform.localScale.x >= 10)
-            {
-                aimlock.transform.localScale -= scaleChange * 300;
-            }
-
-            if (aimCircle1 != null)
-            {
-                aimCircle1.transform.localScale -= (scaleChange * 500);
-                if (aimCircle1.transform.localScale.x <= 0)
-                {
-                    Destroy(aimCircle1);
-                }
-            }
-
-            if (aimCircle2 != null)
-            {
-                aimCircle2.transform.localScale -= (scaleChange * 900);
-                if (aimCircle2.transform.localScale.x <= 0)
-                {
-                    Destroy(aimCircle2);
-                }
-            }
-
-            aimlock.transform.Rotate(0f, 75 * Time.fixedDeltaTime, 0f);
-
-            if (wasYellow)
-            {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.b);
-            }
-            else
-            {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.g, aimlockMaterial.color.b);
-                if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
-                {
-                    wasYellow = true;
-                }
-            }
-
-            yield return null;
-        }
-    }
     private IEnumerator Shaking()
     {
 

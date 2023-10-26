@@ -41,6 +41,18 @@ public class MainMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        int difficulty = PlayerPrefs.GetInt("Difficulty");
+        
+        switch (difficulty){
+            case 0:
+                SceneManager.LoadScene("EasyScene");
+                break;
+            case 1:
+                SceneManager.LoadScene("MediumScene");
+                break;
+            case 2:
+                SceneManager.LoadScene("HardScene");
+                break;
+        }
     }
 }

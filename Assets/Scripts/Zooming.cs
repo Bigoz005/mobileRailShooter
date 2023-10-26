@@ -25,8 +25,16 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator ZoomOnEnemy()
     {
-        time = enemy.GetComponent<Enemy>()._Time;
-        time_to_attack = enemy.GetComponent<Enemy>()._TIME_TO_ATTACK;
+        if (enemy.GetComponent<Enemy>()) { 
+            time = enemy.GetComponent<Enemy>()._Time;
+            time_to_attack = enemy.GetComponent<Enemy>()._TIME_TO_ATTACK;
+        }
+        else
+        {
+            time = enemy.GetComponent<EnemyHard>()._Time;
+            time_to_attack = enemy.GetComponent<EnemyHard>()._TIME_TO_ATTACK;
+        }
+
         while (time <= time_to_attack)
         {
             zoom -= 10 * zoomMultiplier;
