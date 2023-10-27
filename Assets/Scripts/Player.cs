@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject ScoreText2;
+    [SerializeField]
+    private LaunchEnemies launchEnemies;
     private TextMeshProUGUI textMesh2;
 
     const string SCORETEXT = "Score: ";
@@ -108,10 +110,10 @@ public class Player : MonoBehaviour
                     PlayerPrefs.Save();
                 }
                 textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
-                Debug.Log(this.GetScore());
                 textMesh2.SetText("Score: " + this.GetScore());
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
+                Time.timeScale = 0;
                 break;
             case 1:
                 HealthTexture2.SetActive(false);

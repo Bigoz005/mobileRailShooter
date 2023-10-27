@@ -37,8 +37,6 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        
-
         transform.LookAt(Camera.main.transform);
         explosion = this.gameObject.transform.GetChild(0).gameObject;
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
@@ -83,7 +81,6 @@ public class Enemy : MonoBehaviour
         {
             if (duration == 0)
             {
-                /*Destroy(gameObject);*/
                 gameObject.SetActive(false);
             }
             Countdown();
@@ -125,12 +122,12 @@ public class Enemy : MonoBehaviour
         {
             if (aimlock.transform.localScale.x >= 10)
             {
-                aimlock.transform.localScale -= scaleChange * 300;
+                aimlock.transform.localScale -= scaleChange * 50;
             }
 
             if (aimCircle1 != null)
             {
-                aimCircle1.transform.localScale -= (scaleChange * 500);
+                aimCircle1.transform.localScale -= (scaleChange * 95);
                 if (aimCircle1.transform.localScale.x <= 0)
                 {
                     aimCircle1.SetActive(false);
@@ -139,7 +136,7 @@ public class Enemy : MonoBehaviour
 
             if (aimCircle2 != null)
             {
-                aimCircle2.transform.localScale -= (scaleChange * 900);
+                aimCircle2.transform.localScale -= (scaleChange * 170);
                 if (aimCircle2.transform.localScale.x <= 0)
                 {
                     aimCircle2.SetActive(false);

@@ -25,21 +25,17 @@ public class OptionsManager : MonoBehaviour
     public void SetFPS()
     {
         int fps = (int)this.gameObject.GetComponent<Slider>().value;
-        Debug.Log(fps);
         if (fps == 0)
         {
             PlayerPrefs.SetInt("FPS", 30);
             Application.targetFrameRate = 30;
-            Debug.Log(Application.targetFrameRate);
         }
         else
         {
             PlayerPrefs.SetInt("FPS", 60);
             Application.targetFrameRate = 60;
-            Debug.Log(Application.targetFrameRate);
         }
         PlayerPrefs.Save();
-        Debug.Log(PlayerPrefs.GetInt("FPS"));
     }
 
     public void SetMusicVolume(int musicVolume)

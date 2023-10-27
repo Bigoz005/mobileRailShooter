@@ -9,14 +9,16 @@ public class LaunchEnemies : MonoBehaviour
     private int duration = 3;
     private bool isCounting = false;
     private GameObject activeEnemy;
+    public Coroutine activeCoroutineActivated;
+    public Coroutine activeCoroutineCountdown;
 
     private void Start()
     {
         previousIndex = -1;
-        StartCoroutine(CountdownToActivate());
+        activeCoroutineActivated = StartCoroutine(CountdownToActivate());
     }
 
-    private IEnumerator ActivateRandomEnemy()
+    public IEnumerator ActivateRandomEnemy()
     {
         index = Random.Range(0, 24);
         while (previousIndex == index)
@@ -28,24 +30,30 @@ public class LaunchEnemies : MonoBehaviour
 
         if (isCounting)
         {
-            StopCoroutine(CountdownToActivate());
+            StopCoroutine(activeCoroutineCountdown);
         }
 
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
         activeEnemy.SetActive(true);
+        activeEnemy.GetComponent<MeshRenderer>().enabled = true;
+        activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
+        activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
+        activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
 
         while (activeEnemy.activeInHierarchy)
         {
             yield return null;
         }
 
-        StartCoroutine(CountdownToActivate());
+        activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
     }
 
-    private IEnumerator CountdownToActivate()
+    public IEnumerator CountdownToActivate()
     {
         isCounting = true;
-        StopCoroutine(ActivateRandomEnemy());
+        if (activeCoroutineActivated != null) { 
+            StopCoroutine(activeCoroutineActivated);
+        }
         while (duration > 0)
         {
             Countdown();

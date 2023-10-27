@@ -30,6 +30,7 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
         m_EventSystem = GetComponent<EventSystem>();
         zoomController = Camera.main.GetComponent<Zooming>();
@@ -55,6 +56,7 @@ public class Shoot : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 hit.collider.gameObject.SetActive(false);
+                audioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.Move());
@@ -96,7 +98,7 @@ public class Shoot : MonoBehaviour
         {
             if (duration > 0)
             {
-                points = 10000;
+                points = 5000;
 
             }
             else
