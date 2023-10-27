@@ -26,7 +26,8 @@ public class Zooming : MonoBehaviour
     public IEnumerator ZoomOnEnemy()
     {
         minFieldOfView = 35.0f;
-        if (enemy.GetComponent<Enemy>()) { 
+        if (enemy.GetComponent<Enemy>())
+        {
             time = enemy.GetComponent<Enemy>()._Time;
             time_to_attack = enemy.GetComponent<Enemy>()._TIME_TO_ATTACK;
         }
@@ -42,16 +43,13 @@ public class Zooming : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, dir, out hit, 10000))
         {
-            Debug.Log("distance: " + hit.distance);
-            Debug.Log("Log(distance): " + Mathf.Log(hit.distance*1.7f, 1.2f));
-            minFieldOfView = minFieldOfView - Mathf.Log(hit.distance*1.7f, 1.2f);
-            if(minFieldOfView < 6)
+            minFieldOfView = minFieldOfView - Mathf.Log(hit.distance * 3.0f, 1.2f);
+            if (minFieldOfView < 6)
             {
                 minFieldOfView = 6;
             }
-            
+
         }
-        Debug.Log("minField: " + minFieldOfView);
 
         while (time <= time_to_attack)
         {
@@ -67,7 +65,7 @@ public class Zooming : MonoBehaviour
     {
         while (time <= time_to_attack)
         {
-            zoom += 10 * zoomMultiplier;
+            zoom += 30 * zoomMultiplier;
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
 
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
@@ -79,15 +77,8 @@ public class Zooming : MonoBehaviour
     {
         GameObject targetGameObject;
 
-        /*Sprawdzanie czy krasnal jest z lewej czy z prawej - nie dziala poprawnie*/
-
-        /*Vector3 playerVector = Camera.main.transform.forward;
-        Ray ray = new Ray(Camera.main.transform.position, enemy.transform.position);
-        Vector3 enemyVector = ray.direction;
-        float difference = Vector3.Angle(playerVector, enemyVector);*/
-
         float rand = Random.Range(-1f, 1f);
-        
+
         if (rand > 0)
         {
             targetGameObject = enemy.transform.Find("Right").gameObject;
@@ -100,25 +91,23 @@ public class Zooming : MonoBehaviour
         while (time <= time_to_attack)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetGameObject.transform.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1.5f * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3.0f * Time.deltaTime);
             yield return null;
         }
+
+        yield return null;
     }
 
     public IEnumerator MoveBack()
-     {
-        /*Vector3 playerVector = transform.forward;
-        Ray ray = new Ray(transform.position, enemy.transform.position);
-        Vector3 enemyVector = ray.direction;
-        float difference = Vector3.Angle(playerVector, enemyVector);*/
-
+    {
         bool rotated = false;
-         while (time <= time_to_attack)
-         {
+        while (time <= time_to_attack)
+        {
             //check if zoomed out -> stop coroutine of zoomingOut then change transform.LookAt to default 
             Quaternion targetRotation = Quaternion.LookRotation(gameobjectToWatch.transform.position - transform.position);
-            if(transform.rotation != targetRotation && !rotated) { 
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1.5f * Time.deltaTime);
+            if (transform.rotation != targetRotation && !rotated)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 6.0f * Time.deltaTime);
             }
             else
             {
@@ -127,7 +116,7 @@ public class Zooming : MonoBehaviour
 
             yield return null;
         }
-     }
+    }
 
     public GameObject GetEnemy()
     {

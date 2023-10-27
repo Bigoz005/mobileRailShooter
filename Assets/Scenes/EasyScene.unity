@@ -23773,7 +23773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1078004789
 Transform:
   m_ObjectHideFlags: 0
@@ -23783,8 +23783,8 @@ Transform:
   m_GameObject: {fileID: 1078004788}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.027, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 963194228}
@@ -32817,7 +32817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe4a4f0550c794459dccb7c3997f34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 50
   gun: {fileID: 1078004788}
   mask:
     serializedVersion: 2

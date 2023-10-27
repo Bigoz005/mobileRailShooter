@@ -58,3 +58,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 2530334095
+    locked: 0
+  - name: Terrain
+    uniqueID: 852364173
+    locked: 0
+  - name: RayCast
+    uniqueID: 1576896399
+    locked: 0

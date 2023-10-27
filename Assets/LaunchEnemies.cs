@@ -6,14 +6,14 @@ public class LaunchEnemies : MonoBehaviour
 {
     private int previousIndex;
     private int index;
-    private int duration = 2;
+    private int duration = 3;
     private bool isCounting = false;
     private GameObject activeEnemy;
 
     private void Start()
     {
         previousIndex = -1;
-        StartCoroutine(ActivateRandomEnemy());
+        StartCoroutine(CountdownToActivate());
     }
 
     private IEnumerator ActivateRandomEnemy()
@@ -24,7 +24,7 @@ public class LaunchEnemies : MonoBehaviour
             index = Random.Range(0, 24);
         }
         previousIndex = index;
-        duration = 2;
+        duration = 3;
 
         if (isCounting)
         {

@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Shoot : MonoBehaviour
 {
-    public float range = 10000f;
     private Transform crosshair;
     private PointerEventData m_PointerEventData;
     private EventSystem m_EventSystem;
@@ -46,15 +45,16 @@ public class Shoot : MonoBehaviour
 
         gun.transform.LookAt(crosshair);
         Ray ray = new Ray(gun.transform.position, gun.transform.forward * 100000000);
-        Debug.DrawRay(gun.transform.position, gun.transform.forward * 10000000, Color.green);
+        Debug.DrawLine(gun.transform.position, gun.transform.forward * 10000000, Color.green, 20);
         RaycastHit hit;
 
         audioSource.clip = shootClip;
-        if (Physics.Raycast(ray, out hit, 1000000, mask))
+        if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, mask))
+            /*if (Physics.Raycast(ray, out hit, 10000000000, mask))*/
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                Destroy(hit.collider.gameObject);
+                hit.collider.gameObject.SetActive(false);
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.Move());

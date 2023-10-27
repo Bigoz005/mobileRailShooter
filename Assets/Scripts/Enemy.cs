@@ -37,11 +37,16 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        
+
         transform.LookAt(Camera.main.transform);
         explosion = this.gameObject.transform.GetChild(0).gameObject;
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
+        aimlock.SetActive(true);
+        aimCircle1.SetActive(true);
+        aimCircle2.SetActive(true);
         zoomController = Camera.main.GetComponent<Zooming>();
         zoomController.SetEnemy(this.gameObject);
         StartCoroutine(zoomController.ZoomOnEnemy());
@@ -61,18 +66,19 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         gameObject.layer = 0;
-        Destroy(aimlock);
+        aimlock.SetActive(false);
         StopCoroutine(AimlockController());
         explosion.SetActive(true);
         Camera.main.GetComponentInChildren<Player>().GetHit();
         explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(CountdownToExtinction());
-
     }
 
     private IEnumerator CountdownToExtinction()
     {
+        explosion.GetComponent<ParticleSystem>().Stop();
+        explosion.SetActive(false);
         while (duration >= 0)
         {
             if (duration == 0)
@@ -127,7 +133,7 @@ public class Enemy : MonoBehaviour
                 aimCircle1.transform.localScale -= (scaleChange * 500);
                 if (aimCircle1.transform.localScale.x <= 0)
                 {
-                    Destroy(aimCircle1);
+                    aimCircle1.SetActive(false);
                 }
             }
 
@@ -136,7 +142,7 @@ public class Enemy : MonoBehaviour
                 aimCircle2.transform.localScale -= (scaleChange * 900);
                 if (aimCircle2.transform.localScale.x <= 0)
                 {
-                    Destroy(aimCircle2);
+                    aimCircle2.SetActive(false);
                 }
             }
 
