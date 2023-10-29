@@ -36,9 +36,12 @@ public class LaunchEnemies : MonoBehaviour
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
-        activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
-        activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
-        activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
+        //if hard then dont get below
+        if (!activeEnemy.transform.name.Contains("Hard")) { 
+            activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
+            activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
+            activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
+        }
 
         while (activeEnemy.activeInHierarchy)
         {

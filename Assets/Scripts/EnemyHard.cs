@@ -66,7 +66,7 @@ public class EnemyHard : MonoBehaviour
         {
             if (duration == 0)
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             Countdown();
             yield return new WaitForSeconds(1);

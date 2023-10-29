@@ -147,11 +147,11 @@ public class Enemy : MonoBehaviour
 
             if (wasYellow)
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.35f, aimlockMaterial.color.b);
             }
             else
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.8f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.15f, aimlockMaterial.color.g, aimlockMaterial.color.b);
                 if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
                 {
                     wasYellow = true;
