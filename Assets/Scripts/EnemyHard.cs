@@ -87,8 +87,8 @@ public class EnemyHard : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());
+                /*StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());*/
                 StartCoroutine(zoomController.ZoomOutEnemy());
                 StartCoroutine(zoomController.MoveBack());
             }

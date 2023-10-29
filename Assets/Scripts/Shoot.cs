@@ -56,6 +56,7 @@ public class Shoot : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 hit.collider.gameObject.SetActive(false);
+                hit.collider.gameObject.GetComponent<Enemy>().resetAimlockAndCircles();
                 audioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());

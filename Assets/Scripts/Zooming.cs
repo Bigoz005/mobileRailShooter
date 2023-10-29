@@ -25,6 +25,7 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator ZoomOnEnemy()
     {
+        StopCoroutine(ZoomOutEnemy());
         minFieldOfView = 35.0f;
         if (enemy.GetComponent<Enemy>())
         {
@@ -63,6 +64,7 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator ZoomOutEnemy()
     {
+        StopCoroutine(ZoomOnEnemy());
         while (time <= time_to_attack)
         {
             zoom += 30 * zoomMultiplier;
@@ -75,6 +77,7 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator Move()
     {
+        StopCoroutine(MoveBack());
         GameObject targetGameObject;
 
         float rand = Random.Range(-1f, 1f);
@@ -100,6 +103,7 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator MoveBack()
     {
+        StopCoroutine(Move());
         bool rotated = false;
         while (time <= time_to_attack)
         {
@@ -111,7 +115,7 @@ public class Zooming : MonoBehaviour
             }
             else
             {
-                rotated = true;
+                rotated = true;                
             }
 
             yield return null;

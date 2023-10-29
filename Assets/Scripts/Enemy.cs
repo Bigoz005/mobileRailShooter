@@ -22,7 +22,11 @@ public class Enemy : MonoBehaviour
 
     private AudioSource audioSource;
 
-    Vector3 startingPos;
+    private Vector3 startingPos;
+    private Color startingAimlockMaterialColor;
+    private Transform startingTransformAimlock;
+    private Transform startingTransformCircle1;
+    private Transform startingTransformCircle2;
 
     public float _Time { get => time; set => time = value; }
 
@@ -33,15 +37,19 @@ public class Enemy : MonoBehaviour
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
+        explosion = this.gameObject.transform.GetChild(0).gameObject;
+        aimlock = this.gameObject.transform.GetChild(1).gameObject;
+        aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
+        aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
+        startingAimlockMaterialColor = aimlock.GetComponent<MeshRenderer>().material.color;
+        startingTransformAimlock = aimlock.transform;
+        startingTransformCircle1 = aimCircle1.transform;
+        startingTransformCircle2 = aimCircle2.transform;
     }
 
     private void Start()
     {
         transform.LookAt(Camera.main.transform);
-        explosion = this.gameObject.transform.GetChild(0).gameObject;
-        aimlock = this.gameObject.transform.GetChild(1).gameObject;
-        aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
-        aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
         aimlock.SetActive(true);
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
@@ -70,6 +78,8 @@ public class Enemy : MonoBehaviour
         Camera.main.GetComponentInChildren<Player>().GetHit();
         explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
+        resetAimlockAndCircles();
+
         StartCoroutine(CountdownToExtinction());
     }
 
@@ -102,14 +112,29 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());
+                /*StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());*/
                 StartCoroutine(zoomController.ZoomOutEnemy());
                 StartCoroutine(zoomController.MoveBack());
             }
             TimeCount();
             yield return new WaitForSeconds(1);
         }
+    }
+
+    public void resetAimlockAndCircles()
+    {
+        aimlock.transform.position = startingTransformAimlock.position;
+        aimlock.transform.localScale = startingTransformAimlock.localScale;
+        aimlock.transform.rotation = startingTransformAimlock.rotation;
+        aimlock.GetComponent<MeshRenderer>().material.color = startingAimlockMaterialColor;
+        aimCircle1.transform.position = startingTransformCircle1.position;
+        aimCircle1.transform.localScale = startingTransformCircle1.localScale;
+        aimCircle1.transform.rotation = startingTransformCircle1.rotation;
+        aimCircle2.transform.position = startingTransformCircle2.position;
+        aimCircle2.transform.localScale = startingTransformCircle2.localScale;
+        aimCircle2.transform.rotation = startingTransformCircle2.rotation;
+
     }
 
     private IEnumerator AimlockController()
