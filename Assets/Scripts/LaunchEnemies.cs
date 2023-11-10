@@ -6,7 +6,7 @@ public class LaunchEnemies : MonoBehaviour
 {
     private int previousIndex;
     private int index;
-    private int duration = 3;
+    private int duration = 2;
     private bool isCounting = false;
     private GameObject activeEnemy;
     public Coroutine activeCoroutineActivated;
@@ -26,7 +26,7 @@ public class LaunchEnemies : MonoBehaviour
             index = Random.Range(0, 24);
         }
         previousIndex = index;
-        duration = 3;
+        duration = 2;
 
         if (isCounting)
         {
@@ -37,7 +37,8 @@ public class LaunchEnemies : MonoBehaviour
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
 
-        if (!activeEnemy.transform.name.Contains("Hard")) {
+        if (!activeEnemy.transform.name.Contains("Hard"))
+        {
             activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
@@ -54,8 +55,24 @@ public class LaunchEnemies : MonoBehaviour
 
     public IEnumerator CountdownToActivate()
     {
+        if (activeEnemy)
+        {
+            if (activeEnemy.transform.name.Contains("Hard"))
+            {
+                duration = 0;
+                Debug.Log(duration);
+            }
+            else
+            if (activeEnemy.transform.name.Contains("Medium"))
+            {
+                duration = 1;
+                Debug.Log(duration);
+            }
+        }
+
         isCounting = true;
-        if (activeCoroutineActivated != null) {
+        if (activeCoroutineActivated != null)
+        {
             StopCoroutine(activeCoroutineActivated);
         }
         while (duration > 0)
