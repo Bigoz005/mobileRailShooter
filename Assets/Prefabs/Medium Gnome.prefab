@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2695315323120404633
+--- !u!1001 &7895721658146925359
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,32 +11,22 @@ PrefabInstance:
     - target: {fileID: 1398554096929367531, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
         type: 3}
       propertyPath: m_Name
-      value: gnome prefab 1 Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 1398554096929367531, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1739367085346406225, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 13
+      value: Medium Gnome
       objectReference: {fileID: 0}
     - target: {fileID: 1739367085346406225, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 122.76
+      value: 111.3
       objectReference: {fileID: 0}
     - target: {fileID: 1739367085346406225, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.6
+      value: 9.2079
       objectReference: {fileID: 0}
     - target: {fileID: 1739367085346406225, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.48
+      value: 28.265
       objectReference: {fileID: 0}
     - target: {fileID: 1739367085346406225, guid: 762b450d1216b4d4b9f4b9acd9798ba3,
         type: 3}

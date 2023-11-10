@@ -36,13 +36,14 @@ public class LaunchEnemies : MonoBehaviour
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
-        //if hard then dont get below
-        if (!activeEnemy.transform.name.Contains("Hard")) { 
+
+        if (!activeEnemy.transform.name.Contains("Hard")) {
             activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
         }
 
+        Debug.Log(activeEnemy.transform.name + ": " + activeEnemy.activeInHierarchy);
         while (activeEnemy.activeInHierarchy)
         {
             yield return null;
@@ -54,7 +55,7 @@ public class LaunchEnemies : MonoBehaviour
     public IEnumerator CountdownToActivate()
     {
         isCounting = true;
-        if (activeCoroutineActivated != null) { 
+        if (activeCoroutineActivated != null) {
             StopCoroutine(activeCoroutineActivated);
         }
         while (duration > 0)

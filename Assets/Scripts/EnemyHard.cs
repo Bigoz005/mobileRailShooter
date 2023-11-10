@@ -31,8 +31,34 @@ public class EnemyHard : MonoBehaviour
         startingPos.z = transform.position.z;
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        Debug.Log("OnEnable " + this.gameObject.name);
+        startingPos.x = transform.position.x;
+        startingPos.y = transform.position.y;
+        startingPos.z = transform.position.z;
+        explosion = this.gameObject.transform.GetChild(0).gameObject;
+        
+        transform.LookAt(Camera.main.transform);
+        zoomController = Camera.main.GetComponent<Zooming>();
+        zoomController.SetEnemy(this.gameObject);
+        time = 0;
+
+        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
+
+        explosion.SetActive(false);
+        duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
+        explosion.GetComponent<ParticleSystem>().Stop();
+
+        StartCoroutine(zoomController.ZoomOnEnemy());
+        StartCoroutine(zoomController.Move());
+        StartCoroutine(CountdownToAttack());
+        StartCoroutine(Shaking());
+    }
+
+    /*private void Start()
+    {
+
         transform.LookAt(Camera.main.transform);
         explosion = this.gameObject.transform.GetChild(0).gameObject;
         zoomController = Camera.main.GetComponent<Zooming>();
@@ -47,7 +73,7 @@ public class EnemyHard : MonoBehaviour
         explosion.GetComponent<ParticleSystem>().Stop();
         StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
-    }
+    }*/
 
     private void Attack()
     {
@@ -87,8 +113,6 @@ public class EnemyHard : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                /*StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());*/
                 StartCoroutine(zoomController.ZoomOutEnemy());
                 StartCoroutine(zoomController.MoveBack());
             }
@@ -120,5 +144,12 @@ public class EnemyHard : MonoBehaviour
     private void TimeCount()
     {
         time += 0.25f;
+    }
+
+    public void StopAllGnomeCoroutines()
+    {
+        StopCoroutine(Shaking());
+        StopCoroutine(CountdownToAttack());
+        StopCoroutine(CountdownToExtinction());
     }
 }

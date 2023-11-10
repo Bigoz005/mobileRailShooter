@@ -16,6 +16,9 @@ public class Zooming : MonoBehaviour
     private float time_to_attack;
     private GameObject gameobjectToWatch;
 
+    [SerializeField]
+    private Camera circleCam;
+
     void Start()
     {
         cam = Camera.main;
@@ -58,6 +61,7 @@ public class Zooming : MonoBehaviour
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
 
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
+            circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             yield return null;
         }
     }
@@ -71,6 +75,7 @@ public class Zooming : MonoBehaviour
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
 
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
+            circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             yield return null;
         }
     }
@@ -115,9 +120,10 @@ public class Zooming : MonoBehaviour
             }
             else
             {
-                rotated = true;                
+                rotated = true;
+                StopCoroutine(MoveBack());
             }
-
+            
             yield return null;
         }
     }
@@ -130,5 +136,10 @@ public class Zooming : MonoBehaviour
     public void SetEnemy(GameObject enemyToAssign)
     {
         enemy = enemyToAssign;
+    }
+
+    private void TimeCount()
+    {
+        time += 0.25f;
     }
 }

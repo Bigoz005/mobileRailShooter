@@ -51,18 +51,28 @@ public class Shoot : MonoBehaviour
 
         audioSource.clip = shootClip;
         if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, mask))
-            /*if (Physics.Raycast(ray, out hit, 10000000000, mask))*/
         {
             if (hit.collider.CompareTag("Enemy"))
             {
                 hit.collider.gameObject.SetActive(false);
-                hit.collider.gameObject.GetComponent<Enemy>().resetAimlockAndCircles();
+                if(hit.collider.name.Contains("Hard"))
+                {
+                    hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
+                }
+                else
+                {
+                    hit.collider.gameObject.GetComponent<Enemy>().ResetAimlockAndCircles();
+                    hit.collider.gameObject.GetComponent<Enemy>().StopAllGnomeCoroutines();
+                }
                 audioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.ZoomOutEnemy());
                 StopCoroutine(zoomController.Move());
+                StopCoroutine(zoomController.MoveBack());
+
                 StartCoroutine(zoomController.ZoomOutEnemy());
-                StartCoroutine(zoomController.MoveBack());
+                /*StartCoroutine(zoomController.MoveBack());*/
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))

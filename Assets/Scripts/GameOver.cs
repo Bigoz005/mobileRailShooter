@@ -20,6 +20,7 @@ public class GameOver : MonoBehaviour
     {
         gameoverCanvas.SetActive(false);
         gameplayCanvas.SetActive(true);
+        player.ResetScore();
         player.AddHealth(0);
         player.AddHealth(0);
         player.AddHealth(0);

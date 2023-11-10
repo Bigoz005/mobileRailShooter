@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
 
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
 
-    void Awake()
+    /*void Awake()
     {
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
@@ -45,9 +45,51 @@ public class Enemy : MonoBehaviour
         startingTransformAimlock = aimlock.transform;
         startingTransformCircle1 = aimCircle1.transform;
         startingTransformCircle2 = aimCircle2.transform;
-    }
 
-    private void Start()
+        StartCoroutine(zoomController.ZoomOnEnemy());
+        StartCoroutine(zoomController.Move());
+        StartCoroutine(CountdownToAttack());
+        StartCoroutine(Shaking());
+        StartCoroutine(AimlockController());
+    }*/
+
+    private void OnEnable()
+    {
+        Debug.Log("OnEnable " + this.gameObject.name);
+        startingPos.x = transform.position.x;
+        startingPos.y = transform.position.y;
+        startingPos.z = transform.position.z;
+        explosion = this.gameObject.transform.GetChild(0).gameObject;
+        aimlock = this.gameObject.transform.GetChild(1).gameObject;
+        aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
+        aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
+        startingAimlockMaterialColor = aimlock.GetComponent<MeshRenderer>().material.color;
+        startingTransformAimlock = aimlock.transform;
+        startingTransformCircle1 = aimCircle1.transform;
+        startingTransformCircle2 = aimCircle2.transform;
+
+        transform.LookAt(Camera.main.transform);
+        aimlock.SetActive(true);
+        aimCircle1.SetActive(true);
+        aimCircle2.SetActive(true);
+        zoomController = Camera.main.GetComponent<Zooming>();
+        zoomController.SetEnemy(this.gameObject);
+        time = 0;
+
+        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
+
+        aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
+        explosion.SetActive(false);
+        duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
+        explosion.GetComponent<ParticleSystem>().Stop();
+
+        StartCoroutine(zoomController.ZoomOnEnemy());
+        StartCoroutine(zoomController.Move());
+        StartCoroutine(CountdownToAttack());
+        StartCoroutine(Shaking());
+        StartCoroutine(AimlockController());
+    }
+   /* private void Start()
     {
         transform.LookAt(Camera.main.transform);
         aimlock.SetActive(true);
@@ -67,7 +109,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
         StartCoroutine(AimlockController());
-    }
+    }*/
 
     private void Attack()
     {
@@ -75,16 +117,19 @@ public class Enemy : MonoBehaviour
         aimlock.SetActive(false);
         StopCoroutine(AimlockController());
         explosion.SetActive(true);
-        Camera.main.GetComponentInChildren<Player>().GetHit();
+
+        /*Camera.main.GetComponentInChildren<Player>().GetHit();*/
+
         explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
-        resetAimlockAndCircles();
+        ResetAimlockAndCircles();
 
         StartCoroutine(CountdownToExtinction());
     }
 
     private IEnumerator CountdownToExtinction()
     {
+        Debug.Log("CountdownToExtinction");
         explosion.GetComponent<ParticleSystem>().Stop();
         explosion.SetActive(false);
         while (duration >= 0)
@@ -92,6 +137,7 @@ public class Enemy : MonoBehaviour
             if (duration == 0)
             {
                 gameObject.SetActive(false);
+                StopAllGnomeCoroutines();
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -100,6 +146,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator CountdownToAttack()
     {
+        Debug.Log("CountdownToAttack");
         while (time <= TIME_TO_ATTACK)
         {
             if (time == TIME_TO_ATTACK - 0.5f)
@@ -112,8 +159,6 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                /*StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());*/
                 StartCoroutine(zoomController.ZoomOutEnemy());
                 StartCoroutine(zoomController.MoveBack());
             }
@@ -122,7 +167,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void resetAimlockAndCircles()
+    public void ResetAimlockAndCircles()
     {
         aimlock.transform.position = startingTransformAimlock.position;
         aimlock.transform.localScale = startingTransformAimlock.localScale;
@@ -134,15 +179,16 @@ public class Enemy : MonoBehaviour
         aimCircle2.transform.position = startingTransformCircle2.position;
         aimCircle2.transform.localScale = startingTransformCircle2.localScale;
         aimCircle2.transform.rotation = startingTransformCircle2.rotation;
-
     }
 
     private IEnumerator AimlockController()
     {
+        Debug.Log("AimlockController");
         Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
 
         bool wasYellow = false;
-
+        Debug.Log("time: " + time);
+        Debug.Log("TIME_TO_ATTACK: " + TIME_TO_ATTACK);
         while (time <= TIME_TO_ATTACK)
         {
             if (aimlock.transform.localScale.x >= 10)
@@ -188,7 +234,7 @@ public class Enemy : MonoBehaviour
     }
     private IEnumerator Shaking()
     {
-
+        Debug.Log("Shaking");
         Vector3 startPostition = transform.position;
 
         while (time <= TIME_TO_ATTACK)
@@ -209,5 +255,13 @@ public class Enemy : MonoBehaviour
     private void TimeCount()
     {
         time += 0.25f;
+    }
+
+    public void StopAllGnomeCoroutines()
+    {
+        StopCoroutine(Shaking());
+        StopCoroutine(AimlockController());
+        StopCoroutine(CountdownToAttack());
+        StopCoroutine(CountdownToExtinction());
     }
 }

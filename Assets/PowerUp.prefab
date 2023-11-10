@@ -27,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5215977462641361166}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.6528296, y: 0.27168652, z: -0.27168652, w: 0.6528296}
   m_LocalPosition: {x: 119.655, y: 8.019, z: 36.402}
-  m_LocalScale: {x: 1.2250367, y: 0.039976623, z: 1.2250367}
+  m_LocalScale: {x: 0.6449044, y: 0.031041611, z: 0.7058327}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -45.191}
 --- !u!33 &5215977462641361163
 MeshFilter:
@@ -93,9 +93,17 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5215977462641361166}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
@@ -117,7 +125,7 @@ MonoBehaviour:
   isScaling: 0
   rotationAngle: {x: 0, y: 0, z: -5}
   rotationSpeed: 10
-  floatSpeed: 0
+  floatSpeed: 0.005
   floatRate: 0
   startScale: {x: 0, y: 0, z: 0}
   endScale: {x: 0, y: 0, z: 0}
