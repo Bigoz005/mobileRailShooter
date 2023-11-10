@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Shoot : MonoBehaviour
 {
+    [SerializeField]
     private Transform crosshair;
     private PointerEventData m_PointerEventData;
     private EventSystem m_EventSystem;
@@ -16,6 +17,7 @@ public class Shoot : MonoBehaviour
     private int points = 1000;
 
     private AudioSource audioSource;
+    private AudioSource enemyAudioSource;
     private MusicManager musicManager;
 
     [SerializeField]
@@ -31,10 +33,11 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
-        crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;
+        /*crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;*/
         m_EventSystem = GetComponent<EventSystem>();
         zoomController = Camera.main.GetComponent<Zooming>();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
+        enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
     }
 
@@ -64,7 +67,7 @@ public class Shoot : MonoBehaviour
                     hit.collider.gameObject.GetComponent<Enemy>().ResetAimlockAndCircles();
                     hit.collider.gameObject.GetComponent<Enemy>().StopAllGnomeCoroutines();
                 }
-                audioSource.Stop();
+                enemyAudioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.ZoomOutEnemy());
