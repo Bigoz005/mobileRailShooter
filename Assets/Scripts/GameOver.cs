@@ -18,11 +18,13 @@ public class GameOver : MonoBehaviour
 
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
+    private GameObject musicManager;
 
     public void Awake()
     {
         soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
         enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
     }
 
     public void Replay()
@@ -41,6 +43,18 @@ public class GameOver : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        Time.timeScale = 1;
+        
+        if (musicManager.GetComponent<AudioSource>().clip.name.Equals("hardLevel"))
+        {
+            musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MainMusic;
+            musicManager.GetComponent<AudioSource>().Play();
+        }
+        else
+        {
+            musicManager.GetComponent<AudioSource>().UnPause();
+        }
+
         soundPlayer.GetComponent<AudioSource>().Stop();
         enemyPlayer.GetComponent<AudioSource>().Stop();
 

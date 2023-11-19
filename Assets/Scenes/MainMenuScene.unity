@@ -20609,7 +20609,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -20704,6 +20704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMusic: {fileID: 8300000, guid: 6a763824233a9eb4eb89fc47912dd81f, type: 3}
+  hardMusic: {fileID: 8300000, guid: 7f6ecca5af19cb6438548bdbdf1641be, type: 3}
   powerUpMusic: {fileID: 8300000, guid: 194acd411afe66643bda186f5967ad88, type: 3}
   powerUpOn: 0
 --- !u!4 &1534362707
@@ -27924,7 +27925,7 @@ PrefabInstance:
     - target: {fileID: 8930885862814177750, guid: 13dd10d6717971d4ea9125d158299b1e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.1927395
+      value: -10.373
       objectReference: {fileID: 0}
     - target: {fileID: 8930885862814177750, guid: 13dd10d6717971d4ea9125d158299b1e,
         type: 3}

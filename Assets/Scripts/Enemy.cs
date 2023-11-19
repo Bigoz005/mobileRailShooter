@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     private GameObject aimCircle2;
     private Material aimlockMaterial;
     private Zooming zoomController;
+    private int index;
+    private Transform originalSpecialElementTransform;
 
     private bool start = false;
     [SerializeField]
@@ -28,12 +30,15 @@ public class Enemy : MonoBehaviour
     private Transform startingTransformCircle1;
     private Transform startingTransformCircle2;
 
+    [SerializeField]
+    private List<GameObject> specialElements;
+
     public float _Time { get => time; set => time = value; }
 
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
     private void OnEnable()
     {
-        Debug.Log("OnEnable " + this.gameObject.name);
+        index = Random.Range(1, 3);
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
@@ -68,6 +73,25 @@ public class Enemy : MonoBehaviour
         }
         explosion.SetActive(false);
 
+        int specialIndex = 0;
+        switch (index % 3)
+        {
+            case 0:
+                specialIndex = Random.Range(0, 3);
+                break;
+            case 1:
+                specialIndex = Random.Range(4, 7);
+                break;
+            case 2:
+                specialIndex = Random.Range(8, 11);
+                break;
+        }
+
+        index = specialIndex;
+        specialElements[index].SetActive(true);
+        originalSpecialElementTransform = specialElements[index].transform;
+
+
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
         StartCoroutine(CountdownToAttack());
@@ -95,8 +119,9 @@ public class Enemy : MonoBehaviour
     private IEnumerator CountdownToExtinction()
     {
         float tempDuration = duration - 1;
-        
-        
+
+        ResetSpecialItem();
+
         while (duration >= 0)
         {
             if(duration == tempDuration)
@@ -108,6 +133,7 @@ public class Enemy : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 StopAllGnomeCoroutines();
+                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -230,5 +256,11 @@ public class Enemy : MonoBehaviour
         StopCoroutine(AimlockController());
         StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());
+    }
+
+    private void ResetSpecialItem()
+    {
+        specialElements[index].SetActive(false);
+        specialElements[index].transform.localPosition = originalSpecialElementTransform.localPosition;
     }
 }

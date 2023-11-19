@@ -12,7 +12,7 @@ public class Shoot : MonoBehaviour
     private EventSystem m_EventSystem;
     public GameObject gun;
     private Zooming zoomController;
-    public LayerMask mask;
+    string[] layerNames = { "RayCast", "Specials"};
     private float duration = 17.0f;
     private int points = 1000;
 
@@ -53,12 +53,14 @@ public class Shoot : MonoBehaviour
         RaycastHit hit;
 
         audioSource.clip = shootClip;
-        if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, mask))
+        
+
+        if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                hit.collider.gameObject.SetActive(false);
-                if(hit.collider.name.Contains("Hard"))
+                hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                if (hit.collider.name.Contains("Hard"))
                 {
                     hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
                 }
@@ -70,38 +72,33 @@ public class Shoot : MonoBehaviour
                 enemyAudioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
-                /*StopCoroutine(zoomController.ZoomOutEnemy());*/
-                StopCoroutine(zoomController.Move());
-                /*StopCoroutine(zoomController.MoveBack());*/
-
-                /*StartCoroutine(zoomController.ZoomOutEnemy());*/
-                /*StartCoroutine(zoomController.MoveBack());*/
+                StopCoroutine(zoomController.Move());        
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))
             {
+                hit.collider.gameObject.SetActive(false);
                 audioSource.clip = bonusClip;
-                Destroy(hit.collider.gameObject);
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points);
             }
 
             if (hit.collider.CompareTag("BonusHealth"))
             {
+                hit.collider.gameObject.SetActive(false);
                 audioSource.clip = healthClip;
-                Destroy(hit.collider.gameObject);
                 Camera.main.gameObject.GetComponent<Player>().AddHealth(points);
             }
 
 
             if (hit.collider.CompareTag("PowerUp"))
             {
+                hit.collider.gameObject.SetActive(false);
                 musicManager.playPowerUpMusic();
                 audioSource.clip = powerUpClip;
-                Destroy(hit.collider.gameObject);
                 StartCoroutine(powerUpDuration());
             }
         }
-
+        
         audioSource.Play();
     }
 

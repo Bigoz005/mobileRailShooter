@@ -11445,7 +11445,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.5283019, g: 0.40204105, b: 0.40204105, a: 1}
+  m_Color: {r: 0.6509434, g: 0.35309163, b: 0.29886076, a: 1}
   m_Intensity: 1.74
   m_Range: 10
   m_SpotAngle: 30
@@ -11455,7 +11455,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.5
+    m_Strength: 0.315
     m_Bias: 0.05
     m_NormalBias: 0.167
     m_NearPlane: 0.2
@@ -24658,7 +24658,7 @@ MonoBehaviour:
   gun: {fileID: 1078004788}
   mask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 64
   shootClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   bonusClip: {fileID: 8300000, guid: 940712891fe2bef428bfe5438b4cab4c, type: 3}
   healthClip: {fileID: 8300000, guid: 3cdce9eaf67c55d41a7f95bdd1e2a4f0, type: 3}
@@ -25775,7 +25775,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 160
+    m_Bits: 416
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -28974,14 +28974,14 @@ RectTransform:
   m_GameObject: {fileID: 1798477751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -201}
-  m_LocalScale: {x: 1, y: 1.1271, z: 1}
+  m_LocalScale: {x: 2.131, y: 2.4018502, z: 2.131}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1648810858}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1260, y: 626}
+  m_AnchoredPosition: {x: -1163.8, y: 626}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1798477753
@@ -29661,17 +29661,17 @@ PrefabInstance:
     - target: {fileID: 8480353027518141566, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6434
+      value: 8218
       objectReference: {fileID: 0}
     - target: {fileID: 8480353027518141566, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -368
+      value: 8979
       objectReference: {fileID: 0}
     - target: {fileID: 8480353027518141566, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 65941
+      value: 88476
       objectReference: {fileID: 0}
     - target: {fileID: 8480353027518141566, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}

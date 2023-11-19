@@ -7,10 +7,15 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     AudioClip mainMusic;
     [SerializeField]
+    AudioClip hardMusic;
+    [SerializeField]
     AudioClip powerUpMusic;
 
     private static MusicManager musicManagerInstance;
     public bool powerUpOn;
+
+    public AudioClip MainMusic { get => mainMusic; set => mainMusic = value; }
+    public AudioClip HardMusic { get => hardMusic; set => hardMusic = value; }
 
     void Awake()
     {

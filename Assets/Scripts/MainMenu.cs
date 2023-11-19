@@ -51,6 +51,8 @@ public class MainMenu : MonoBehaviour
                 SceneManager.LoadScene("MediumScene");
                 break;
             case 2:
+                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().clip = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>().HardMusic;
+                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().Play();
                 SceneManager.LoadScene("HardScene");
                 break;
         }

@@ -6,7 +6,7 @@ public class LaunchEnemies : MonoBehaviour
 {
     private int previousIndex;
     private int index;
-    private int duration = 2;
+    private float duration = 2f;
     private bool isCounting = false;
     private GameObject activeEnemy;
     public Coroutine activeCoroutineActivated;
@@ -21,6 +21,10 @@ public class LaunchEnemies : MonoBehaviour
     public IEnumerator ActivateRandomEnemy()
     {
         index = Random.Range(0, 24);
+
+        int specialGroupIndex = Random.Range(0, 2);
+        int specialIndex = Random.Range(0, 3);
+
         while (previousIndex == index)
         {
             index = Random.Range(0, 24);
@@ -44,7 +48,6 @@ public class LaunchEnemies : MonoBehaviour
             activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
         }
 
-        Debug.Log(activeEnemy.transform.name + ": " + activeEnemy.activeInHierarchy);
         while (activeEnemy.activeInHierarchy)
         {
             yield return null;
@@ -59,7 +62,7 @@ public class LaunchEnemies : MonoBehaviour
         {
             if (activeEnemy.transform.name.Contains("Hard"))
             {
-                duration = 0;
+                duration = 0.5f;
                 Debug.Log(duration);
             }
             else
@@ -90,6 +93,6 @@ public class LaunchEnemies : MonoBehaviour
 
     private void Countdown()
     {
-        duration -= 1;
+        duration -= 0.5f;
     }
 }

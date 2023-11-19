@@ -8,8 +8,10 @@ public class EnemyHard : MonoBehaviour
     private GameObject explosion;
     private float duration;
     private float time = 0;
-    private float TIME_TO_ATTACK = 1;
+    private float TIME_TO_ATTACK = 1.0f;
     private Zooming zoomController;
+    private int index;
+    private Transform originalSpecialElementTransform;
 
     private bool start = false;
     [SerializeField]
@@ -20,6 +22,9 @@ public class EnemyHard : MonoBehaviour
     private AudioSource audioSource;
 
     Vector3 startingPos;
+
+    [SerializeField]
+    private List<GameObject> specialElements;
 
     public float _Time { get => time; set => time = value; }
 
@@ -34,7 +39,7 @@ public class EnemyHard : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable " + this.gameObject.name);
+        index = Random.Range(1, 3);
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
@@ -51,30 +56,29 @@ public class EnemyHard : MonoBehaviour
         explosion.SetActive(false);
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
 
+        int specialIndex = 0;
+        switch (index % 3)
+        {
+            case 0:
+                specialIndex = Random.Range(0, 3);
+                break;
+            case 1:
+                specialIndex = Random.Range(4, 7);
+                break;
+            case 2:
+                specialIndex = Random.Range(8, 11);
+                break;
+        }
+
+        index = specialIndex;
+        specialElements[index].SetActive(true);
+        originalSpecialElementTransform = specialElements[index].transform;
+
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
         StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
     }
-
-    /*private void Start()
-    {
-
-        transform.LookAt(Camera.main.transform);
-        explosion = this.gameObject.transform.GetChild(0).gameObject;
-        zoomController = Camera.main.GetComponent<Zooming>();
-        zoomController.SetEnemy(this.gameObject);
-        StartCoroutine(zoomController.ZoomOnEnemy());
-        StartCoroutine(zoomController.Move());
-
-        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
-
-        explosion.SetActive(false);
-        duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
-        explosion.GetComponent<ParticleSystem>().Stop();
-        StartCoroutine(CountdownToAttack());
-        StartCoroutine(Shaking());
-    }*/
 
     private void Attack()
     {
@@ -92,11 +96,14 @@ public class EnemyHard : MonoBehaviour
 
     private IEnumerator CountdownToExtinction()
     {
+        ResetSpecialItem();
+
         while (duration >= 0)
         {
             if (duration == 0)
             {
                 gameObject.SetActive(false);
+                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -107,7 +114,7 @@ public class EnemyHard : MonoBehaviour
     {
         while (time <= TIME_TO_ATTACK)
         {
-            if (time == TIME_TO_ATTACK - 0.5f)
+            if (time == TIME_TO_ATTACK - 1.0f)
             {
                 audioSource.clip = explosionClip;
                 audioSource.Play();
@@ -134,7 +141,7 @@ public class EnemyHard : MonoBehaviour
 
         while (time <= TIME_TO_ATTACK)
         {
-            float strength = curve.Evaluate(time / TIME_TO_ATTACK);
+            float strength = curve.Evaluate(time*4 / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
             yield return null;
         }
@@ -154,6 +161,8 @@ public class EnemyHard : MonoBehaviour
 
     public void StopAllGnomeCoroutines()
     {
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        this.gameObject.SetActive(false);
         StopCoroutine(Shaking());
         StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());
@@ -178,5 +187,11 @@ public class EnemyHard : MonoBehaviour
         }
 
         Camera.main.transform.localPosition = originalPos;
+    }
+
+    private void ResetSpecialItem()
+    {
+        specialElements[index].SetActive(false);
+        specialElements[index].transform.localPosition = originalSpecialElementTransform.localPosition;
     }
 }
