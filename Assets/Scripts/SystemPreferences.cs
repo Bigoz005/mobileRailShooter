@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class SystemPreferences : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    bool isPaused = false;
+
+    public bool IsPaused { get => isPaused; set => isPaused = value; }
+
     void Awake()
     {
         Application.targetFrameRate = PlayerPrefs.GetInt("FPS", 0);

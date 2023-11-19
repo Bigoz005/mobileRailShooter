@@ -41,7 +41,7 @@ public class AnimationScript : MonoBehaviour {
 
             if(isFloating)
             {
-                Vector3 moveDir = new Vector3(0.0f, 0.0f, floatSpeed);
+                Vector3 moveDir = new Vector3(0.0f, 0.0f, floatSpeed * Time.deltaTime * 1000);
                 transform.Translate(moveDir);
             }
 

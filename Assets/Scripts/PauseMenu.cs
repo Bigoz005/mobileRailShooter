@@ -45,6 +45,7 @@ public class PauseMenu : MonoBehaviour
         {
             enemyPlayer.GetComponent<AudioSource>().UnPause();
         }
+        Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
         pauseCanvas.SetActive(false);
         gameplayCanvas.SetActive(true);
         Time.timeScale = 1;
@@ -54,6 +55,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         musicManager.GetComponent<AudioSource>().UnPause();
+        Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
         SceneManager.LoadScene("MainMenuScene");
     }
 }

@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
             if (gameplayCanvas.activeInHierarchy)
             {
                 Time.timeScale = 0;
+                Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = true;
 
                 musicManager.GetComponent<AudioSource>().Pause();
                 soundPlayer.GetComponent<AudioSource>().Pause();

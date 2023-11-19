@@ -130,9 +130,11 @@ public class Enemy : MonoBehaviour
                 Attack();
                 StopCoroutine(CountdownToAttack());
             }
+
             TimeCount();
             yield return new WaitForSeconds(1);
         }
+
     }
 
     public void ResetAimlockAndCircles()
@@ -195,7 +197,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            yield return null;
+            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
     }
     private IEnumerator Shaking()
@@ -206,7 +208,7 @@ public class Enemy : MonoBehaviour
         {
             float strength = curve.Evaluate(time / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
-            yield return null;
+            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false );
         }
 
         transform.position = startPostition;
