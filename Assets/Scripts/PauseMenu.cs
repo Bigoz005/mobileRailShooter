@@ -15,14 +15,36 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject gameplayCanvas;
 
+    private GameObject musicManager;
+    private GameObject soundPlayer;
+    private GameObject enemyPlayer;
+
+    public void Awake()
+    {
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+        soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
+        enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+    }
+
     public void ShowOptions()
     {
+        musicManager.GetComponent<AudioSource>().UnPause();
+        soundPlayer.GetComponent<AudioSource>().Pause();
+        enemyPlayer.GetComponent<AudioSource>().Pause();
         pauseCanvas.SetActive(false);
         optionCanvas.SetActive(true);
     }
 
     public void Continue()
     {
+        musicManager.GetComponent<AudioSource>().UnPause();
+        if (!soundPlayer.GetComponent<AudioSource>().isPlaying) { 
+        soundPlayer.GetComponent<AudioSource>().UnPause();
+        }
+        if (!enemyPlayer.GetComponent<AudioSource>().isPlaying)
+        {
+            enemyPlayer.GetComponent<AudioSource>().UnPause();
+        }
         pauseCanvas.SetActive(false);
         gameplayCanvas.SetActive(true);
         Time.timeScale = 1;
@@ -31,6 +53,7 @@ public class PauseMenu : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1;
+        musicManager.GetComponent<AudioSource>().UnPause();
         SceneManager.LoadScene("MainMenuScene");
     }
 }

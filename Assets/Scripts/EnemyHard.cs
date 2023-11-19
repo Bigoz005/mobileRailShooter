@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class EnemyHard : MonoBehaviour
 {
@@ -38,7 +39,8 @@ public class EnemyHard : MonoBehaviour
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
         explosion = this.gameObject.transform.GetChild(0).gameObject;
-        
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
+
         transform.LookAt(Camera.main.transform);
         zoomController = Camera.main.GetComponent<Zooming>();
         zoomController.SetEnemy(this.gameObject);
@@ -48,7 +50,6 @@ public class EnemyHard : MonoBehaviour
 
         explosion.SetActive(false);
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
-        explosion.GetComponent<ParticleSystem>().Stop();
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
@@ -80,10 +81,13 @@ public class EnemyHard : MonoBehaviour
         gameObject.layer = 0;
         explosion.SetActive(true);
         Camera.main.GetComponentInChildren<Player>().GetHit();
+        if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+        {
+            CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
+        }
         explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(CountdownToExtinction());
-
     }
 
     private IEnumerator CountdownToExtinction()
@@ -109,12 +113,14 @@ public class EnemyHard : MonoBehaviour
                 audioSource.Play();
             }
 
-            if (time == TIME_TO_ATTACK)
+            Debug.Log(time);
+            Debug.Log(TIME_TO_ATTACK);
+            if (time == TIME_TO_ATTACK - 0.5f)
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                StartCoroutine(zoomController.ZoomOutEnemy());
-                StartCoroutine(zoomController.MoveBack());
+                /*StartCoroutine(zoomController.ZoomOutEnemy());
+                StartCoroutine(zoomController.MoveBack());*/
             }
             TimeCount();
             yield return new WaitForSeconds(1);
@@ -151,5 +157,26 @@ public class EnemyHard : MonoBehaviour
         StopCoroutine(Shaking());
         StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());
+        StopCoroutine(CameraShake());
+    }
+
+    private IEnumerator CameraShake()
+    {
+        Vector3 originalPos = Camera.main.transform.localPosition;
+
+        float elapsed = 0.0f;
+
+        while (elapsed < 1)
+        {
+            float x = Random.Range(-1f, 1f) * 3;
+            float y = Random.Range(-1f, 1f) * 3;
+
+            Camera.main.transform.localPosition = new Vector3(x, y, originalPos.z);
+            elapsed += Time.fixedDeltaTime / 2;
+
+            yield return null;
+        }
+
+        Camera.main.transform.localPosition = originalPos;
     }
 }

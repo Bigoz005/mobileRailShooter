@@ -33,15 +33,37 @@ public class Player : MonoBehaviour
     private LaunchEnemies launchEnemies;
     private TextMeshProUGUI textMesh2;
 
+    private GameObject musicManager;
+    private GameObject soundPlayer;
+    private GameObject enemyPlayer;
+
     const string SCORETEXT = "Score: ";
 
+    public void Awake()
+    {
+        
+    }
+
+    public int GetHealth()
+    {
+        return health;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+            soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
+            enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+
             if (gameplayCanvas.activeInHierarchy)
             {
                 Time.timeScale = 0;
+
+                musicManager.GetComponent<AudioSource>().Pause();
+                soundPlayer.GetComponent<AudioSource>().Pause();
+                enemyPlayer.GetComponent<AudioSource>().Pause();
+
                 gameplayCanvas.SetActive(false);
                 pauseCanvas.SetActive(true);
             }

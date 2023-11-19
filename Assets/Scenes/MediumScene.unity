@@ -12668,6 +12668,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7348582637306343185, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Enabled
@@ -13449,6 +13454,55 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 797050394}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &803828203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 803828204}
+  - component: {fileID: 803828205}
+  m_Layer: 0
+  m_Name: CameraHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &803828204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803828203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 963194228}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &803828205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803828203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8353b5ebd32545867da143199a814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultPosInfluence: {x: 0.15, y: 0.15, z: 0.15}
+  DefaultRotInfluence: {x: 1, y: 1, z: 1}
+  RestPositionOffset: {x: 0, y: 0, z: 0}
+  RestRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &807795766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16619,7 +16673,7 @@ Transform:
   m_Children:
   - {fileID: 1078004789}
   - {fileID: 1635871333}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 803828204}
   m_LocalEulerAnglesHint: {x: 0, y: -132.617, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -23708,6 +23762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 450849896}
   optionCanvas: {fileID: 1837822125}
+  sfxClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   sliderFps: {fileID: 1443606171}
   sliderDifficulty: {fileID: 741891137}
   sliderMusic: {fileID: 1724425689}
@@ -34088,7 +34143,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 963194228}
+  - {fileID: 803828204}
   - {fileID: 705507995}
   - {fileID: 1471630363}
   - {fileID: 952492923}

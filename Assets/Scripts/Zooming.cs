@@ -28,7 +28,7 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator ZoomOnEnemy()
     {
-        StopCoroutine(ZoomOutEnemy());
+        /*StopCoroutine(ZoomOutEnemy());*/
         minFieldOfView = 35.0f;
         if (enemy.GetComponent<Enemy>())
         {

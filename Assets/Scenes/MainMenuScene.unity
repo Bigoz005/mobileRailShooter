@@ -892,7 +892,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1.5
   Loop: 0
@@ -6744,7 +6744,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 0.9
   Loop: 0
@@ -27849,6 +27849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 1650273453}
   optionCanvas: {fileID: 132066036}
+  sfxClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   sliderFps: {fileID: 1882950400}
   sliderDifficulty: {fileID: 507799260}
   sliderMusic: {fileID: 1744367786}

@@ -16,8 +16,20 @@ public class GameOver : MonoBehaviour
     [SerializeField]
     private Player player;
 
+    private GameObject soundPlayer;
+    private GameObject enemyPlayer;
+
+    public void Awake()
+    {
+        soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
+        enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+    }
+
     public void Replay()
     {
+        soundPlayer.GetComponent<AudioSource>().Stop();
+        enemyPlayer.GetComponent<AudioSource>().Stop();
+
         gameoverCanvas.SetActive(false);
         gameplayCanvas.SetActive(true);
         player.ResetScore();
@@ -29,6 +41,9 @@ public class GameOver : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        soundPlayer.GetComponent<AudioSource>().Stop();
+        enemyPlayer.GetComponent<AudioSource>().Stop();
+
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenuScene");
     }

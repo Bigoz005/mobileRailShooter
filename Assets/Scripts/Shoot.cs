@@ -70,11 +70,11 @@ public class Shoot : MonoBehaviour
                 enemyAudioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
                 StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.ZoomOutEnemy());
+                /*StopCoroutine(zoomController.ZoomOutEnemy());*/
                 StopCoroutine(zoomController.Move());
-                StopCoroutine(zoomController.MoveBack());
+                /*StopCoroutine(zoomController.MoveBack());*/
 
-                StartCoroutine(zoomController.ZoomOutEnemy());
+                /*StartCoroutine(zoomController.ZoomOutEnemy());*/
                 /*StartCoroutine(zoomController.MoveBack());*/
             }
 

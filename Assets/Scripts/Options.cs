@@ -12,10 +12,12 @@ public class Options : MonoBehaviour
     [SerializeField]
     private GameObject optionCanvas;
 
+    [SerializeField]
+    private AudioClip sfxClip;
+
     private GameObject musicManager;
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
-
 
     [SerializeField]
     private GameObject sliderFps;
@@ -43,6 +45,11 @@ public class Options : MonoBehaviour
 
     public void ShowMenu()
     {
+        if (!SceneManager.GetActiveScene().name.Equals("MainMenuScene")) { 
+            musicManager.GetComponent<AudioSource>().Pause();
+        }
+        soundPlayer.GetComponent<AudioSource>().Pause();
+        enemyPlayer.GetComponent<AudioSource>().Pause();
         mainMenuCanvas.SetActive(true);
         optionCanvas.SetActive(false);
     }
@@ -103,13 +110,19 @@ public class Options : MonoBehaviour
         int volume = (int)sliderSFX.GetComponent<Slider>().value;
         soundPlayer.GetComponent<AudioSource>().volume = volume / 100f;
         enemyPlayer.GetComponent<AudioSource>().volume = volume / 100f;
+
+        soundPlayer.GetComponent<AudioSource>().clip = sfxClip;
+
+        if (volume != PlayerPrefs.GetInt("SFXVolume")) { 
+            soundPlayer.GetComponent<AudioSource>().Play();
+        }
         PlayerPrefs.SetInt("SFXVolume", volume);
         PlayerPrefs.Save();
     }
     public void SetDifficulty()
     {
-        int volume = (int)sliderDifficulty.GetComponent<Slider>().value;
-        PlayerPrefs.SetInt("Difficulty", volume);
+        int difficulty = (int)sliderDifficulty.GetComponent<Slider>().value;
+        PlayerPrefs.SetInt("Difficulty", difficulty);
         PlayerPrefs.Save();
     }
 }

@@ -24,13 +24,6 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void Update()
-    {
-        if (!this.GetComponent<AudioSource>().isPlaying)
-        {
-            playMainMusic();
-        }
-    }
 
     public void playMainMusic()
     {
