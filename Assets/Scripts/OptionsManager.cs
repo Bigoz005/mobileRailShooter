@@ -11,8 +11,8 @@ public class OptionsManager : MonoBehaviour
     private int sfxVolume;
     private int difficulty;
     private int highScore;
-    
-    
+
+
     void Start()
     {
         GetFPS();
@@ -25,15 +25,32 @@ public class OptionsManager : MonoBehaviour
     public void SetFPS()
     {
         int fps = (int)this.gameObject.GetComponent<Slider>().value;
-        if (fps == 0)
+        switch (fps)
         {
-            PlayerPrefs.SetInt("FPS", 30);
-            Application.targetFrameRate = 30;
-        }
-        else
-        {
-            PlayerPrefs.SetInt("FPS", 60);
-            Application.targetFrameRate = 60;
+            case 0:
+                {
+                    PlayerPrefs.SetInt("FPS", 0);
+                    Application.targetFrameRate = 30;
+                    break;
+                }
+            case 1:
+                {
+                    PlayerPrefs.SetInt("FPS", 1);
+                    Application.targetFrameRate = 60;
+                    break;
+                }
+            case 2:
+                {
+                    PlayerPrefs.SetInt("FPS", 2);
+                    Application.targetFrameRate = 90;
+                    break;
+                }
+            case 3:
+                {
+                    PlayerPrefs.SetInt("FPS", 3);
+                    Application.targetFrameRate = 120;
+                    break;
+                }
         }
         PlayerPrefs.Save();
     }
@@ -89,5 +106,5 @@ public class OptionsManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore");
         return highScore;
     }
-    
+
 }

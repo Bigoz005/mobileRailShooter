@@ -8,10 +8,8 @@ public class Shoot : MonoBehaviour
 {
     [SerializeField]
     private Transform crosshair;
-    private PointerEventData m_PointerEventData;
     private EventSystem m_EventSystem;
     public GameObject gun;
-    private Zooming zoomController;
     string[] layerNames = { "RayCast", "Specials"};
     private float duration = 17.0f;
     private int points = 1000;
@@ -35,7 +33,6 @@ public class Shoot : MonoBehaviour
         points = points * (PlayerPrefs.GetInt("Difficulty", 0));
         /*crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;*/
         m_EventSystem = GetComponent<EventSystem>();
-        zoomController = Camera.main.GetComponent<Zooming>();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
@@ -76,8 +73,6 @@ public class Shoot : MonoBehaviour
                 }
                 enemyAudioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
-                /*StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());        */
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))

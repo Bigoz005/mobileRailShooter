@@ -197,6 +197,24 @@ public class Enemy : MonoBehaviour
     private IEnumerator AimlockController()
     {
         Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
+        float timeFactor = 30f;
+        int fps = PlayerPrefs.GetInt("FPS", 0);
+
+        switch (fps)
+        {
+            case 0:
+                timeFactor = 150f;
+                break;
+            case 1:
+                timeFactor = 100f;
+                break;
+            case 2:
+                timeFactor = 60f;
+                break;
+            case 3:
+                timeFactor = 30f;
+                break;
+        }
 
         bool wasYellow = false;
 
@@ -204,12 +222,12 @@ public class Enemy : MonoBehaviour
         {
             if (aimlock.transform.localScale.x >= 10)
             {
-                aimlock.transform.localScale -= scaleChange * 50;
+                aimlock.transform.localScale -= scaleChange * 30 * timeFactor / 10f;
             }
 
             if (aimCircle1 != null)
             {
-                aimCircle1.transform.localScale -= (scaleChange * 95);
+                aimCircle1.transform.localScale -= (scaleChange * 120 * timeFactor / 30f);
                 if (aimCircle1.transform.localScale.x <= 0)
                 {
                     aimCircle1.SetActive(false);
@@ -218,22 +236,22 @@ public class Enemy : MonoBehaviour
 
             if (aimCircle2 != null)
             {
-                aimCircle2.transform.localScale -= (scaleChange * 170);
+                aimCircle2.transform.localScale -= (scaleChange * 160 * timeFactor / 30f);
                 if (aimCircle2.transform.localScale.x <= 0)
                 {
                     aimCircle2.SetActive(false);
                 }
             }
 
-            aimlock.transform.Rotate(0f, 75 * Time.fixedDeltaTime, 0f);
+            aimlock.transform.Rotate(0f, 5*timeFactor * Time.fixedDeltaTime, 0f);
 
             if (wasYellow)
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * 0.35f, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * timeFactor/100f, aimlockMaterial.color.b);
             }
             else
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * 0.15f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * timeFactor/200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
                 if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
                 {
                     wasYellow = true;
