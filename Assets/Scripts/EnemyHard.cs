@@ -13,7 +13,6 @@ public class EnemyHard : MonoBehaviour
     private int index;
     private Transform originalSpecialElementTransform;
 
-    private bool start = false;
     [SerializeField]
     public AnimationCurve curve;
     [SerializeField]
@@ -30,16 +29,15 @@ public class EnemyHard : MonoBehaviour
 
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
 
-    void Awake()
-    {
-        startingPos.x = transform.position.x;
-        startingPos.y = transform.position.y;
-        startingPos.z = transform.position.z;
-    }
-
     private void OnEnable()
     {
-        index = Random.Range(1, 3);
+        if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
+        {
+            GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 0.5f;
+            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 0.75f;
+        }
+
+        index = Random.Range(1, 4);
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
@@ -82,19 +80,22 @@ public class EnemyHard : MonoBehaviour
 
     private void Attack()
     {
-        gameObject.layer = 0;
-        explosion.SetActive(true);
-        Camera.main.GetComponentInChildren<Player>().GetHit();
-        if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+        if (enabled)
         {
-            CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
+            gameObject.layer = 0;
+            
+            Camera.main.GetComponentInChildren<Player>().GetHit();
+            if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+            {
+                CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
+            }
+            explosion.SetActive(true);
         }
-        explosion.GetComponent<ParticleSystem>().Play();
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(CountdownToExtinction());
     }
 
-    private IEnumerator CountdownToExtinction()
+    public IEnumerator CountdownToExtinction()
     {
         ResetSpecialItem();
 
@@ -104,6 +105,8 @@ public class EnemyHard : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -114,20 +117,16 @@ public class EnemyHard : MonoBehaviour
     {
         while (time <= TIME_TO_ATTACK)
         {
-            if (time == TIME_TO_ATTACK - 1.0f)
+            if (time == TIME_TO_ATTACK - 1.0f && enabled)
             {
                 audioSource.clip = explosionClip;
                 audioSource.Play();
             }
 
-            Debug.Log(time);
-            Debug.Log(TIME_TO_ATTACK);
             if (time == TIME_TO_ATTACK - 0.5f)
             {
                 Attack();
                 StopCoroutine(CountdownToAttack());
-                /*StartCoroutine(zoomController.ZoomOutEnemy());
-                StartCoroutine(zoomController.MoveBack());*/
             }
             TimeCount();
             yield return new WaitForSeconds(1);
@@ -139,11 +138,11 @@ public class EnemyHard : MonoBehaviour
 
         Vector3 startPostition = transform.position;
 
-        while (time <= TIME_TO_ATTACK)
+        while (time <= TIME_TO_ATTACK && enabled)
         {
-            float strength = curve.Evaluate(time*4 / TIME_TO_ATTACK);
+            float strength = curve.Evaluate(time * 4 / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
-            yield return null;
+            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
 
         transform.position = startPostition;
@@ -161,8 +160,6 @@ public class EnemyHard : MonoBehaviour
 
     public void StopAllGnomeCoroutines()
     {
-        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
-        this.gameObject.SetActive(false);
         StopCoroutine(Shaking());
         StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());

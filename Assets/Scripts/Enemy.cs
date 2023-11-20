@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     private int index;
     private Transform originalSpecialElementTransform;
 
-    private bool start = false;
     [SerializeField]
     public AnimationCurve curve;
     [SerializeField]
@@ -38,7 +37,13 @@ public class Enemy : MonoBehaviour
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
     private void OnEnable()
     {
-        index = Random.Range(1, 3);
+        if (PlayerPrefs.GetInt("Difficulty", 0) != 2)
+        {
+            GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 1.5f;
+            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 1f;
+        }
+
+        index = Random.Range(1, 4);
         startingPos.x = transform.position.x;
         startingPos.y = transform.position.y;
         startingPos.z = transform.position.z;
@@ -46,6 +51,14 @@ public class Enemy : MonoBehaviour
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
+
+        if (aimlock.activeInHierarchy == false)
+            aimlock.SetActive(true);
+        if (aimCircle1.activeInHierarchy == false)
+            aimCircle1.SetActive(true);
+        if (aimCircle2.activeInHierarchy == false)
+            aimCircle2.SetActive(true);
+
         gameObject.GetComponent<MeshRenderer>().enabled = true;
         startingAimlockMaterialColor = aimlock.GetComponent<MeshRenderer>().material.color;
         startingTransformAimlock = aimlock.transform;
@@ -64,7 +77,8 @@ public class Enemy : MonoBehaviour
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
-        if (explosion.GetComponent<ParticleSystem>().isPlaying) { 
+        if (explosion.GetComponent<ParticleSystem>().isPlaying)
+        {
             explosion.GetComponent<ParticleSystem>().Stop();
         }
         if (!explosion.GetComponent<ParticleSystem>().isPlaying)
@@ -100,23 +114,25 @@ public class Enemy : MonoBehaviour
     }
 
     private void Attack()
-    {                
-        gameObject.layer = 0;
-        aimlock.SetActive(false);
-        StopCoroutine(AimlockController());
-        Camera.main.GetComponentInChildren<Player>().GetHit();
-        if(Camera.main.GetComponentInChildren<Player>().GetHealth() != 0) { 
-            CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
+    {
+        if (enabled)
+        {
+            gameObject.layer = 0;
+            aimlock.SetActive(false);
+            StopCoroutine(AimlockController());
+            Camera.main.GetComponentInChildren<Player>().GetHit();
+            if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+            {
+                CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
+            }
+            explosion.gameObject.SetActive(true);
         }
-        explosion.gameObject.SetActive(true);
-      
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         ResetAimlockAndCircles();
-
         StartCoroutine(CountdownToExtinction());
     }
 
-    private IEnumerator CountdownToExtinction()
+    public IEnumerator CountdownToExtinction()
     {
         float tempDuration = duration - 1;
 
@@ -124,7 +140,7 @@ public class Enemy : MonoBehaviour
 
         while (duration >= 0)
         {
-            if(duration == tempDuration)
+            if (duration == tempDuration)
             {
                 explosion.SetActive(false);
             }
@@ -134,6 +150,8 @@ public class Enemy : MonoBehaviour
                 gameObject.SetActive(false);
                 StopAllGnomeCoroutines();
                 this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());
             }
             Countdown();
             yield return new WaitForSeconds(1);
@@ -142,15 +160,14 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator CountdownToAttack()
     {
-        Debug.Log("CountdownToAttack");
         while (time <= TIME_TO_ATTACK)
         {
-            if (time == TIME_TO_ATTACK - 0.5f)
+            if (time == TIME_TO_ATTACK - 0.5f && enabled)
             {
                 audioSource.clip = explosionClip;
                 audioSource.Play();
             }
-    
+
             if (time == TIME_TO_ATTACK)
             {
                 Attack();
@@ -178,12 +195,12 @@ public class Enemy : MonoBehaviour
     }
 
     private IEnumerator AimlockController()
-    { 
+    {
         Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
 
         bool wasYellow = false;
 
-        while (time <= TIME_TO_ATTACK)
+        while (time <= TIME_TO_ATTACK && enabled)
         {
             if (aimlock.transform.localScale.x >= 10)
             {
@@ -227,14 +244,14 @@ public class Enemy : MonoBehaviour
         }
     }
     private IEnumerator Shaking()
-    {        
+    {
         Vector3 startPostition = transform.position;
 
-        while (time <= TIME_TO_ATTACK)
+        while (time <= TIME_TO_ATTACK && enabled)
         {
             float strength = curve.Evaluate(time / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
-            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false );
+            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
 
         transform.position = startPostition;

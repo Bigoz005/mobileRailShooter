@@ -16,6 +16,16 @@ public class LaunchEnemies : MonoBehaviour
     {
         previousIndex = -1;
         activeCoroutineActivated = StartCoroutine(CountdownToActivate());
+        if(PlayerPrefs.GetInt("Difficulty", 0) == 2)
+        {
+            GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 0.5f;
+            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 0.75f;
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 1.5f;
+            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 1f;
+        }
     }
 
     public IEnumerator ActivateRandomEnemy()
@@ -40,12 +50,18 @@ public class LaunchEnemies : MonoBehaviour
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
+        
 
         if (!activeEnemy.transform.name.Contains("Hard"))
         {
             activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
             activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
+            activeEnemy.GetComponent<Enemy>().enabled = true;
+        }
+        else
+        {
+            activeEnemy.GetComponent<EnemyHard>().enabled = true;
         }
 
         while (activeEnemy.activeInHierarchy)

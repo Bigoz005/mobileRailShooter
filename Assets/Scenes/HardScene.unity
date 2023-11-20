@@ -6706,6 +6706,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6709288533808664266, guid: 6446d6621d063504ba546fbfec4ccc5a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6446d6621d063504ba546fbfec4ccc5a,
         type: 3}
       propertyPath: m_Name
@@ -17102,9 +17107,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshair: {fileID: 1084056302}
   gun: {fileID: 1078004788}
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
   shootClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   bonusClip: {fileID: 8300000, guid: 940712891fe2bef428bfe5438b4cab4c, type: 3}
   healthClip: {fileID: 8300000, guid: 3cdce9eaf67c55d41a7f95bdd1e2a4f0, type: 3}
@@ -23753,9 +23755,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshair: {fileID: 0}
   gun: {fileID: 1078004788}
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
   shootClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   bonusClip: {fileID: 8300000, guid: 940712891fe2bef428bfe5438b4cab4c, type: 3}
   healthClip: {fileID: 8300000, guid: 3cdce9eaf67c55d41a7f95bdd1e2a4f0, type: 3}

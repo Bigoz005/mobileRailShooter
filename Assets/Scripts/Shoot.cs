@@ -32,7 +32,7 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0));
         /*crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;*/
         m_EventSystem = GetComponent<EventSystem>();
         zoomController = Camera.main.GetComponent<Zooming>();
@@ -63,16 +63,21 @@ public class Shoot : MonoBehaviour
                 if (hit.collider.name.Contains("Hard"))
                 {
                     hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
+                    hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
                 }
                 else
                 {
                     hit.collider.gameObject.GetComponent<Enemy>().ResetAimlockAndCircles();
                     hit.collider.gameObject.GetComponent<Enemy>().StopAllGnomeCoroutines();
+                    hit.collider.gameObject.GetComponent<Enemy>().enabled = false;
+                    hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+                    hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
+                    hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
                 }
                 enemyAudioSource.Stop();
                 Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
-                StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());        
+                /*StopCoroutine(zoomController.ZoomOnEnemy());
+                StopCoroutine(zoomController.Move());        */
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))
@@ -105,21 +110,23 @@ public class Shoot : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         while (musicManager.powerUpOn)
         {
-            if (duration > 0)
+            if (duration <= 0)
             {
-                points = 5000;
-
-            }
-            else
-            {
-                points = 1000;
+                points = points * PlayerPrefs.GetInt("Difficulty", 0);
+                if(PlayerPrefs.GetInt("Difficulty", 0) == 2){
+                    musicManager.playHardMusic();
+                }
+                else
+                {
+                    musicManager.playMainMusic();
+                }
             }
 
             Countdown();
             yield return new WaitForSeconds(1);
-
         }
     }
 

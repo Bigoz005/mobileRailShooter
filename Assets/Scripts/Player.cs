@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     private int score;
     private int highScore;
     private int health;
-    private bool isDeath;
 
     [SerializeField]
     private GameObject HealthTexture1;
@@ -38,11 +37,6 @@ public class Player : MonoBehaviour
     private GameObject enemyPlayer;
 
     const string SCORETEXT = "Score: ";
-
-    public void Awake()
-    {
-        
-    }
 
     public int GetHealth()
     {
@@ -74,8 +68,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         health = 3;
-        score = 0;
-        isDeath = false;
+        score = 0;        
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
         highScore = PlayerPrefs.GetInt("HighScore");
@@ -101,10 +94,6 @@ public class Player : MonoBehaviour
     public void GetHit()
     {
         health -= 1;
-        if (health == 0)
-        {
-            isDeath = true;
-        }
         CheckHealth();
     }
 
@@ -126,7 +115,6 @@ public class Player : MonoBehaviour
         switch (health)
         {
             case 0:
-                isDeath = true;
                 if (score > highScore)
                 {
                     PlayerPrefs.SetInt("HighScore", score);
