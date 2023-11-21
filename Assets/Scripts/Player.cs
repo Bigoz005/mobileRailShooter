@@ -46,22 +46,27 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            musicManager = GameObject.FindGameObjectWithTag("MusicManager");
-            soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
-            enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
+            OpenMenu();
+        }
+    }
 
-            if (gameplayCanvas.activeInHierarchy)
-            {
-                Time.timeScale = 0;
-                Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = true;
+    public void OpenMenu()
+    {
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+        soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
+        enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
 
-                musicManager.GetComponent<AudioSource>().Pause();
-                soundPlayer.GetComponent<AudioSource>().Pause();
-                enemyPlayer.GetComponent<AudioSource>().Pause();
+        if (gameplayCanvas.activeInHierarchy)
+        {
+            Time.timeScale = 0;
+            Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = true;
 
-                gameplayCanvas.SetActive(false);
-                pauseCanvas.SetActive(true);
-            }
+            musicManager.GetComponent<AudioSource>().Pause();
+            soundPlayer.GetComponent<AudioSource>().Pause();
+            enemyPlayer.GetComponent<AudioSource>().Pause();
+
+            gameplayCanvas.SetActive(false);
+            pauseCanvas.SetActive(true);
         }
     }
 
