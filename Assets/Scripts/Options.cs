@@ -27,6 +27,8 @@ public class Options : MonoBehaviour
     private GameObject sliderMusic;
     [SerializeField]
     private GameObject sliderSFX;
+    [SerializeField]
+    private GameObject touchToggle;
 
     [SerializeField]
     private GameObject text;
@@ -37,15 +39,28 @@ public class Options : MonoBehaviour
         soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
         enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
 
-        sliderFps.GetComponent<Slider>().value = PlayerPrefs.GetInt("FPS", 0);
-        sliderDifficulty.GetComponent<Slider>().value = PlayerPrefs.GetInt("Difficulty", 0);
-        sliderMusic.GetComponent<Slider>().value = PlayerPrefs.GetInt("MusicVolume", 0);
-        sliderSFX.GetComponent<Slider>().value = PlayerPrefs.GetInt("SFXVolume", 0);
+        sliderFps.GetComponent<Slider>().value = PlayerPrefs.GetInt("FPS", 3);
+        sliderDifficulty.GetComponent<Slider>().value = PlayerPrefs.GetInt("Difficulty", 1);
+        sliderMusic.GetComponent<Slider>().value = PlayerPrefs.GetInt("MusicVolume", 100);
+        sliderSFX.GetComponent<Slider>().value = PlayerPrefs.GetInt("SFXVolume", 100);
+        if (SceneManager.GetActiveScene().name.Equals("MainMenuScene"))
+        {
+            if ((PlayerPrefs.GetInt("Controls", 1) == 0))
+            {
+                touchToggle.GetComponent<Toggle>().isOn = true;
+            }
+            else
+            {
+
+                touchToggle.GetComponent<Toggle>().isOn = false;
+            }
+        }
     }
 
     public void ShowMenu()
     {
-        if (!SceneManager.GetActiveScene().name.Equals("MainMenuScene")) { 
+        if (!SceneManager.GetActiveScene().name.Equals("MainMenuScene"))
+        {
             musicManager.GetComponent<AudioSource>().Pause();
         }
         soundPlayer.GetComponent<AudioSource>().Pause();
@@ -113,7 +128,8 @@ public class Options : MonoBehaviour
 
         soundPlayer.GetComponent<AudioSource>().clip = sfxClip;
 
-        if (volume != PlayerPrefs.GetInt("SFXVolume")) { 
+        if (volume != PlayerPrefs.GetInt("SFXVolume"))
+        {
             soundPlayer.GetComponent<AudioSource>().Play();
         }
         PlayerPrefs.SetInt("SFXVolume", volume);
@@ -123,6 +139,20 @@ public class Options : MonoBehaviour
     {
         int difficulty = (int)sliderDifficulty.GetComponent<Slider>().value;
         PlayerPrefs.SetInt("Difficulty", difficulty);
+        PlayerPrefs.Save();
+    }
+
+    public void SetControls()
+    {        
+        bool shootType = (bool)touchToggle.GetComponent<Toggle>().isOn;
+        if (shootType)
+        {
+            PlayerPrefs.SetInt("Controls", 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Controls", 1);
+        }
         PlayerPrefs.Save();
     }
 }

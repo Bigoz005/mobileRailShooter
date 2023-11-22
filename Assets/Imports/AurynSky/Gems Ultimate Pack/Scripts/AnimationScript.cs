@@ -13,9 +13,7 @@ public class AnimationScript : MonoBehaviour {
     public float rotationSpeed;
 
     public float floatSpeed;
-    private bool goingUp = true;
     public float floatRate;
-    private float floatTimer;
    
     public Vector3 startScale;
     public Vector3 endScale;

@@ -149,7 +149,8 @@ public class Enemy : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 StopAllGnomeCoroutines();
-                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                gameObject.GetComponent<MeshRenderer>().enabled = true;
+                gameObject.transform.GetChild(6).gameObject.SetActive(false);
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.Move());
             }

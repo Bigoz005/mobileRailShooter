@@ -13,6 +13,7 @@ public class Shoot : MonoBehaviour
     string[] layerNames = { "RayCast", "Specials"};
     private float duration = 17.0f;
     private int points = 1000;
+    private int controlsScoreDividor = 5;
 
     private AudioSource audioSource;
     private AudioSource enemyAudioSource;
@@ -30,12 +31,15 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0));
-        /*crosshair = GameObject.FindGameObjectWithTag("Crosshair").transform;*/
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         m_EventSystem = GetComponent<EventSystem>();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
+        if (!(PlayerPrefs.GetInt("Controls") == 0))
+        {
+            controlsScoreDividor = 1;
+        }
     }
 
     public void ShootRay()
@@ -61,6 +65,7 @@ public class Shoot : MonoBehaviour
                 {
                     hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
                     hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
+                    hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
                 }
                 else
                 {
@@ -70,23 +75,24 @@ public class Shoot : MonoBehaviour
                     hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(false);
                     hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
                     hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+                    hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
                 }
                 enemyAudioSource.Stop();
-                Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
             }
 
             if (hit.collider.CompareTag("ScorePowerUp"))
             {
                 hit.collider.gameObject.SetActive(false);
                 audioSource.clip = bonusClip;
-                Camera.main.gameObject.GetComponent<Player>().AddScore(points);
+                Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
             }
 
             if (hit.collider.CompareTag("BonusHealth"))
             {
                 hit.collider.gameObject.SetActive(false);
                 audioSource.clip = healthClip;
-                Camera.main.gameObject.GetComponent<Player>().AddHealth(points);
+                Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
             }
 
 

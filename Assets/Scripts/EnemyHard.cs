@@ -104,7 +104,8 @@ public class EnemyHard : MonoBehaviour
             if (duration == 0)
             {
                 gameObject.SetActive(false);
-                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                gameObject.transform.GetChild(3).gameObject.SetActive(false);
+                gameObject.GetComponent<MeshRenderer>().enabled = true;
                 StopCoroutine(zoomController.ZoomOnEnemy());
                 StopCoroutine(zoomController.Move());
             }
