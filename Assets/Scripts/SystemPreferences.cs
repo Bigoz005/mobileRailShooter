@@ -8,9 +8,4 @@ public class SystemPreferences : MonoBehaviour
     bool isPaused = false;
 
     public bool IsPaused { get => isPaused; set => isPaused = value; }
-
-    void Awake()
-    {
-        Application.targetFrameRate = PlayerPrefs.GetInt("FPS", 0);
-    }
 }

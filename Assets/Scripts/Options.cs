@@ -109,8 +109,38 @@ public class Options : MonoBehaviour
                     Application.targetFrameRate = 120;
                     break;
                 }
+            default:
+                GetFPS();
+                break;
         }
         PlayerPrefs.Save();
+    }
+
+    public void GetFPS()
+    {
+        switch (PlayerPrefs.GetInt("FPS"))
+        {
+            case 0:
+                {
+                    Application.targetFrameRate = 30;
+                    break;
+                }
+            case 1:
+                {
+                    Application.targetFrameRate = 60;
+                    break;
+                }
+            case 2:
+                {
+                    Application.targetFrameRate = 90;
+                    break;
+                }
+            case 3:
+                {
+                    Application.targetFrameRate = 120;
+                    break;
+                }
+        }
     }
 
     public void SetMusic()
@@ -143,7 +173,7 @@ public class Options : MonoBehaviour
     }
 
     public void SetControls()
-    {        
+    {
         bool shootType = (bool)touchToggle.GetComponent<Toggle>().isOn;
         if (shootType)
         {

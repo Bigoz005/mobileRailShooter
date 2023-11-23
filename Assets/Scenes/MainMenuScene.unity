@@ -21375,7 +21375,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Touch \nShooting"
+  m_Text: 'Joystick
+
+    Shooting'
 --- !u!222 &1568697882
 CanvasRenderer:
   m_ObjectHideFlags: 0

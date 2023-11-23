@@ -16,6 +16,7 @@ public class MusicManager : MonoBehaviour
 
     public AudioClip MainMusic { get => mainMusic; set => mainMusic = value; }
     public AudioClip HardMusic { get => hardMusic; set => hardMusic = value; }
+    public AudioClip PowerUpMusic { get => powerUpMusic; set => powerUpMusic = value; }
 
     void Awake()
     {

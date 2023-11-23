@@ -45,7 +45,8 @@ public class GameOver : MonoBehaviour
     {
         Time.timeScale = 1;
         
-        if (musicManager.GetComponent<AudioSource>().clip.name.Equals("hardLevel") || musicManager.GetComponent<AudioSource>().clip.name.Equals("EpicNinjaWarrior"))
+
+        if (musicManager.GetComponent<AudioSource>().clip == musicManager.GetComponent<MusicManager>().HardMusic || musicManager.GetComponent<AudioSource>().clip == musicManager.GetComponent<MusicManager>().PowerUpMusic)
         {
             musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MainMusic;
             musicManager.GetComponent<AudioSource>().Play();
