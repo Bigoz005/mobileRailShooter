@@ -79,13 +79,11 @@ public class LaunchEnemies : MonoBehaviour
             if (activeEnemy.transform.name.Contains("Hard"))
             {
                 duration = 0.5f;
-                Debug.Log(duration);
             }
             else
             if (activeEnemy.transform.name.Contains("Medium"))
             {
                 duration = 1;
-                Debug.Log(duration);
             }
         }
 

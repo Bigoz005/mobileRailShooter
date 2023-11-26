@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class GameOver : MonoBehaviour
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
     private GameObject musicManager;
+
+    private AsyncOperation _asyncOperation;
 
     public void Awake()
     {
@@ -60,6 +63,32 @@ public class GameOver : MonoBehaviour
         enemyPlayer.GetComponent<AudioSource>().Stop();
 
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenuScene");
+
+        StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
+    }
+
+    private IEnumerator LoadSceneAsyncProcess(string sceneName)
+    {
+        // Begin to load the Scene you have specified.
+        this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
+        gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
+        // Don't let the Scene activate until you allow it to.
+        this._asyncOperation.allowSceneActivation = false;
+
+        while (!this._asyncOperation.isDone)
+        {
+            /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
+            
+            if (this._asyncOperation.progress >= 0.89)
+            {
+                gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
+                this._asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
     }
 }

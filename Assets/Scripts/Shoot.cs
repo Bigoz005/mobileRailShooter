@@ -14,6 +14,8 @@ public class Shoot : MonoBehaviour
     private float duration = 17.0f;
     private int points = 1000;
     private int controlsScoreDividor = 5;
+    private int tempPoints;
+    private bool powerUpEnabled = false;
 
     private AudioSource audioSource;
     private AudioSource enemyAudioSource;
@@ -32,11 +34,12 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        tempPoints = points;
         m_EventSystem = GetComponent<EventSystem>();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
-        if (!(PlayerPrefs.GetInt("Controls") == 0))
+        if ((PlayerPrefs.GetInt("Controls") == 1))
         {
             controlsScoreDividor = 1;
         }
@@ -101,7 +104,17 @@ public class Shoot : MonoBehaviour
                 hit.collider.gameObject.SetActive(false);
                 musicManager.playPowerUpMusic();
                 audioSource.clip = powerUpClip;
-                StartCoroutine(powerUpDuration());
+                points = tempPoints;
+                duration = 17.0f;
+                if (!powerUpEnabled) { 
+                    StartCoroutine(powerUpDuration());
+                }
+                else
+                {
+                    musicManager.powerUpOn = true;
+                    StopCoroutine(powerUpDuration());
+                    StartCoroutine(powerUpDuration());
+                }
             }
         }
         
@@ -111,21 +124,23 @@ public class Shoot : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        powerUpEnabled = true;
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 2);
         while (musicManager.powerUpOn)
         {
             if (duration <= 0)
             {
-                points = points * PlayerPrefs.GetInt("Difficulty", 0);
+                powerUpEnabled = false;
+                points = tempPoints * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
                 if(PlayerPrefs.GetInt("Difficulty", 0) == 2){
                     musicManager.playHardMusic();
                 }
                 else
-                {
+                {                   
                     musicManager.playMainMusic();
                 }
+                musicManager.powerUpOn = false;
             }
-
             Countdown();
             yield return new WaitForSeconds(1);
         }

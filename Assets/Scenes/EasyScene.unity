@@ -8,8 +8,9 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: c850ee8c3b14cc8459e7e186857cf567
+  m_OcclusionCullingData: {fileID: 36300000, guid: 970811e4a206e4047ac299fd0717e94f,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -11499,6 +11500,7 @@ MonoBehaviour:
   joystick: {fileID: 188024938}
   self: {fileID: 780150863}
   shootButton: {fileID: 582921993}
+  gameplayCanvas: {fileID: 1648810857}
 --- !u!114 &780150868
 MonoBehaviour:
   m_ObjectHideFlags: 0

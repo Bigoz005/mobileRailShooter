@@ -13,6 +13,8 @@ public class CrosshairMovement : MonoBehaviour
     GameObject self;
     [SerializeField]
     GameObject shootButton;
+    [SerializeField]
+    GameObject gameplayCanvas;
 
 
     private Camera cam;
@@ -22,6 +24,8 @@ public class CrosshairMovement : MonoBehaviour
     private MusicManager musicManager;
     string[] layerNames = { "RayCast", "Specials" };
     private int controlsScoreDividor = 5;
+    private int tempPoints;
+    private bool powerUpEnabled = false;
 
     private AudioClip shootClip;
     private AudioClip bonusClip;
@@ -30,7 +34,7 @@ public class CrosshairMovement : MonoBehaviour
 
     private float duration = 17.0f;
     private int points = 1000;
-    private bool touchControlDisabled;
+    private bool touchControlEnabled;
 
     private void Start()
     {
@@ -42,13 +46,12 @@ public class CrosshairMovement : MonoBehaviour
         bonusClip = transform.GetComponent<Shoot>().bonusClip;
         healthClip = transform.GetComponent<Shoot>().healthClip;
         powerUpClip = transform.GetComponent<Shoot>().powerUpClip;
-
-
-        Debug.Log(PlayerPrefs.GetInt("Controls"));
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        tempPoints = points;
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
-            touchControlDisabled = true;
+            touchControlEnabled = true;
             controlsScoreDividor = 1;
             joystick.transform.parent.parent.gameObject.SetActive(false);
             shootButton.SetActive(false);
@@ -56,7 +59,7 @@ public class CrosshairMovement : MonoBehaviour
         }
         else
         {
-            touchControlDisabled = false;
+            touchControlEnabled = false;
             joystick.transform.parent.gameObject.SetActive(true);
             shootButton.SetActive(true);
             self.GetComponent<Image>().enabled = true;
@@ -65,8 +68,8 @@ public class CrosshairMovement : MonoBehaviour
 
     void Update()
     {
-        if (!touchControlDisabled)
-        {            
+        if (!touchControlEnabled)
+        {
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
             {
                 previousPosition = joystick.transform.localPosition;
@@ -74,15 +77,14 @@ public class CrosshairMovement : MonoBehaviour
             }
         }
         else
-        {            
+        {
             if (Input.touchCount > 0)
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    audioSource.clip = shootClip;
-                    audioSource.Play();
+                    
 
-                    Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);       
+                    Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                     checkShoot(ray);
 
                     if (Physics.Raycast(ray))
@@ -97,68 +99,83 @@ public class CrosshairMovement : MonoBehaviour
     private void checkShoot(Ray ray)
     {
         RaycastHit hit;
-
-        if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
+        if (gameplayCanvas.activeSelf)
         {
-            if (hit.collider.CompareTag("Enemy"))
+            audioSource.clip = shootClip;
+            if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
             {
-                hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
-                if (hit.collider.name.Contains("Hard"))
+                if (hit.collider.CompareTag("Enemy"))
                 {
-                    hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
-                    hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
-                    hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    if (hit.collider.name.Contains("Hard"))
+                    {
+                        hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
+                        hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
+                        hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        hit.collider.gameObject.GetComponent<Enemy>().ResetAimlockAndCircles();
+                        hit.collider.gameObject.GetComponent<Enemy>().StopAllGnomeCoroutines();
+                        hit.collider.gameObject.GetComponent<Enemy>().enabled = false;
+                        hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+                        hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
+                        hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+                        hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
+                    }
+                    enemyAudioSource.Stop();
+                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
                 }
-                else
+
+                if (hit.collider.CompareTag("ScorePowerUp"))
                 {
-                    hit.collider.gameObject.GetComponent<Enemy>().ResetAimlockAndCircles();
-                    hit.collider.gameObject.GetComponent<Enemy>().StopAllGnomeCoroutines();
-                    hit.collider.gameObject.GetComponent<Enemy>().enabled = false;
-                    hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(false);
-                    hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
-                    hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
-                    hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
+                    hit.collider.gameObject.SetActive(false);
+                    audioSource.clip = bonusClip;
+                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                 }
-                enemyAudioSource.Stop();
-                Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
-            }
 
-            if (hit.collider.CompareTag("ScorePowerUp"))
-            {
-                hit.collider.gameObject.SetActive(false);
-                audioSource.clip = bonusClip;
-                Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
-            }
-
-            if (hit.collider.CompareTag("BonusHealth"))
-            {
-                hit.collider.gameObject.SetActive(false);
-                audioSource.clip = healthClip;
-                Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
-            }
+                if (hit.collider.CompareTag("BonusHealth"))
+                {
+                    hit.collider.gameObject.SetActive(false);
+                    audioSource.clip = healthClip;
+                    Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
+                }
 
 
-            if (hit.collider.CompareTag("PowerUp"))
-            {
-                hit.collider.gameObject.SetActive(false);
-                musicManager.playPowerUpMusic();
-                audioSource.clip = powerUpClip;
-                StartCoroutine(powerUpDuration());
+                if (hit.collider.CompareTag("PowerUp"))
+                {
+                    hit.collider.gameObject.SetActive(false);
+                    musicManager.playPowerUpMusic();
+                    audioSource.clip = powerUpClip;
+                    points = tempPoints;
+                    duration = 17.0f;
+                    if (!powerUpEnabled)
+                    {
+                        StartCoroutine(powerUpDuration());
+                    }
+                    else
+                    {
+                        musicManager.powerUpOn = true;
+                        StopCoroutine(powerUpDuration());
+                        StartCoroutine(powerUpDuration());
+                    }
+                }
             }
-        }
-        if(audioSource.clip != shootClip) { 
+
             audioSource.Play();
         }
     }
 
     private IEnumerator powerUpDuration()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        powerUpEnabled = true;
+        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 2);
         while (musicManager.powerUpOn)
         {
             if (duration <= 0)
             {
-                points = points * PlayerPrefs.GetInt("Difficulty", 0);
+                powerUpEnabled = false;
+                points = tempPoints * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
                 if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
                 {
                     musicManager.playHardMusic();
@@ -167,8 +184,8 @@ public class CrosshairMovement : MonoBehaviour
                 {
                     musicManager.playMainMusic();
                 }
+                musicManager.powerUpOn = false;
             }
-
             Countdown();
             yield return new WaitForSeconds(1);
         }

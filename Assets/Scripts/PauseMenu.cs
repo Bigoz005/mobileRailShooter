@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
 
+    private AsyncOperation _asyncOperation;
     public void Awake()
     {
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
@@ -62,6 +64,33 @@ public class PauseMenu : MonoBehaviour
             musicManager.GetComponent<AudioSource>().UnPause();
         }
         Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
-        SceneManager.LoadScene("MainMenuScene");
+        StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
+    }
+
+    private IEnumerator LoadSceneAsyncProcess(string sceneName)
+    {
+        // Begin to load the Scene you have specified.
+        this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = false;
+        pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
+        pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
+        // Don't let the Scene activate until you allow it to.
+        this._asyncOperation.allowSceneActivation = false;
+
+        while (!this._asyncOperation.isDone)
+        {
+            /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
+
+            if (this._asyncOperation.progress >= 0.89)
+            {
+                pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
+                pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
+                this._asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
     }
 }

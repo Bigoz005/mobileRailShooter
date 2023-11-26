@@ -55,6 +55,7 @@ public class Options : MonoBehaviour
                 touchToggle.GetComponent<Toggle>().isOn = false;
             }
         }
+        GetFPS();
     }
 
     public void ShowMenu()

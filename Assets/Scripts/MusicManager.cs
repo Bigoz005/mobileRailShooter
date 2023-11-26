@@ -42,13 +42,11 @@ public class MusicManager : MonoBehaviour
     {
         this.GetComponent<AudioSource>().clip = hardMusic;
         this.GetComponent<AudioSource>().Play();
-        powerUpOn = false;
     }
 
     public void playPowerUpMusic()
     {
         this.GetComponent<AudioSource>().clip = powerUpMusic;
         this.GetComponent<AudioSource>().Play();
-        powerUpOn = true;
     }
 }

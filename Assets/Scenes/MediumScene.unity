@@ -5,11 +5,12 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
-    smallestHole: 0.25
-    backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+    smallestOccluder: 7.51
+    smallestHole: 10.18
+    backfaceThreshold: 10.1
+  m_SceneGUID: f7d9659243271ae48acc6fcbdcb02899
+  m_OcclusionCullingData: {fileID: 36300000, guid: e261f3a5ae5b4234885dc474589c3b20,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -16804,7 +16805,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9157205, z: -0, w: 0.40181577}
+  m_LocalRotation: {x: -0, y: -0.9851966, z: -0, w: 0.17142832}
   m_LocalPosition: {x: 124.879, y: 7.9, z: 41.184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16812,7 +16813,7 @@ Transform:
   - {fileID: 1078004789}
   - {fileID: 1635871333}
   m_Father: {fileID: 803828204}
-  m_LocalEulerAnglesHint: {x: 0, y: -132.617, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -160.258, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24522,6 +24523,7 @@ MonoBehaviour:
   joystick: {fileID: 188024938}
   self: {fileID: 1516483337}
   shootButton: {fileID: 582921993}
+  gameplayCanvas: {fileID: 1648810857}
 --- !u!114 &1516483342
 MonoBehaviour:
   m_ObjectHideFlags: 0
