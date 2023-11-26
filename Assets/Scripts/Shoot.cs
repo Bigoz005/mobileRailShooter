@@ -39,7 +39,7 @@ public class Shoot : MonoBehaviour
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
-        if ((PlayerPrefs.GetInt("Controls") == 1))
+        if (!(PlayerPrefs.GetInt("Controls") == 1))
         {
             controlsScoreDividor = 1;
         }

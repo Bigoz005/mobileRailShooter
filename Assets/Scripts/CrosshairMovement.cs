@@ -52,7 +52,6 @@ public class CrosshairMovement : MonoBehaviour
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
             touchControlEnabled = true;
-            controlsScoreDividor = 1;
             joystick.transform.parent.parent.gameObject.SetActive(false);
             shootButton.SetActive(false);
             self.GetComponent<Image>().enabled = false;
@@ -60,6 +59,7 @@ public class CrosshairMovement : MonoBehaviour
         else
         {
             touchControlEnabled = false;
+            controlsScoreDividor = 1;
             joystick.transform.parent.gameObject.SetActive(true);
             shootButton.SetActive(true);
             self.GetComponent<Image>().enabled = true;
