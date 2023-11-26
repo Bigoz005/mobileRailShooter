@@ -48,6 +48,7 @@ public class LaunchEnemies : MonoBehaviour
         }
 
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
+        activeEnemy.tag = "Enemy";
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
         

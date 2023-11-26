@@ -25,7 +25,8 @@ public class CrosshairMovement : MonoBehaviour
     string[] layerNames = { "RayCast", "Specials" };
     private int controlsScoreDividor = 5;
     private int tempPoints;
-    private bool powerUpEnabled = false;
+    private float previousTime;
+    private float actualTime;
 
     private AudioClip shootClip;
     private AudioClip bonusClip;
@@ -48,6 +49,8 @@ public class CrosshairMovement : MonoBehaviour
         powerUpClip = transform.GetComponent<Shoot>().powerUpClip;
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         tempPoints = points;
+        previousTime = Time.deltaTime;
+        actualTime = previousTime;
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
@@ -68,6 +71,7 @@ public class CrosshairMovement : MonoBehaviour
 
     void Update()
     {
+        actualTime = actualTime + Time.deltaTime;
         if (!touchControlEnabled)
         {
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
@@ -82,13 +86,11 @@ public class CrosshairMovement : MonoBehaviour
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    
-
                     Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                     checkShoot(ray);
 
                     if (Physics.Raycast(ray))
-                        Debug.DrawLine(cam.transform.position, ray.direction * 10000000, Color.red, 20);
+                        Debug.DrawLine(cam.transform.position, ray.direction * 10000000000, Color.red, 20);
 
                 }
 
@@ -99,8 +101,10 @@ public class CrosshairMovement : MonoBehaviour
     private void checkShoot(Ray ray)
     {
         RaycastHit hit;
-        if (gameplayCanvas.activeSelf)
+
+        if (gameplayCanvas.activeSelf && (actualTime - previousTime) > 0.2f)
         {
+            previousTime = actualTime;
             audioSource.clip = shootClip;
             if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
             {
@@ -112,6 +116,7 @@ public class CrosshairMovement : MonoBehaviour
                         hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
                         hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
                         hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+                        hit.collider.gameObject.tag = "Untagged";
                     }
                     else
                     {
@@ -122,6 +127,7 @@ public class CrosshairMovement : MonoBehaviour
                         hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
                         hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
                         hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
+                        hit.collider.gameObject.tag = "Untagged";
                     }
                     enemyAudioSource.Stop();
                     Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
@@ -149,13 +155,12 @@ public class CrosshairMovement : MonoBehaviour
                     audioSource.clip = powerUpClip;
                     points = tempPoints;
                     duration = 17.0f;
-                    if (!powerUpEnabled)
+                    if (!musicManager.powerUpOn)
                     {
                         StartCoroutine(powerUpDuration());
                     }
                     else
                     {
-                        musicManager.powerUpOn = true;
                         StopCoroutine(powerUpDuration());
                         StartCoroutine(powerUpDuration());
                     }
@@ -168,13 +173,12 @@ public class CrosshairMovement : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
-        powerUpEnabled = true;
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 2);
+        musicManager.powerUpOn = true;
         while (musicManager.powerUpOn)
         {
             if (duration <= 0)
             {
-                powerUpEnabled = false;
                 points = tempPoints * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
                 if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
                 {

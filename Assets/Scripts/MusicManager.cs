@@ -48,5 +48,6 @@ public class MusicManager : MonoBehaviour
     {
         this.GetComponent<AudioSource>().clip = powerUpMusic;
         this.GetComponent<AudioSource>().Play();
+        powerUpOn = true;
     }
 }
