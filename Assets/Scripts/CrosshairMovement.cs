@@ -135,14 +135,34 @@ public class CrosshairMovement : MonoBehaviour
 
                 if (hit.collider.CompareTag("ScorePowerUp"))
                 {
-                    hit.collider.gameObject.SetActive(false);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    ParticleSystem particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                    if (particle.isPlaying)
+                    {
+                        particle.Stop();
+                    }
+                    particle.Play();
+
+                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                    /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
+
                     audioSource.clip = bonusClip;
                     Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                 }
 
                 if (hit.collider.CompareTag("BonusHealth"))
                 {
-                    hit.collider.gameObject.SetActive(false);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    ParticleSystem particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                    if (particle.isPlaying)
+                    {
+                        particle.Stop();
+                    }
+                    particle.Play();
+
+                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                    /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
+
                     audioSource.clip = healthClip;
                     Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
                 }
@@ -150,7 +170,17 @@ public class CrosshairMovement : MonoBehaviour
 
                 if (hit.collider.CompareTag("PowerUp"))
                 {
-                    hit.collider.gameObject.SetActive(false);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    ParticleSystem particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                    if (particle.isPlaying)
+                    {
+                        particle.Stop();
+                    }
+                    particle.Play();
+
+                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                   /* StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
+
                     musicManager.playPowerUpMusic();
                     audioSource.clip = powerUpClip;
                     points = tempPoints;
@@ -170,6 +200,17 @@ public class CrosshairMovement : MonoBehaviour
             audioSource.Play();
         }
     }
+
+    /*private IEnumerator effectDuration(GameObject effect)
+    {
+        int i = 0;
+        while (i < 2)
+        {
+            i++;
+            yield return new WaitForSeconds(1);
+        }
+        effect.SetActive(false);
+    }*/
 
     private IEnumerator powerUpDuration()
     {

@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
 
+
         if (aimlock.activeInHierarchy == false)
             aimlock.SetActive(true);
         if (aimCircle1.activeInHierarchy == false)
@@ -69,6 +70,7 @@ public class Enemy : MonoBehaviour
         aimlock.SetActive(true);
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
+
         zoomController = Camera.main.GetComponent<Zooming>();
         zoomController.SetEnemy(this.gameObject);
         time = 0;
@@ -102,6 +104,7 @@ public class Enemy : MonoBehaviour
         }
 
         index = specialIndex;
+        specialElements[index].gameObject.GetComponent<MeshRenderer>().enabled = true;
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
@@ -238,6 +241,7 @@ public class Enemy : MonoBehaviour
             if (aimCircle2 != null)
             {
                 aimCircle2.transform.localScale -= (scaleChange * 160 * timeFactor / 30f);
+                
                 if (aimCircle2.transform.localScale.x <= 0)
                 {
                     aimCircle2.SetActive(false);
