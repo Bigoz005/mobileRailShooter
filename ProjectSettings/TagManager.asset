@@ -21,6 +21,7 @@ TagManager:
   - Canvas_GameOver
   - EnemyPlayer
   - HighScore
+  - ZoomController
   layers:
   - Default
   - TransparentFX

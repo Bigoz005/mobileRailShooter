@@ -71,8 +71,9 @@ public class Enemy : MonoBehaviour
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
 
-        zoomController = Camera.main.GetComponent<Zooming>();
-        zoomController.SetEnemy(this.gameObject);
+        zoomController = GameObject.FindGameObjectWithTag("ZoomController").GetComponent<Zooming>();
+        GameObject objectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
+      
         time = 0;
 
         audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
@@ -107,7 +108,8 @@ public class Enemy : MonoBehaviour
         specialElements[index].gameObject.GetComponent<MeshRenderer>().enabled = true;
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
-
+        
+        zoomController.SetVariables(Camera.main, objectToWatch, this.gameObject, Camera.main.transform.GetChild(1).GetComponent<Camera>());
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
@@ -132,6 +134,8 @@ public class Enemy : MonoBehaviour
         }
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         ResetAimlockAndCircles();
+        StartCoroutine(zoomController.MoveBack());
+        StartCoroutine(zoomController.ZoomOutEnemy());
         StartCoroutine(CountdownToExtinction());
     }
 
@@ -154,12 +158,11 @@ public class Enemy : MonoBehaviour
                 StopAllGnomeCoroutines();
                 gameObject.GetComponent<MeshRenderer>().enabled = true;
                 gameObject.transform.GetChild(6).gameObject.SetActive(false);
-                StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());
             }
             Countdown();
             yield return new WaitForSeconds(1);
         }
+        yield return null;
     }
 
     private IEnumerator CountdownToAttack()
@@ -175,13 +178,12 @@ public class Enemy : MonoBehaviour
             if (time == TIME_TO_ATTACK)
             {
                 Attack();
-                StopCoroutine(CountdownToAttack());
             }
 
             TimeCount();
             yield return new WaitForSeconds(1);
         }
-
+        yield return null;
     }
 
     public void ResetAimlockAndCircles()
@@ -265,6 +267,7 @@ public class Enemy : MonoBehaviour
 
             yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
+        yield return null;
     }
     private IEnumerator Shaking()
     {
@@ -278,6 +281,7 @@ public class Enemy : MonoBehaviour
         }
 
         transform.position = startPostition;
+        yield return null;
     }
 
     private void Countdown()

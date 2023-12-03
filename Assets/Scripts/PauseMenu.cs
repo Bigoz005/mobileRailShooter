@@ -89,8 +89,9 @@ public class PauseMenu : MonoBehaviour
                 pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
-
             yield return null;
         }
+
+        yield return null;
     }
 }

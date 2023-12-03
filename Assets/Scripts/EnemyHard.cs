@@ -45,8 +45,8 @@ public class EnemyHard : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().enabled = true;
 
         transform.LookAt(Camera.main.transform);
-        zoomController = Camera.main.GetComponent<Zooming>();
-        zoomController.SetEnemy(this.gameObject);
+        zoomController = GameObject.FindGameObjectWithTag("ZoomController").GetComponent<Zooming>();
+        GameObject objectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
         time = 0;
 
         audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
@@ -72,6 +72,8 @@ public class EnemyHard : MonoBehaviour
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
+        zoomController.SetVariables(Camera.main, objectToWatch, this.gameObject, Camera.main.transform.GetChild(1).GetComponent<Camera>());
+
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
         StartCoroutine(CountdownToAttack());
@@ -92,6 +94,9 @@ public class EnemyHard : MonoBehaviour
             explosion.SetActive(true);
         }
         gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        StartCoroutine(zoomController.MoveBack());
+        StartCoroutine(zoomController.ZoomOutEnemy());
         StartCoroutine(CountdownToExtinction());
     }
 
@@ -106,12 +111,11 @@ public class EnemyHard : MonoBehaviour
                 gameObject.SetActive(false);
                 gameObject.transform.GetChild(3).gameObject.SetActive(false);
                 gameObject.GetComponent<MeshRenderer>().enabled = true;
-                StopCoroutine(zoomController.ZoomOnEnemy());
-                StopCoroutine(zoomController.Move());
             }
             Countdown();
             yield return new WaitForSeconds(1);
         }
+        yield return null;
     }
 
     private IEnumerator CountdownToAttack()
@@ -132,6 +136,7 @@ public class EnemyHard : MonoBehaviour
             TimeCount();
             yield return new WaitForSeconds(1);
         }
+        yield return null;
     }
 
     private IEnumerator Shaking()
@@ -147,6 +152,7 @@ public class EnemyHard : MonoBehaviour
         }
 
         transform.position = startPostition;
+        yield return null;
     }
 
     private void Countdown()
@@ -185,6 +191,7 @@ public class EnemyHard : MonoBehaviour
         }
 
         Camera.main.transform.localPosition = originalPos;
+        yield return null;
     }
 
     private void ResetSpecialItem()

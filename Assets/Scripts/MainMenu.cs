@@ -84,8 +84,9 @@ public class MainMenu : MonoBehaviour
                 mainMenuCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
-
             yield return null;
         }
+
+        yield return null;
     }
 }

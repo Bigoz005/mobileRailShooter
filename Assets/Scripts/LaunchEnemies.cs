@@ -67,10 +67,12 @@ public class LaunchEnemies : MonoBehaviour
 
         while (activeEnemy.activeInHierarchy)
         {
+            //do nothing while active then start countdown to activate
             yield return null;
         }
 
         activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
+        yield return null;
     }
 
     public IEnumerator CountdownToActivate()
@@ -104,6 +106,8 @@ public class LaunchEnemies : MonoBehaviour
             isCounting = false;
             StartCoroutine(ActivateRandomEnemy());
         }
+
+        yield return null;
     }
 
     private void Countdown()

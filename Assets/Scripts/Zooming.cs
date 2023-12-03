@@ -7,7 +7,7 @@ public class Zooming : MonoBehaviour
     private float zoom;
     private float zoomMultiplier = 20.0f;
     private float minFieldOfView = 35.0f;
-    private float maxFieldOfView = 65.0f;
+    private float maxFieldOfView = 55.0f;
     private float velocity = 0f;
     private float smoothTime = 0.25f;
     private GameObject enemy;
@@ -15,15 +15,25 @@ public class Zooming : MonoBehaviour
     private float time;
     private float time_to_attack;
     private GameObject gameobjectToWatch;
+    private Camera circleCam = null;
 
-    [SerializeField]
-    private Camera circleCam;
+    private bool runningZoom = false;
+    private bool runningMove = false;
 
-    void Start()
+
+    private static Zooming zoomingManagerInstance;
+
+    void Awake()
     {
-        cam = Camera.main;
-        zoom = cam.fieldOfView;
-        gameobjectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
+        if (zoomingManagerInstance == null)
+        {
+            zoomingManagerInstance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (zoomingManagerInstance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public IEnumerator ZoomOnEnemy()
@@ -41,91 +51,126 @@ public class Zooming : MonoBehaviour
             time_to_attack = enemy.GetComponent<EnemyHard>()._TIME_TO_ATTACK;
         }
 
-        Vector3 dir = enemy.transform.position - Camera.main.transform.position;
-        Ray ray = new Ray(Camera.main.transform.position, dir);
+        Vector3 dir = enemy.transform.position - cam.transform.position;
         RaycastHit hit;
 
-        if (Physics.Raycast(Camera.main.transform.position, dir, out hit, 10000))
+        if (Physics.Raycast(cam.transform.position, dir, out hit, 10000))
         {
+            Debug.Log("Before ray:" + minFieldOfView);
+            Debug.Log(Mathf.Log(hit.distance * 3.0f, 1.2f));
+
             minFieldOfView = minFieldOfView - Mathf.Log(hit.distance * 3.0f, 1.2f);
             if (minFieldOfView < 6)
             {
                 minFieldOfView = 6;
             }
 
+            Debug.Log("After ray:" + minFieldOfView);
         }
 
-        while (time <= time_to_attack)
+        while (true)
         {
+
             zoom -= 5 * zoomMultiplier;
             zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
 
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
+            if (Mathf.Abs(cam.fieldOfView - minFieldOfView) < 0.1 || runningZoom)
+            {
+                break;
+            }
+
             yield return null;
         }
-    }
-
-    public IEnumerator ZoomOutEnemy()
-    {
-        StopCoroutine(ZoomOnEnemy());
-        while (time <= time_to_attack)
-        {
-            zoom += 30 * zoomMultiplier;
-            zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
-
-            cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
-            circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
-            yield return null;
-        }
+        Debug.Log("Zoom Finish");
+        yield return null;
     }
 
     public IEnumerator Move()
     {
-        StopCoroutine(MoveBack());
         GameObject targetGameObject;
 
         float rand = Random.Range(-1f, 1f);
 
         if (rand > 0)
         {
-            targetGameObject = enemy.transform.Find("Right").gameObject;
+            if (enemy.transform.GetChild(4).CompareTag("RightBox"))
+            {
+                targetGameObject = enemy.transform.GetChild(4).gameObject;
+            }
+            else
+            {
+                targetGameObject = enemy.transform.GetChild(2).gameObject;
+            }
+
         }
         else
         {
-            targetGameObject = enemy.transform.Find("Left").gameObject;
+            if (enemy.transform.GetChild(5).CompareTag("LeftBox"))
+            {
+                targetGameObject = enemy.transform.GetChild(5).gameObject;
+            }
+            else
+            {
+                targetGameObject = enemy.transform.GetChild(1).gameObject;
+            }
         }
 
-        while (time <= time_to_attack)
+        Quaternion targetRotation = Quaternion.LookRotation(targetGameObject.transform.position - cam.transform.position);
+
+        while (true)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetGameObject.transform.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3.0f * Time.deltaTime);
+            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 4.0f * Time.deltaTime);
+            if ((Mathf.Abs(targetRotation.eulerAngles.x - cam.transform.rotation.eulerAngles.x) < 1 && Mathf.Abs(targetRotation.eulerAngles.y - cam.transform.rotation.eulerAngles.y) < 1 && Mathf.Abs(targetRotation.eulerAngles.z - cam.transform.rotation.eulerAngles.z) < 1) || runningMove)
+            {
+                break;
+            }
             yield return null;
         }
-
+        Debug.Log("Move Finish");
         yield return null;
     }
 
     public IEnumerator MoveBack()
     {
-        StopCoroutine(Move());
-        bool rotated = false;
-        while (time <= time_to_attack)
+        Quaternion targetRotation = Quaternion.LookRotation(gameobjectToWatch.transform.position - cam.transform.position);
+
+        while (true)
         {
-            //check if zoomed out -> stop coroutine of zoomingOut then change transform.LookAt to default 
-            Quaternion targetRotation = Quaternion.LookRotation(gameobjectToWatch.transform.position - transform.position);
-            if (transform.rotation != targetRotation && !rotated)
+            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 2.5f * Time.deltaTime);
+            if ((Mathf.Abs(targetRotation.eulerAngles.x - cam.transform.rotation.eulerAngles.x) < 1 && Mathf.Abs(targetRotation.eulerAngles.y - cam.transform.rotation.eulerAngles.y) < 1 && Mathf.Abs(targetRotation.eulerAngles.z - cam.transform.rotation.eulerAngles.z) < 1))
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 6.0f * Time.deltaTime);
+                break;
             }
-            else
-            {
-                rotated = true;
-                StopCoroutine(MoveBack());
-            }
-            
+
             yield return null;
         }
+        Debug.Log("MoveBack Finish");
+        yield return null;
+    }
+
+    public IEnumerator ZoomOutEnemy()
+    {
+        while (true)
+        {
+            zoom += 30 * zoomMultiplier;
+            zoom = Mathf.Clamp(zoom, minFieldOfView, maxFieldOfView);
+
+            cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
+            circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
+
+            /*Debug.Log(Mathf.Abs(cam.fieldOfView - maxFieldOfView));*/
+
+            if (Mathf.Abs(cam.fieldOfView - maxFieldOfView) < 1)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+        Debug.Log("ZoomOut Finish");
+        yield return null;
     }
 
     public GameObject GetEnemy()
@@ -136,6 +181,20 @@ public class Zooming : MonoBehaviour
     public void SetEnemy(GameObject enemyToAssign)
     {
         enemy = enemyToAssign;
+    }
+
+    public void SetCircleCam(Camera camToAssign)
+    {
+        circleCam = camToAssign;
+    }
+
+    public void SetVariables(Camera camera, GameObject gameObjectToWatch, GameObject enemy, Camera camToAssign)
+    {
+        SetEnemy(enemy);
+        SetCircleCam(camToAssign);
+        cam = camera;
+        zoom = cam.fieldOfView;
+        gameobjectToWatch = gameObjectToWatch;
     }
 
     private void TimeCount()

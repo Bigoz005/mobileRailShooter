@@ -106,7 +106,7 @@ public class Shoot : MonoBehaviour
                     }
                     particle.Play();
 
-                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
                     /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
 
                     audioSource.clip = bonusClip;
@@ -124,7 +124,7 @@ public class Shoot : MonoBehaviour
                     }
                     particle.Play();
 
-                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
                     /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
 
                     audioSource.clip = healthClip;
@@ -143,7 +143,7 @@ public class Shoot : MonoBehaviour
                     }
                     particle.Play();
 
-                    Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);
+                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
                     /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
 
                     musicManager.playPowerUpMusic();
@@ -199,6 +199,7 @@ public class Shoot : MonoBehaviour
             Countdown();
             yield return new WaitForSeconds(1);
         }
+        yield return null;
     }
 
     private void Countdown()

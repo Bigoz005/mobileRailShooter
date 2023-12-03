@@ -87,8 +87,8 @@ public class GameOver : MonoBehaviour
                 gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
-
             yield return null;
         }
+        yield return null;
     }
 }
