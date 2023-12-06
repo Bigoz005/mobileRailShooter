@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject gameOverCanvas;
 
+    private int points = 1000;
     private int score;
     private int highScore;
     private int health;
@@ -38,6 +39,15 @@ public class Player : MonoBehaviour
 
     const string SCORETEXT = "Score: ";
 
+    public int GetPoints()
+    {
+        return points;
+    }
+
+    public void SetPoints(float pointsToAssign)
+    {
+        points = (int)pointsToAssign;
+    }
     public int GetHealth()
     {
         return health;

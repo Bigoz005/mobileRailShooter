@@ -24,7 +24,6 @@ public class CrosshairMovement : MonoBehaviour
     private MusicManager musicManager;
     string[] layerNames = { "RayCast", "Specials" };
     private int controlsScoreDividor = 5;
-    private int tempPoints;
     private float previousTime;
     private float actualTime;
 
@@ -34,7 +33,7 @@ public class CrosshairMovement : MonoBehaviour
     private AudioClip powerUpClip;
 
     private float duration = 17.0f;
-    private int points = 1000;
+    private int points;
     private bool touchControlEnabled;
 
     private void Start()
@@ -47,8 +46,8 @@ public class CrosshairMovement : MonoBehaviour
         bonusClip = transform.GetComponent<Shoot>().bonusClip;
         healthClip = transform.GetComponent<Shoot>().healthClip;
         powerUpClip = transform.GetComponent<Shoot>().powerUpClip;
+        points = Camera.main.GetComponent<Player>().GetPoints();
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
-        tempPoints = points;
         previousTime = Time.deltaTime;
         actualTime = previousTime;
 
@@ -101,6 +100,12 @@ public class CrosshairMovement : MonoBehaviour
     private void checkShoot(Ray ray)
     {
         RaycastHit hit;
+        
+        if (!musicManager.powerUpOn)
+        {
+            points = Camera.main.GetComponent<Player>().GetPoints();
+            points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+        }
 
         if (gameplayCanvas.activeSelf && (actualTime - previousTime) > 0.2f)
         {
@@ -130,7 +135,14 @@ public class CrosshairMovement : MonoBehaviour
                         hit.collider.gameObject.tag = "Untagged";
                     }
                     enemyAudioSource.Stop();
-                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    
+                    if (musicManager.powerUpOn) { 
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(2*(points / 10 / controlsScoreDividor));
+                    }
+                    else
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    }
                 }
 
                 if (hit.collider.CompareTag("ScorePowerUp"))
@@ -158,7 +170,7 @@ public class CrosshairMovement : MonoBehaviour
                     particle.Play();
 
                     audioSource.clip = healthClip;
-                    Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
+                    Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor);
                 }
 
 
@@ -174,7 +186,6 @@ public class CrosshairMovement : MonoBehaviour
 
                     musicManager.playPowerUpMusic();
                     audioSource.clip = powerUpClip;
-                    points = tempPoints;
                     duration = 17.0f;
                     if (!musicManager.powerUpOn)
                     {
@@ -194,13 +205,11 @@ public class CrosshairMovement : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 2);
         musicManager.powerUpOn = true;
         while (musicManager.powerUpOn)
         {
             if (duration <= 0)
             {
-                points = tempPoints * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
                 if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
                 {
                     musicManager.playHardMusic();

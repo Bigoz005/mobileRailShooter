@@ -7,7 +7,9 @@ public class LaunchEnemies : MonoBehaviour
     private int previousIndex;
     private int index;
     private float duration = 2f;
+    private float timeToActivate = 4f;
     private bool isCounting = false;
+    private int points;
     private GameObject activeEnemy;
     public Coroutine activeCoroutineActivated;
     public Coroutine activeCoroutineCountdown;
@@ -15,6 +17,7 @@ public class LaunchEnemies : MonoBehaviour
     private void Start()
     {
         previousIndex = -1;
+        points = Camera.main.GetComponent<Player>().GetPoints();
         activeCoroutineActivated = StartCoroutine(CountdownToActivate());
         if(PlayerPrefs.GetInt("Difficulty", 0) == 2)
         {
@@ -41,6 +44,8 @@ public class LaunchEnemies : MonoBehaviour
         }
         previousIndex = index;
         duration = 2;
+
+        
 
         if (isCounting)
         {
@@ -77,31 +82,84 @@ public class LaunchEnemies : MonoBehaviour
 
     public IEnumerator CountdownToActivate()
     {
+        duration = 0.7f;
         if (activeEnemy)
         {
             if (activeEnemy.transform.name.Contains("Hard"))
             {
-                duration = 0.5f;
+                duration = 0.4f;
             }
             else
             if (activeEnemy.transform.name.Contains("Medium"))
             {
-                duration = 1;
+                duration = 0.55f;
             }
         }
+
+        int score = Camera.main.GetComponent<Player>().GetScore();
+        float multiplier = 1f;
+        switch (score)
+        {
+            case >1250 and <2500:
+                multiplier = 0.9f;
+                break;
+            case >2500 and <5000:
+                multiplier = 0.8f;
+                break;
+            case >5000 and < 10000:
+                multiplier = 0.75f;
+                break;
+            case > 10000 and < 20000:
+                multiplier = 0.7f;
+                break;
+            case > 20000 and < 30000:
+                multiplier = 0.65f;
+                break;
+            case > 30000 and < 41000:
+                multiplier = 0.6f;
+                break;
+            case > 41000 and < 53000:
+                multiplier = 0.5f;
+                break;
+            case > 53000 and < 67000:
+                multiplier = 0.47f;
+                break;
+            case > 67000 and < 85000:
+                multiplier = 0.44f;
+                break;
+            case > 85000 and < 128000:
+                multiplier = 0.4f;
+                break;
+            case > 128000 and < 150000:
+                multiplier = 0.35f;
+                break;
+            case > 150000 and < 200000:
+                multiplier = 0.3f;
+                break;
+            case > 200000 and < 250000:
+                multiplier = 0.2f;
+                break;
+            case > 250000 and < 350000:
+                multiplier = 0.15f;
+                break;
+            case > 350000:
+                multiplier = 0.1f;
+                break;
+        }
+        Camera.main.GetComponent<Player>().SetPoints(points * 2 * (2 - multiplier));
 
         isCounting = true;
         if (activeCoroutineActivated != null)
         {
             StopCoroutine(activeCoroutineActivated);
         }
-        while (duration > 0)
+        while (timeToActivate > 0)
         {
             Countdown();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(multiplier*duration);
         }
 
-        if (duration == 0)
+        if (timeToActivate <= 0)
         {
             isCounting = false;
             StartCoroutine(ActivateRandomEnemy());
@@ -112,6 +170,6 @@ public class LaunchEnemies : MonoBehaviour
 
     private void Countdown()
     {
-        duration -= 0.5f;
+        timeToActivate -= 1f;
     }
 }

@@ -54,18 +54,20 @@ public class Zooming : MonoBehaviour
         Vector3 dir = enemy.transform.position - cam.transform.position;
         RaycastHit hit;
 
+        Debug.DrawRay(cam.transform.position, dir, Color.yellow, 1000);
+
         if (Physics.Raycast(cam.transform.position, dir, out hit, 10000))
         {
-            Debug.Log("Before ray:" + minFieldOfView);
-            Debug.Log(Mathf.Log(hit.distance * 3.0f, 1.2f));
-
             minFieldOfView = minFieldOfView - Mathf.Log(hit.distance * 3.0f, 1.2f);
             if (minFieldOfView < 6)
             {
                 minFieldOfView = 6;
             }
-
-            Debug.Log("After ray:" + minFieldOfView);
+        }
+        else
+        {
+            Debug.Log("SMIGGA");
+            minFieldOfView = 10;
         }
 
         while (true)
@@ -83,7 +85,6 @@ public class Zooming : MonoBehaviour
 
             yield return null;
         }
-        Debug.Log("Zoom Finish");
         yield return null;
     }
 
@@ -128,7 +129,6 @@ public class Zooming : MonoBehaviour
             }
             yield return null;
         }
-        Debug.Log("Move Finish");
         yield return null;
     }
 
@@ -146,7 +146,6 @@ public class Zooming : MonoBehaviour
 
             yield return null;
         }
-        Debug.Log("MoveBack Finish");
         yield return null;
     }
 
@@ -169,7 +168,6 @@ public class Zooming : MonoBehaviour
 
             yield return null;
         }
-        Debug.Log("ZoomOut Finish");
         yield return null;
     }
 

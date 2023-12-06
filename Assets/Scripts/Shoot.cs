@@ -12,9 +12,8 @@ public class Shoot : MonoBehaviour
     public GameObject gun;
     string[] layerNames = { "RayCast", "Specials" };
     private float duration = 17.0f;
-    private int points = 1000;
+    private int points;
     private int controlsScoreDividor = 5;
-    private int tempPoints;
     private float previousTime;
     private float actualTime;
 
@@ -34,8 +33,8 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        points = Camera.main.GetComponent<Player>().GetPoints();
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
-        tempPoints = points;
         m_EventSystem = GetComponent<EventSystem>();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
@@ -68,8 +67,15 @@ public class Shoot : MonoBehaviour
         if ((actualTime - previousTime) > 0.2f)
         {
             previousTime = actualTime;
+
             if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
             {
+                if (!musicManager.powerUpOn)
+                {
+                    points = Camera.main.GetComponent<Player>().GetPoints();
+                    points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
+                }
+
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -92,7 +98,14 @@ public class Shoot : MonoBehaviour
                         hit.collider.gameObject.tag = "Untagged";
                     }
                     enemyAudioSource.Stop();
-                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    if (musicManager.powerUpOn)
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / controlsScoreDividor));
+                    }
+                    else
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    }
                 }
 
                 if (hit.collider.CompareTag("ScorePowerUp"))
@@ -128,7 +141,7 @@ public class Shoot : MonoBehaviour
                     /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
 
                     audioSource.clip = healthClip;
-                    Camera.main.gameObject.GetComponent<Player>().AddHealth(points / controlsScoreDividor);
+                    Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor);
                 }
 
 
@@ -148,7 +161,6 @@ public class Shoot : MonoBehaviour
 
                     musicManager.playPowerUpMusic();
                     audioSource.clip = powerUpClip;
-                    points = tempPoints;
                     duration = 17.0f;
                     if (!musicManager.powerUpOn)
                     {
@@ -179,13 +191,11 @@ public class Shoot : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
-        points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 2);
         musicManager.powerUpOn = true;
         while (musicManager.powerUpOn)
         {
             if (duration <= 0)
             {
-                points = tempPoints * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
                 if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
                 {
                     musicManager.playHardMusic();
