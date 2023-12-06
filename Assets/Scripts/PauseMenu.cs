@@ -56,13 +56,17 @@ public class PauseMenu : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1;
-        if (musicManager.GetComponent<AudioSource>().clip.name.Equals("hardLevel")){
+        musicManager.GetComponent<MusicManager>().powerUpOn = false;
+        if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
+        {
             musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MainMusic;
             musicManager.GetComponent<AudioSource>().Play();
         }
-        else { 
+        else
+        {
             musicManager.GetComponent<AudioSource>().UnPause();
         }
+
         Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }

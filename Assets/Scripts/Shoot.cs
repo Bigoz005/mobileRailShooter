@@ -100,6 +100,7 @@ public class Shoot : MonoBehaviour
                     enemyAudioSource.Stop();
                     if (musicManager.powerUpOn)
                     {
+                        Debug.Log(musicManager.powerUpOn);
                         Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / controlsScoreDividor));
                     }
                     else

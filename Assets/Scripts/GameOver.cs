@@ -47,9 +47,9 @@ public class GameOver : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1;
-        
 
-        if (musicManager.GetComponent<AudioSource>().clip == musicManager.GetComponent<MusicManager>().HardMusic || musicManager.GetComponent<AudioSource>().clip == musicManager.GetComponent<MusicManager>().PowerUpMusic)
+        musicManager.GetComponent<MusicManager>().powerUpOn = false;
+        if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
         {
             musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MainMusic;
             musicManager.GetComponent<AudioSource>().Play();
@@ -80,7 +80,7 @@ public class GameOver : MonoBehaviour
         while (!this._asyncOperation.isDone)
         {
             /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
-            
+
             if (this._asyncOperation.progress >= 0.89)
             {
                 gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;

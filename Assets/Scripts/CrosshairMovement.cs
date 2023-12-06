@@ -136,7 +136,8 @@ public class CrosshairMovement : MonoBehaviour
                     }
                     enemyAudioSource.Stop();
                     
-                    if (musicManager.powerUpOn) { 
+                    if (musicManager.powerUpOn) {
+                        Debug.Log(musicManager.powerUpOn);
                         Camera.main.gameObject.GetComponent<Player>().AddScore(2*(points / 10 / controlsScoreDividor));
                     }
                     else
