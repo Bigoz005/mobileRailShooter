@@ -175,7 +175,14 @@ public class Shoot : MonoBehaviour
                 else
                 if (hit.collider.CompareTag("Target"))
                 {
-                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor * 2);
+                    if (musicManager.powerUpOn)
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    }
+                    else
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor / 2);
+                    }
                 }
             }
             else

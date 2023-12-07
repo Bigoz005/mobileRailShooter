@@ -122,7 +122,7 @@ public class Zooming : MonoBehaviour
 
         while (true)
         {
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 4.0f * Time.deltaTime);
+            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 4.5f * Time.deltaTime);
             if ((Mathf.Abs(targetRotation.eulerAngles.x - cam.transform.rotation.eulerAngles.x) < 1 && Mathf.Abs(targetRotation.eulerAngles.y - cam.transform.rotation.eulerAngles.y) < 1 && Mathf.Abs(targetRotation.eulerAngles.z - cam.transform.rotation.eulerAngles.z) < 1) || runningMove)
             {
                 break;
@@ -138,7 +138,7 @@ public class Zooming : MonoBehaviour
 
         while (true)
         {
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 2.5f * Time.deltaTime);
+            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, 4.5f * Time.deltaTime);
             if ((Mathf.Abs(targetRotation.eulerAngles.x - cam.transform.rotation.eulerAngles.x) < 1 && Mathf.Abs(targetRotation.eulerAngles.y - cam.transform.rotation.eulerAngles.y) < 1 && Mathf.Abs(targetRotation.eulerAngles.z - cam.transform.rotation.eulerAngles.z) < 1))
             {
                 break;

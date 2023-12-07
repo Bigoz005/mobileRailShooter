@@ -138,7 +138,6 @@ public class CrosshairMovement : MonoBehaviour
 
                     if (musicManager.powerUpOn)
                     {
-                        Debug.Log(musicManager.powerUpOn);
                         Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / controlsScoreDividor));
                     }
                     else
@@ -201,7 +200,14 @@ public class CrosshairMovement : MonoBehaviour
                 else
                 if (hit.collider.CompareTag("Target"))
                 {
-                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor * 2);
+                    if (musicManager.powerUpOn)
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
+                    }
+                    else
+                    {
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor / 2);
+                    }
                 }
             }
             else
