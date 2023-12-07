@@ -108,7 +108,7 @@ public class Shoot : MonoBehaviour
                         Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
                     }
                 }
-
+                else
                 if (hit.collider.CompareTag("ScorePowerUp"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -126,7 +126,7 @@ public class Shoot : MonoBehaviour
                     audioSource.clip = bonusClip;
                     Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                 }
-
+                else
                 if (hit.collider.CompareTag("BonusHealth"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -144,8 +144,7 @@ public class Shoot : MonoBehaviour
                     audioSource.clip = healthClip;
                     Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor);
                 }
-
-
+                else
                 if (hit.collider.CompareTag("PowerUp"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -173,6 +172,15 @@ public class Shoot : MonoBehaviour
                         StartCoroutine(powerUpDuration());
                     }
                 }
+                else
+                if (hit.collider.CompareTag("Target"))
+                {
+                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor * 2);
+                }
+            }
+            else
+            {
+                Camera.main.gameObject.GetComponent<Player>().AddScore(-points / 10 / controlsScoreDividor);
             }
 
             audioSource.Play();

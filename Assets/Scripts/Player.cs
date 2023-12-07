@@ -92,6 +92,10 @@ public class Player : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         this.score += scoreToAdd;
+        if(this.score< 0)
+        {
+            this.score = 0;
+        }
         textMesh.SetText(SCORETEXT + score);
     }
 

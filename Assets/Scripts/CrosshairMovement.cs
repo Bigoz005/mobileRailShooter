@@ -100,7 +100,7 @@ public class CrosshairMovement : MonoBehaviour
     private void checkShoot(Ray ray)
     {
         RaycastHit hit;
-        
+
         if (!musicManager.powerUpOn)
         {
             points = Camera.main.GetComponent<Player>().GetPoints();
@@ -135,17 +135,18 @@ public class CrosshairMovement : MonoBehaviour
                         hit.collider.gameObject.tag = "Untagged";
                     }
                     enemyAudioSource.Stop();
-                    
-                    if (musicManager.powerUpOn) {
+
+                    if (musicManager.powerUpOn)
+                    {
                         Debug.Log(musicManager.powerUpOn);
-                        Camera.main.gameObject.GetComponent<Player>().AddScore(2*(points / 10 / controlsScoreDividor));
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / controlsScoreDividor));
                     }
                     else
                     {
                         Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor);
                     }
                 }
-
+                else
                 if (hit.collider.CompareTag("ScorePowerUp"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -159,7 +160,7 @@ public class CrosshairMovement : MonoBehaviour
                     audioSource.clip = bonusClip;
                     Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                 }
-
+                else
                 if (hit.collider.CompareTag("BonusHealth"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -173,8 +174,7 @@ public class CrosshairMovement : MonoBehaviour
                     audioSource.clip = healthClip;
                     Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor);
                 }
-
-
+                else
                 if (hit.collider.CompareTag("PowerUp"))
                 {
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -198,6 +198,15 @@ public class CrosshairMovement : MonoBehaviour
                         StartCoroutine(powerUpDuration());
                     }
                 }
+                else
+                if (hit.collider.CompareTag("Target"))
+                {
+                    Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / controlsScoreDividor * 2);
+                }
+            }
+            else
+            {
+                Camera.main.gameObject.GetComponent<Player>().AddScore(-points / 10 / controlsScoreDividor);
             }
 
             audioSource.Play();
