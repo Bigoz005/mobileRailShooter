@@ -3,7 +3,37 @@ guid: 6446d6621d063504ba546fbfec4ccc5a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Low Poly Material
+    second: {fileID: 2100000, guid: 746307e97189f7f41a388ca86ec90b2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: belly
+    second: {fileID: 2100000, guid: 746307e97189f7f41a388ca86ec90b2a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eye
+    second: {fileID: 2100000, guid: 9c559d8cce2e8954496ec60ca5610838, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eye.001
+    second: {fileID: 2100000, guid: 9c559d8cce2e8954496ec60ca5610838, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lips
+    second: {fileID: 2100000, guid: 9c559d8cce2e8954496ec60ca5610838, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vest
+    second: {fileID: 2100000, guid: 746307e97189f7f41a388ca86ec90b2a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
