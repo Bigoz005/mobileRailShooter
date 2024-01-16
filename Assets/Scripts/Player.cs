@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject gameOverCanvas;
 
+    public int controlsScoreDividor = 5;
     private int points = 1000;
     private int score;
     private int highScore;
@@ -65,7 +66,6 @@ public class Player : MonoBehaviour
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
         soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
         enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
-
         if (gameplayCanvas.activeInHierarchy)
         {
             Time.timeScale = 0;
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         health = 3;
-        score = 0;        
+        score = 0;
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
         highScore = PlayerPrefs.GetInt("HighScore");
@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         this.score += scoreToAdd;
-        if(this.score< 0)
+        if (this.score < 0)
         {
             this.score = 0;
         }
