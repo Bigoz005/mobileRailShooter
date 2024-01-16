@@ -961,6 +961,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Generic_CloudRing_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1996182709073382, guid: 280053154239720458c4b6093bfea66a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4174052520163144, guid: 280053154239720458c4b6093bfea66a, type: 3}
       propertyPath: m_RootOrder
       value: 68
@@ -8970,6 +8974,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13140,6 +13149,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1745040543636578302, guid: 3d82cef17258dc148a9caae7b95df864,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14071,13 +14085,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786235681}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9157205, z: -0, w: 0.40181577}
+  m_LocalRotation: {x: -0, y: -0.93492764, z: -0, w: 0.3548385}
   m_LocalPosition: {x: 124.879, y: 7.9, z: 41.184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -132.617, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -138.433, z: 0}
 --- !u!81 &1786235687
 AudioListener:
   m_ObjectHideFlags: 0
