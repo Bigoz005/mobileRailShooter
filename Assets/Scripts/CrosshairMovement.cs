@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,6 +41,7 @@ public class CrosshairMovement : MonoBehaviour
     private float reloadDuration = 0.5f;
     private int points;
     private bool touchControlEnabled;
+    private int i = 1;
 
     private void Start()
     {
@@ -118,17 +120,33 @@ public class CrosshairMovement : MonoBehaviour
         {
             previousTime = actualTime;
             audioSource.clip = shootClip;
+            int tempPoints = 0;
             if (Physics.SphereCast(ray, 0.1f, out hit, 10000000000, LayerMask.GetMask(layerNames)))
             {
                 switch (hit.collider.tag)
                 {
                     case "Enemy":
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+                        if (musicManager.powerUpOn)
+                        {
+                            tempPoints = 2 * (points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                        }
+                        else
+                        {
+                            tempPoints = points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
+                        }
+
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(tempPoints);
+
                         if (hit.collider.name.Contains("Hard"))
                         {
                             hit.collider.gameObject.GetComponent<EnemyHard>().StopAllGnomeCoroutines();
                             hit.collider.gameObject.GetComponent<EnemyHard>().enabled = false;
                             hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+                            hit.collider.gameObject.transform.GetChild(4).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
+                            hit.collider.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(4).gameObject));
                             hit.collider.gameObject.tag = "Untagged";
                         }
                         else
@@ -140,22 +158,20 @@ public class CrosshairMovement : MonoBehaviour
                             hit.collider.gameObject.transform.GetChild(2).gameObject.SetActive(false);
                             hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
                             hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
+                            hit.collider.gameObject.transform.GetChild(7).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
+                            hit.collider.gameObject.transform.GetChild(7).gameObject.SetActive(true);
+                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(7).gameObject));
                             hit.collider.gameObject.tag = "Untagged";
                         }
                         enemyAudioSource.Stop();
 
-                        if (musicManager.powerUpOn)
-                        {
-                            Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor));
-                        }
-                        else
-                        {
-                            Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
-                        }
-                        break;
 
+                        break;
                     case "ScorePowerUp":
                         particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+                        hit.collider.gameObject.transform.GetChild(1).GetComponent<TextMeshPro>().SetText("+ " + points / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                        hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
                         if (particle.isPlaying)
                         {
@@ -177,7 +193,10 @@ public class CrosshairMovement : MonoBehaviour
                         particle.Play();
 
                         audioSource.clip = healthClip;
-                        Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                        Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor, hit.collider.gameObject.transform.GetChild(1).gameObject);
+                        hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
+
                         break;
                     case "PowerUp":
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -191,25 +210,26 @@ public class CrosshairMovement : MonoBehaviour
                         musicManager.playPowerUpMusic();
                         audioSource.clip = powerUpClip;
                         duration = 17.0f;
-                        if (!musicManager.powerUpOn)
-                        {
-                            StartCoroutine(powerUpDuration());
-                        }
-                        else
-                        {
-                            StopCoroutine(powerUpDuration());
-                            StartCoroutine(powerUpDuration());
-                        }
-                        break;
-                    case "Target":
                         if (musicManager.powerUpOn)
                         {
-                            Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                            StopCoroutine(powerUpDuration());
+                        }
+                        StartCoroutine(powerUpDuration());
+                        break;
+                    case "Target":
+                        
+                        if (musicManager.powerUpOn)
+                        {
+                            tempPoints =  points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
                         }
                         else
                         {
-                            Camera.main.gameObject.GetComponent<Player>().AddScore(points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor / 2);
+                            tempPoints = points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor / 2;
                         }
+                        Camera.main.gameObject.GetComponent<Player>().AddScore(tempPoints);
+                        hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
+                        hit.collider.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(0).gameObject));
                         break;
                 }
             }
@@ -219,7 +239,18 @@ public class CrosshairMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator reload()
+    private IEnumerator pointsTextVisibility(GameObject gameObject)
+    {
+        i = 1;
+        while (i > 0)
+        {
+            CountdownVisibility();
+            yield return new WaitForSeconds(1);
+        }
+        gameObject.SetActive(false);
+        yield return null;
+    }
+        private IEnumerator reload()
     {
         Image image = reloadCircle.GetComponent<Image>();
         image.enabled = true;
@@ -266,6 +297,11 @@ public class CrosshairMovement : MonoBehaviour
     private void Countdown()
     {
         duration -= 1;
+    }
+
+    private void CountdownVisibility()
+    {
+        i -= 1;
     }
 
     private void ReloadCountdown()
