@@ -23,6 +23,7 @@ TagManager:
   - HighScore
   - ZoomController
   - Target
+  - Miss
   layers:
   - Default
   - TransparentFX
@@ -34,7 +35,7 @@ TagManager:
   - GnomeCircles
   - Specials
   - Target
-  - 
+  - ScoreText
   - 
   - 
   - 

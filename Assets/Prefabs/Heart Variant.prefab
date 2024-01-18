@@ -5012,7 +5012,12 @@ PrefabInstance:
     - target: {fileID: 2769563150338046434, guid: 46bc591f5496d99499c1401c89073b66,
         type: 3}
       propertyPath: rotationSpeed
-      value: 15
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769563150338046434, guid: 46bc591f5496d99499c1401c89073b66,
+        type: 3}
+      propertyPath: rotationAngle.z
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4278505388828542548, guid: 46bc591f5496d99499c1401c89073b66,
         type: 3}

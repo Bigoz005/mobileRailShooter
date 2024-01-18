@@ -250,7 +250,7 @@ MonoBehaviour:
   isRotating: 1
   isFloating: 0
   isScaling: 0
-  rotationAngle: {x: 0, y: -5, z: 0}
+  rotationAngle: {x: 0, y: -30, z: 0}
   rotationSpeed: 12
   floatSpeed: 0
   floatRate: 0

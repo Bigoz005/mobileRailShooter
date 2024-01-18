@@ -19,8 +19,7 @@ public class CrosshairMovement : MonoBehaviour
     [SerializeField]
     GameObject gameplayCanvas;
     [SerializeField]
-    GameObject menuCanvas;
-
+    GameObject gameOverCanvas;
 
     private Camera cam;
     private Vector3 previousPosition = new Vector3(0, 0, 0);
@@ -116,7 +115,7 @@ public class CrosshairMovement : MonoBehaviour
             points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         }
 
-        if (!gameplayCanvas.transform.GetChild(6).GetComponent<MyButton>().buttonPressed && gameplayCanvas.activeSelf && !reloadCircle.GetComponent<Image>().enabled && (actualTime - previousTime) > 0.6f)
+        if (!gameOverCanvas.transform.GetChild(3).GetComponent<MyButton>().buttonPressed && !gameplayCanvas.transform.GetChild(6).GetComponent<MyButton>().buttonPressed && gameplayCanvas.activeSelf && !reloadCircle.GetComponent<Image>().enabled && (actualTime - previousTime) > 0.6f)
         {
             previousTime = actualTime;
             audioSource.clip = shootClip;
