@@ -11,6 +11,8 @@ public class Options : MonoBehaviour
     private GameObject mainMenuCanvas;
     [SerializeField]
     private GameObject optionCanvas;
+    [SerializeField]
+    private GameObject creditsCanvas;
 
     [SerializeField]
     private AudioClip sfxClip;
@@ -68,6 +70,17 @@ public class Options : MonoBehaviour
         enemyPlayer.GetComponent<AudioSource>().Pause();
         mainMenuCanvas.SetActive(true);
         optionCanvas.SetActive(false);
+    }
+    public void ShowCredits()
+    {
+        creditsCanvas.SetActive(true);
+        optionCanvas.SetActive(false);
+    }
+
+    public void ShowOptions()
+    {
+        creditsCanvas.SetActive(false);
+        optionCanvas.SetActive(true);
     }
 
     public void ResetScore()

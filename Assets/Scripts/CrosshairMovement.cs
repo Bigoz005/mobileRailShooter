@@ -50,7 +50,7 @@ public class CrosshairMovement : MonoBehaviour
 
     public Light directionalLight;
     private Color lightColor;
-    private Color[] colors = new Color[6];
+    private Color[] colors = new Color[7];
 
     private void Start()
     {
@@ -68,13 +68,13 @@ public class CrosshairMovement : MonoBehaviour
         previousTime = Time.deltaTime;
         actualTime = previousTime;
 
-        lightColor = directionalLight.color;
         colors[0] = Color.blue;
         colors[1] = Color.cyan;
         colors[2] = Color.green;
         colors[3] = Color.magenta;
         colors[4] = Color.red;
         colors[5] = Color.yellow;
+        colors[6] = directionalLight.color;
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
@@ -102,7 +102,7 @@ public class CrosshairMovement : MonoBehaviour
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
             {
                 previousPosition = joystick.transform.localPosition;
-                self.transform.localPosition = new Vector3(previousPosition.x * 5.5f, previousPosition.y * 4f, previousPosition.z);
+                self.transform.localPosition = new Vector3(previousPosition.x * 6.75f, previousPosition.y * 3.1f, previousPosition.z);
             }
         }
         else
@@ -343,20 +343,28 @@ public class CrosshairMovement : MonoBehaviour
     private IEnumerator ChangeLightColor()
     {
         previousIndex = -1;
-        directionalLight.intensity = 0.5f;
+                
+        if(PlayerPrefs.GetInt("Difficulty") == 2) { 
+            directionalLight.intensity = 1.0f;
+        }
+        
         while (musicManager.powerUpOn)
         {
-            index = Random.Range(0, colors.Length - 1);
+            index = Random.Range(0, colors.Length - 2);
             while (previousIndex == index)
             {
-                index = Random.Range(0, colors.Length - 1);
+                index = Random.Range(0, colors.Length - 2);
             }
             previousIndex = index;
             directionalLight.color = colors[index];
             yield return new WaitForSeconds(0.75f);
         }
-        directionalLight.color = lightColor;
-        directionalLight.intensity = 3.5f;
+
+        directionalLight.color = colors[6];
+        if (PlayerPrefs.GetInt("Difficulty") == 2)
+        {
+            directionalLight.intensity = 3.5f;
+        }
         yield return null;
     }
 }

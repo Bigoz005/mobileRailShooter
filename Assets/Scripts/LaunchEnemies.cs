@@ -54,6 +54,7 @@ public class LaunchEnemies : MonoBehaviour
 
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
         activeEnemy.tag = "Enemy";
+        activeEnemy.layer = LayerMask.NameToLayer("RayCast");
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
         
