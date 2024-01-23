@@ -29,6 +29,8 @@ public class Shoot : MonoBehaviour
     public AudioClip healthClip;
     [SerializeField]
     public AudioClip powerUpClip;
+    [SerializeField]
+    public AudioClip gnomeClip;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class Shoot : MonoBehaviour
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
+        
         if (!(PlayerPrefs.GetInt("Controls") == 1))
         {
             controlsScoreDividor = 1;
@@ -62,7 +65,6 @@ public class Shoot : MonoBehaviour
         Ray ray = new Ray(gun.transform.position, gun.transform.forward * 10000000);
         Debug.DrawLine(gun.transform.position, gun.transform.forward * 10000000, Color.green, 20);
         RaycastHit hit;
-
         audioSource.clip = shootClip;
         if ((actualTime - previousTime) > 0.2f)
         {
@@ -78,6 +80,8 @@ public class Shoot : MonoBehaviour
 
                 if (hit.collider.CompareTag("Enemy"))
                 {
+                    enemyAudioSource.Stop();
+                    enemyAudioSource.clip = gnomeClip;
                     hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     if (hit.collider.name.Contains("Hard"))
                     {
@@ -97,10 +101,12 @@ public class Shoot : MonoBehaviour
                         hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
                         hit.collider.gameObject.tag = "Untagged";
                     }
-                    enemyAudioSource.Stop();
+
+                    enemyAudioSource.Play();
+                    
+
                     if (musicManager.powerUpOn)
                     {
-                        Debug.Log(musicManager.powerUpOn);
                         Camera.main.gameObject.GetComponent<Player>().AddScore(2 * (points / 10 / controlsScoreDividor));
                     }
                     else
@@ -120,9 +126,6 @@ public class Shoot : MonoBehaviour
                     }
                     particle.Play();
 
-                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
-                    /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
-
                     audioSource.clip = bonusClip;
                     Camera.main.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                 }
@@ -138,9 +141,6 @@ public class Shoot : MonoBehaviour
                     }
                     particle.Play();
 
-                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
-                    /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
-
                     audioSource.clip = healthClip;
                     Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor);
                 }
@@ -155,9 +155,6 @@ public class Shoot : MonoBehaviour
                         particle.Stop();
                     }
                     particle.Play();
-
-                    /*Debug.Log(hit.collider.gameObject.transform.GetChild(0).name + ": " + hit.collider.gameObject.transform.GetChild(0).gameObject.activeInHierarchy + "-play: " + particle.isPlaying);*/
-                    /*StartCoroutine(effectDuration(hit.collider.gameObject.transform.GetChild(0).gameObject));*/
 
                     musicManager.playPowerUpMusic();
                     audioSource.clip = powerUpClip;
@@ -190,20 +187,11 @@ public class Shoot : MonoBehaviour
                 Camera.main.gameObject.GetComponent<Player>().AddScore(-points / 10 / controlsScoreDividor);
             }
 
-            audioSource.Play();
+            if (!(enemyAudioSource.clip == gnomeClip && enemyAudioSource.isPlaying)) { 
+                audioSource.Play();
+            }
         }
     }
-
-    /*private IEnumerator effectDuration(GameObject effect)
-    {
-        int i = 0;
-        while (i < 1)
-        {
-            i++;
-            yield return new WaitForSeconds(1);
-        }
-        effect.SetActive(false);
-    }*/
 
     private IEnumerator powerUpDuration()
     {

@@ -21,6 +21,8 @@ public class CrosshairMovement : MonoBehaviour
     [SerializeField]
     GameObject gameOverCanvas;
 
+    public GameObject LasersObject;
+
     private Camera cam;
     private Vector3 previousPosition = new Vector3(0, 0, 0);
     private AudioSource audioSource;
@@ -35,12 +37,20 @@ public class CrosshairMovement : MonoBehaviour
     private AudioClip bonusClip;
     private AudioClip healthClip;
     private AudioClip powerUpClip;
+    private AudioClip gnomeClip;
 
     private float duration = 17.0f;
     private float reloadDuration = 0.5f;
     private int points;
     private bool touchControlEnabled;
     private int i = 1;
+    private int previousIndex;
+    private int index;
+    private int powerupMultiplier = 1;
+
+    public Light directionalLight;
+    private Color lightColor;
+    private Color[] colors = new Color[6];
 
     private void Start()
     {
@@ -52,10 +62,19 @@ public class CrosshairMovement : MonoBehaviour
         bonusClip = transform.GetComponent<Shoot>().bonusClip;
         healthClip = transform.GetComponent<Shoot>().healthClip;
         powerUpClip = transform.GetComponent<Shoot>().powerUpClip;
+        gnomeClip = transform.GetComponent<Shoot>().gnomeClip;
         points = Camera.main.GetComponent<Player>().GetPoints();
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         previousTime = Time.deltaTime;
         actualTime = previousTime;
+
+        lightColor = directionalLight.color;
+        colors[0] = Color.blue;
+        colors[1] = Color.cyan;
+        colors[2] = Color.green;
+        colors[3] = Color.magenta;
+        colors[4] = Color.red;
+        colors[5] = Color.yellow;
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
@@ -126,10 +145,12 @@ public class CrosshairMovement : MonoBehaviour
                 {
                     case "Enemy":
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                        enemyAudioSource.Stop();
+                        enemyAudioSource.clip = gnomeClip;
 
                         if (musicManager.powerUpOn)
                         {
-                            tempPoints = 2 * (points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                            tempPoints = powerupMultiplier * (points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
                         }
                         else
                         {
@@ -162,8 +183,7 @@ public class CrosshairMovement : MonoBehaviour
                             StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(7).gameObject));
                             hit.collider.gameObject.tag = "Untagged";
                         }
-                        enemyAudioSource.Stop();
-
+                        enemyAudioSource.Play();
 
                         break;
                     case "ScorePowerUp":
@@ -192,10 +212,12 @@ public class CrosshairMovement : MonoBehaviour
                         particle.Play();
 
                         audioSource.clip = healthClip;
-                        Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor, hit.collider.gameObject.transform.GetChild(1).gameObject);
-                        hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
-
+                        int i = Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor, hit.collider.gameObject.transform.GetChild(1).gameObject);
+                        if (i == 1)
+                        {
+                            hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
+                        }
                         break;
                     case "PowerUp":
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -208,22 +230,24 @@ public class CrosshairMovement : MonoBehaviour
 
                         musicManager.playPowerUpMusic();
                         audioSource.clip = powerUpClip;
-                        duration = 17.0f;
+                        LasersObject.SetActive(true);
                         if (musicManager.powerUpOn)
                         {
                             StopCoroutine(powerUpDuration());
+                            StopCoroutine(ChangeLightColor());
                         }
+                        StartCoroutine(ChangeLightColor());
                         StartCoroutine(powerUpDuration());
                         break;
                     case "Target":
-                        
+
                         if (musicManager.powerUpOn)
                         {
-                            tempPoints =  points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
+                            tempPoints = powerupMultiplier * points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
                         }
                         else
                         {
-                            tempPoints = points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor / 2;
+                            tempPoints = powerupMultiplier * points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor / 2;
                         }
                         Camera.main.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
@@ -234,7 +258,10 @@ public class CrosshairMovement : MonoBehaviour
             }
             self.GetComponent<Image>().enabled = false;
             StartCoroutine(reload());
-            audioSource.Play();
+            if (!(enemyAudioSource.clip == gnomeClip && enemyAudioSource.isPlaying))
+            {
+                audioSource.Play();
+            }
         }
     }
 
@@ -249,7 +276,7 @@ public class CrosshairMovement : MonoBehaviour
         gameObject.SetActive(false);
         yield return null;
     }
-        private IEnumerator reload()
+    private IEnumerator reload()
     {
         Image image = reloadCircle.GetComponent<Image>();
         image.enabled = true;
@@ -259,11 +286,12 @@ public class CrosshairMovement : MonoBehaviour
             image.fillAmount -= 0.03f;
             yield return new WaitForSeconds(0.01f);
         }
-        if(image.fillAmount <= 0.1)
+        if (image.fillAmount <= 0.1)
         {
             image.fillAmount = 1;
         }
-        if(PlayerPrefs.GetInt("Controls") != 1) { 
+        if (PlayerPrefs.GetInt("Controls") != 1)
+        {
             self.GetComponent<Image>().enabled = true;
         }
         image.enabled = false;
@@ -272,6 +300,8 @@ public class CrosshairMovement : MonoBehaviour
 
     private IEnumerator powerUpDuration()
     {
+        duration = 17.0f;
+        powerupMultiplier *= 2;
         musicManager.powerUpOn = true;
         while (musicManager.powerUpOn)
         {
@@ -285,11 +315,13 @@ public class CrosshairMovement : MonoBehaviour
                 {
                     musicManager.playMainMusic();
                 }
+                LasersObject.SetActive(false);
                 musicManager.powerUpOn = false;
             }
             Countdown();
             yield return new WaitForSeconds(1);
         }
+        powerupMultiplier = 1;
         yield return null;
     }
 
@@ -306,5 +338,25 @@ public class CrosshairMovement : MonoBehaviour
     private void ReloadCountdown()
     {
         reloadDuration -= 0.03f;
+    }
+
+    private IEnumerator ChangeLightColor()
+    {
+        previousIndex = -1;
+        directionalLight.intensity = 0.5f;
+        while (musicManager.powerUpOn)
+        {
+            index = Random.Range(0, colors.Length - 1);
+            while (previousIndex == index)
+            {
+                index = Random.Range(0, colors.Length - 1);
+            }
+            previousIndex = index;
+            directionalLight.color = colors[index];
+            yield return new WaitForSeconds(0.75f);
+        }
+        directionalLight.color = lightColor;
+        directionalLight.intensity = 3.5f;
+        yield return null;
     }
 }
