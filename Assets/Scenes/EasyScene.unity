@@ -12396,6 +12396,7 @@ MonoBehaviour:
   gameplayCanvas: {fileID: 1648810857}
   gameOverCanvas: {fileID: 284628025}
   LasersObject: {fileID: 1099428742}
+  circleCamera: {fileID: 371379638}
   directionalLight: {fileID: 705507994}
 --- !u!114 &780150868
 MonoBehaviour:
@@ -22349,7 +22350,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338502205}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00033980282}
+  m_LocalPosition: {x: 0, y: 0, z: -0.045589946}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -22357,7 +22358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.6985245, y: 1.1999946}
+  m_AnchoredPosition: {x: -4.7407227, y: 1.2218018}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1338502207
@@ -24829,6 +24830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 450849896}
   optionCanvas: {fileID: 1837822125}
+  creditsCanvas: {fileID: 0}
   sfxClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   sliderFps: {fileID: 1443606171}
   sliderDifficulty: {fileID: 741891137}

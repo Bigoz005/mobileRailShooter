@@ -22,6 +22,7 @@ public class CrosshairMovement : MonoBehaviour
     GameObject gameOverCanvas;
 
     public GameObject LasersObject;
+    public Camera circleCamera;
 
     private Camera cam;
     private Vector3 previousPosition = new Vector3(0, 0, 0);
@@ -47,6 +48,7 @@ public class CrosshairMovement : MonoBehaviour
     private int previousIndex;
     private int index;
     private int powerupMultiplier = 1;
+    private bool isReloding = false;
 
     public Light directionalLight;
     private Color lightColor;
@@ -103,6 +105,10 @@ public class CrosshairMovement : MonoBehaviour
             {
                 previousPosition = joystick.transform.localPosition;
                 self.transform.localPosition = new Vector3(previousPosition.x * 6.75f, previousPosition.y * 3.1f, previousPosition.z);
+                if (!isReloding)
+                {
+                    reloadCircle.transform.localPosition = self.transform.localPosition;
+                }
             }
         }
         else
@@ -112,10 +118,19 @@ public class CrosshairMovement : MonoBehaviour
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+
+                    if (!isReloding)
+                    {
+                        Vector2 anchoredPosition;
+                        RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
+                        reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
+                    }
+
                     checkShoot(ray);
 
                     if (Physics.Raycast(ray))
                         Debug.DrawLine(cam.transform.position, ray.direction * 10000000000, Color.red, 20);
+
 
                 }
 
@@ -280,6 +295,7 @@ public class CrosshairMovement : MonoBehaviour
     {
         Image image = reloadCircle.GetComponent<Image>();
         image.enabled = true;
+        isReloding = true;
         while (image.fillAmount > 0)
         {
             ReloadCountdown();
@@ -295,6 +311,7 @@ public class CrosshairMovement : MonoBehaviour
             self.GetComponent<Image>().enabled = true;
         }
         image.enabled = false;
+        isReloding = false;
         yield return null;
     }
 
@@ -343,11 +360,12 @@ public class CrosshairMovement : MonoBehaviour
     private IEnumerator ChangeLightColor()
     {
         previousIndex = -1;
-                
-        if(PlayerPrefs.GetInt("Difficulty") == 2) { 
+
+        if (PlayerPrefs.GetInt("Difficulty") == 2)
+        {
             directionalLight.intensity = 1.0f;
         }
-        
+
         while (musicManager.powerUpOn)
         {
             index = Random.Range(0, colors.Length - 2);
