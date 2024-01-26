@@ -9261,7 +9261,7 @@ GameObject:
   - component: {fileID: 570876258}
   - component: {fileID: 570876257}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9536,9 +9536,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084056306}
-        m_TargetAssemblyTypeName: Shoot, Assembly-CSharp
-        m_MethodName: ShootRay
+      - m_Target: {fileID: 1084056305}
+        m_TargetAssemblyTypeName: CrosshairMovement, Assembly-CSharp
+        m_MethodName: checkShoot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13979,17 +13979,17 @@ PrefabInstance:
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 643.681
+      value: 759.4918
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 642.905
+      value: 732.9801
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.99116
+      value: 0.96577704
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
@@ -14039,7 +14039,7 @@ PrefabInstance:
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 51.84497
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230,
         type: 3}
@@ -18485,7 +18485,6 @@ GameObject:
   - component: {fileID: 1084056302}
   - component: {fileID: 1084056308}
   - component: {fileID: 1084056307}
-  - component: {fileID: 1084056306}
   - component: {fileID: 1084056305}
   - component: {fileID: 1084056304}
   - component: {fileID: 1084056303}
@@ -18574,27 +18573,15 @@ MonoBehaviour:
   shootButton: {fileID: 582921993}
   gameplayCanvas: {fileID: 1648810857}
   gameOverCanvas: {fileID: 284628025}
-  LasersObject: {fileID: 2147036279}
-  directionalLight: {fileID: 570876257}
---- !u!114 &1084056306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084056301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe4a4f0550c794459dccb7c3997f34c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crosshair: {fileID: 1084056302}
-  gun: {fileID: 1078004788}
   shootClip: {fileID: 8300000, guid: 922cd3f2f742a80409d8b77a138e482f, type: 3}
   bonusClip: {fileID: 8300000, guid: 940712891fe2bef428bfe5438b4cab4c, type: 3}
   healthClip: {fileID: 8300000, guid: 3cdce9eaf67c55d41a7f95bdd1e2a4f0, type: 3}
   powerUpClip: {fileID: 8300000, guid: 654cc188b99cfba4ba96891f37f2c86d, type: 3}
   gnomeClip: {fileID: 8300000, guid: 106f1d3da633a7b4c914016c232ab294, type: 3}
+  LasersObject: {fileID: 2147036279}
+  circleCamera: {fileID: 1468136304}
+  gun: {fileID: 1078004788}
+  directionalLight: {fileID: 570876257}
 --- !u!114 &1084056307
 MonoBehaviour:
   m_ObjectHideFlags: 0

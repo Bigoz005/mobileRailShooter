@@ -9,36 +9,45 @@ public class CrosshairMovement : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject joystick;
+    private GameObject joystick;
     [SerializeField]
-    GameObject self;
+    private GameObject self;
     [SerializeField]
-    GameObject reloadCircle;
+    private GameObject reloadCircle;
     [SerializeField]
-    GameObject shootButton;
+    private GameObject shootButton;
     [SerializeField]
-    GameObject gameplayCanvas;
+    private GameObject gameplayCanvas;
     [SerializeField]
-    GameObject gameOverCanvas;
-
-    public GameObject LasersObject;
-    public Camera circleCamera;
+    private GameObject gameOverCanvas;
+    [SerializeField]
+    private AudioClip shootClip;
+    [SerializeField]
+    private AudioClip bonusClip;
+    [SerializeField]
+    private AudioClip healthClip;
+    [SerializeField]
+    private AudioClip powerUpClip;
+    [SerializeField]
+    private AudioClip gnomeClip;
+    [SerializeField]
+    private GameObject LasersObject;
+    [SerializeField]
+    private Camera circleCamera;
+    [SerializeField]
+    private GameObject gun;
+    [SerializeField]
+    private Light directionalLight;
 
     private Camera cam;
     private Vector3 previousPosition = new Vector3(0, 0, 0);
     private AudioSource audioSource;
     private AudioSource enemyAudioSource;
     private MusicManager musicManager;
-    string[] layerNames = { "RayCast", "Specials" };
+    private string[] layerNames = { "RayCast", "Specials" };
     private float previousTime;
     private float actualTime;
     private ParticleSystem particle = null;
-
-    private AudioClip shootClip;
-    private AudioClip bonusClip;
-    private AudioClip healthClip;
-    private AudioClip powerUpClip;
-    private AudioClip gnomeClip;
 
     private float duration = 17.0f;
     private float reloadDuration = 0.5f;
@@ -49,10 +58,8 @@ public class CrosshairMovement : MonoBehaviour
     private int index;
     private int powerupMultiplier = 1;
     private bool isReloding = false;
-
-    public Light directionalLight;
-    private Color lightColor;
-    private Color[] colors = new Color[7];
+    private int controlsScoreDividor = 5;
+    private Color[] colors = { Color.blue, Color.cyan, Color.green, Color.magenta, Color.red, Color.yellow, Color.white };
 
     private void Start()
     {
@@ -60,36 +67,25 @@ public class CrosshairMovement : MonoBehaviour
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
-        shootClip = transform.GetComponent<Shoot>().shootClip;
-        bonusClip = transform.GetComponent<Shoot>().bonusClip;
-        healthClip = transform.GetComponent<Shoot>().healthClip;
-        powerUpClip = transform.GetComponent<Shoot>().powerUpClip;
-        gnomeClip = transform.GetComponent<Shoot>().gnomeClip;
-        points = Camera.main.GetComponent<Player>().GetPoints();
+        points = cam.GetComponent<Player>().GetPoints();
         points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         previousTime = Time.deltaTime;
         actualTime = previousTime;
 
-        colors[0] = Color.blue;
-        colors[1] = Color.cyan;
-        colors[2] = Color.green;
-        colors[3] = Color.magenta;
-        colors[4] = Color.red;
-        colors[5] = Color.yellow;
         colors[6] = directionalLight.color;
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
             touchControlEnabled = true;
             joystick.transform.parent.parent.gameObject.SetActive(false);
-            Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor = 5;
+            controlsScoreDividor = 5;
             shootButton.SetActive(false);
             self.GetComponent<Image>().enabled = false;
         }
         else
         {
             touchControlEnabled = false;
-            Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor = 1;
+            controlsScoreDividor = 1;
             joystick.transform.parent.gameObject.SetActive(true);
             shootButton.SetActive(true);
             self.GetComponent<Image>().enabled = true;
@@ -105,19 +101,29 @@ public class CrosshairMovement : MonoBehaviour
             {
                 previousPosition = joystick.transform.localPosition;
                 self.transform.localPosition = new Vector3(previousPosition.x * 6.75f, previousPosition.y * 3.1f, previousPosition.z);
-                if (!isReloding)
-                {
-                    reloadCircle.transform.localPosition = self.transform.localPosition;
-                }
+                reloadCircle.transform.localPosition = self.transform.localPosition;
             }
         }
         else
         {
             if (Input.touchCount > 0)
             {
+                checkShoot();
+            }
+        }
+    }
+    public void checkShoot()
+    {
+
+        Ray ray = new();
+
+        if (touchControlEnabled)
+        {
+            if (Input.touchCount > 0)
+            {
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+                    ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
 
                     if (!isReloding)
                     {
@@ -125,17 +131,20 @@ public class CrosshairMovement : MonoBehaviour
                         RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
                         reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
                     }
-
-                    checkShoot(ray);
-
-                    if (Physics.Raycast(ray))
-                        Debug.DrawLine(cam.transform.position, ray.direction * 10000000000, Color.red, 20);
-
-
                 }
-
             }
         }
+        else
+        {
+            Vector3 crosshairPosition = self.transform.localPosition;
+            crosshairPosition.z = 100000000000f;
+            crosshairPosition = Camera.main.ScreenToWorldPoint(crosshairPosition);
+
+            gun.transform.LookAt(self.transform);
+            ray = new Ray(gun.transform.position, gun.transform.forward * 10000000);
+        }
+
+        checkShoot(ray);
     }
 
     private void checkShoot(Ray ray)
@@ -145,7 +154,7 @@ public class CrosshairMovement : MonoBehaviour
 
         if (!musicManager.powerUpOn)
         {
-            points = Camera.main.GetComponent<Player>().GetPoints();
+            points = cam.GetComponent<Player>().GetPoints();
             points = points * (PlayerPrefs.GetInt("Difficulty", 0) + 1);
         }
 
@@ -165,14 +174,14 @@ public class CrosshairMovement : MonoBehaviour
 
                         if (musicManager.powerUpOn)
                         {
-                            tempPoints = powerupMultiplier * (points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                            tempPoints = powerupMultiplier * (points / 10 / controlsScoreDividor);
                         }
                         else
                         {
-                            tempPoints = points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
+                            tempPoints = points / 10 / controlsScoreDividor;
                         }
 
-                        Camera.main.gameObject.GetComponent<Player>().AddScore(tempPoints);
+                        cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
 
                         if (hit.collider.name.Contains("Hard"))
                         {
@@ -203,7 +212,7 @@ public class CrosshairMovement : MonoBehaviour
                         break;
                     case "ScorePowerUp":
                         particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
-                        hit.collider.gameObject.transform.GetChild(1).GetComponent<TextMeshPro>().SetText("+ " + points / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                        hit.collider.gameObject.transform.GetChild(1).GetComponent<TextMeshPro>().SetText("+ " + points / controlsScoreDividor);
                         hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                         StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -214,7 +223,7 @@ public class CrosshairMovement : MonoBehaviour
                         particle.Play();
 
                         audioSource.clip = bonusClip;
-                        Camera.main.gameObject.GetComponent<Player>().AddScore(points / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor);
+                        cam.gameObject.GetComponent<Player>().AddScore(points / controlsScoreDividor);
                         break;
 
                     case "BonusHealth":
@@ -227,8 +236,8 @@ public class CrosshairMovement : MonoBehaviour
                         particle.Play();
 
                         audioSource.clip = healthClip;
-                        int i = Camera.main.gameObject.GetComponent<Player>().AddHealth(points / 2 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor, hit.collider.gameObject.transform.GetChild(1).gameObject);
-                        if (i == 1)
+                        bool i = cam.gameObject.GetComponent<Player>().AddHealth(points / 2 / controlsScoreDividor, hit.collider.gameObject.transform.GetChild(1).gameObject);
+                        if (i)
                         {
                             hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                             StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
@@ -258,13 +267,13 @@ public class CrosshairMovement : MonoBehaviour
 
                         if (musicManager.powerUpOn)
                         {
-                            tempPoints = powerupMultiplier * points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor;
+                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor;
                         }
                         else
                         {
-                            tempPoints = powerupMultiplier * points / 10 / Camera.main.gameObject.GetComponent<Player>().controlsScoreDividor / 2;
+                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor / 2;
                         }
-                        Camera.main.gameObject.GetComponent<Player>().AddScore(tempPoints);
+                        cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).gameObject.SetActive(true);
                         StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(0).gameObject));
@@ -296,6 +305,11 @@ public class CrosshairMovement : MonoBehaviour
         Image image = reloadCircle.GetComponent<Image>();
         image.enabled = true;
         isReloding = true;
+        if (!touchControlEnabled)
+        {
+            self.GetComponent<Image>().enabled = false;
+        }
+
         while (image.fillAmount > 0)
         {
             ReloadCountdown();
@@ -312,6 +326,10 @@ public class CrosshairMovement : MonoBehaviour
         }
         image.enabled = false;
         isReloding = false;
+        if (!touchControlEnabled)
+        {
+            self.GetComponent<Image>().enabled = true;
+        }
         yield return null;
     }
 

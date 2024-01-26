@@ -116,14 +116,14 @@ public class Player : MonoBehaviour
         CheckHealth();
     }
 
-    public int AddHealth(int scoreToAdd, GameObject gameobject)
+    public bool AddHealth(int scoreToAdd, GameObject gameobject)
     {
-        int i = 0;
+        bool i = false;
         if (health >= 3)
         {
             AddScore(scoreToAdd);
             gameobject.GetComponent<TextMeshPro>().SetText("+ " + scoreToAdd);
-            i = 1;
+            i = true;
         }
         else
         {
