@@ -9,12 +9,12 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject pauseCanvas;
-
     [SerializeField]
     private GameObject optionCanvas;
-
     [SerializeField]
     private GameObject gameplayCanvas;
+    [SerializeField]
+    private Player player;
 
     private GameObject musicManager;
     private GameObject soundPlayer;
@@ -75,6 +75,8 @@ public class PauseMenu : MonoBehaviour
     {
         // Begin to load the Scene you have specified.
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        player.interstitialAd.ShowAd();
 
         pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = false;
         pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;

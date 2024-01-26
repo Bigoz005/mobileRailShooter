@@ -72,6 +72,8 @@ public class GameOver : MonoBehaviour
         // Begin to load the Scene you have specified.
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
+        player.interstitialAd.ShowAd();
+
         gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
         gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
         // Don't let the Scene activate until you allow it to.

@@ -16381,13 +16381,13 @@ MonoBehaviour:
   gameplayCanvas: {fileID: 1648810857}
   pauseCanvas: {fileID: 450849896}
   gameOverCanvas: {fileID: 284628025}
-  controlsScoreDividor: 5
   HealthTexture1: {fileID: 628374825}
   HealthTexture2: {fileID: 1511978196}
   HealthTexture3: {fileID: 1442431013}
   ScoreText: {fileID: 1798477751}
   ScoreText2: {fileID: 1781769019}
   launchEnemies: {fileID: 0}
+  interstitialAd: {fileID: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25458,6 +25458,7 @@ MonoBehaviour:
   pauseCanvas: {fileID: 450849896}
   optionCanvas: {fileID: 1837822125}
   gameplayCanvas: {fileID: 1648810857}
+  player: {fileID: 963194229}
 --- !u!114 &1471630366
 MonoBehaviour:
   m_ObjectHideFlags: 0

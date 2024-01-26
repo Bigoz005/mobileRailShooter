@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject gameOverCanvas;
 
-    public int controlsScoreDividor = 5;
     private int points = 1000;
     private int score;
     private int highScore;
@@ -38,7 +37,8 @@ public class Player : MonoBehaviour
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
 
-    const string SCORETEXT = "Score: ";
+    public InterstitialAd interstitialAd;
+    private const string SCORETEXT = "Score: ";
 
     public int GetPoints()
     {
@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
         highScore = PlayerPrefs.GetInt("HighScore");
+        interstitialAd = GameObject.FindGameObjectWithTag("AdsManager").GetComponent<InterstitialAd>();
     }
 
     public void AddScore(int scoreToAdd)
@@ -158,6 +159,7 @@ public class Player : MonoBehaviour
                 }
                 textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
                 textMesh2.SetText("Score: " + this.GetScore());
+                this.interstitialAd.ShowAd();
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
                 Time.timeScale = 0;

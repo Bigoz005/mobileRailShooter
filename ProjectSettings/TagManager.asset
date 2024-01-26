@@ -25,6 +25,7 @@ TagManager:
   - Target
   - Miss
   - Canvas_Credits
+  - AdsManager
   layers:
   - Default
   - TransparentFX
