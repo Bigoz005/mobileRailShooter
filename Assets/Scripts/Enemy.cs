@@ -16,10 +16,8 @@ public class Enemy : MonoBehaviour
     private int index;
     private Transform originalSpecialElementTransform;
 
-    [SerializeField]
-    public AnimationCurve curve;
-    [SerializeField]
-    public AudioClip explosionClip;
+    [SerializeField] public AnimationCurve curve;
+    [SerializeField] public AudioClip explosionClip;
 
     private AudioSource audioSource;
 
@@ -29,8 +27,7 @@ public class Enemy : MonoBehaviour
     private Transform startingTransformCircle1;
     private Transform startingTransformCircle2;
 
-    [SerializeField]
-    private List<GameObject> specialElements;
+    [SerializeField] private List<GameObject> specialElements;
 
     public float _Time { get => time; set => time = value; }
 
@@ -73,7 +70,7 @@ public class Enemy : MonoBehaviour
 
         zoomController = GameObject.FindGameObjectWithTag("ZoomController").GetComponent<Zooming>();
         GameObject objectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
-      
+
         time = 0;
 
         audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
@@ -108,7 +105,7 @@ public class Enemy : MonoBehaviour
         specialElements[index].gameObject.GetComponent<MeshRenderer>().enabled = true;
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
-        
+
         zoomController.SetVariables(Camera.main, objectToWatch, this.gameObject, Camera.main.transform.GetChild(1).GetComponent<Camera>());
 
         StartCoroutine(zoomController.ZoomOnEnemy());
@@ -209,16 +206,16 @@ public class Enemy : MonoBehaviour
         switch (fps)
         {
             case 0:
-                timeFactor = 150f;
+                timeFactor = 140f; //150
                 break;
             case 1:
-                timeFactor = 100f;
+                timeFactor = 90f; //100
                 break;
             case 2:
-                timeFactor = 60f;
+                timeFactor = 80f; //60
                 break;
             case 3:
-                timeFactor = 30f;
+                timeFactor = 70f; //30
                 break;
         }
 
@@ -243,22 +240,22 @@ public class Enemy : MonoBehaviour
             if (aimCircle2 != null)
             {
                 aimCircle2.transform.localScale -= (scaleChange * 160 * timeFactor / 30f);
-                
+
                 if (aimCircle2.transform.localScale.x <= 0)
                 {
                     aimCircle2.SetActive(false);
                 }
             }
 
-            aimlock.transform.Rotate(0f, 5*timeFactor * Time.fixedDeltaTime, 0f);
+            aimlock.transform.Rotate(0f, 5 * timeFactor * Time.fixedDeltaTime, 0f);
 
             if (wasYellow)
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * timeFactor/100f, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * timeFactor / 100f, aimlockMaterial.color.b);
             }
             else
             {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * timeFactor/200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
                 if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
                 {
                     wasYellow = true;

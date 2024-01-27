@@ -5,32 +5,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject gameplayCanvas;
-    [SerializeField]
-    private GameObject pauseCanvas;
-    [SerializeField]
-    private GameObject gameOverCanvas;
+    [SerializeField] private GameObject gameplayCanvas;
+    [SerializeField] private GameObject pauseCanvas;
+    [SerializeField] private GameObject gameOverCanvas;
 
     private int points = 1000;
     private int score;
     private int highScore;
     private int health;
 
-    [SerializeField]
-    private GameObject HealthTexture1;
-    [SerializeField]
-    private GameObject HealthTexture2;
-    [SerializeField]
-    private GameObject HealthTexture3;
-    [SerializeField]
-    private GameObject ScoreText;
-    private TextMeshProUGUI textMesh;
-
-    [SerializeField]
-    private GameObject ScoreText2;
-    [SerializeField]
-    private LaunchEnemies launchEnemies;
+    [SerializeField] private GameObject HealthTexture1;
+    [SerializeField] private GameObject HealthTexture2;
+    [SerializeField] private GameObject HealthTexture3;
+    [SerializeField] private GameObject ScoreText;
+    [SerializeField] private GameObject ScoreText2;
+    [SerializeField] private LaunchEnemies launchEnemies;
+    
+    private TextMeshProUGUI textMesh; 
     private TextMeshProUGUI textMesh2;
 
     private GameObject musicManager;
@@ -160,6 +151,11 @@ public class Player : MonoBehaviour
                 textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
                 textMesh2.SetText("Score: " + this.GetScore());
                 this.interstitialAd.ShowAd();
+                if (interstitialAd.wasShowed)
+                {
+                    this.interstitialAd.wasPlayedOnGameOver = true;
+                    interstitialAd.wasShowed = false;
+                }
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
                 Time.timeScale = 0;
@@ -178,5 +174,4 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
 }

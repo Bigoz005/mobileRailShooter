@@ -19,7 +19,7 @@ public class LaunchEnemies : MonoBehaviour
         previousIndex = -1;
         points = Camera.main.GetComponent<Player>().GetPoints();
         activeCoroutineActivated = StartCoroutine(CountdownToActivate());
-        if(PlayerPrefs.GetInt("Difficulty", 0) == 2)
+        if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
         {
             GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 0.5f;
             GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 0.75f;
@@ -45,8 +45,6 @@ public class LaunchEnemies : MonoBehaviour
         previousIndex = index;
         duration = 2;
 
-        
-
         if (isCounting)
         {
             StopCoroutine(activeCoroutineCountdown);
@@ -57,7 +55,7 @@ public class LaunchEnemies : MonoBehaviour
         activeEnemy.layer = LayerMask.NameToLayer("RayCast");
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
-        
+
 
         if (!activeEnemy.transform.name.Contains("Hard"))
         {
@@ -73,7 +71,6 @@ public class LaunchEnemies : MonoBehaviour
 
         while (activeEnemy.activeInHierarchy)
         {
-            //do nothing while active then start countdown to activate
             yield return null;
         }
 
@@ -101,13 +98,13 @@ public class LaunchEnemies : MonoBehaviour
         float multiplier = 1f;
         switch (score)
         {
-            case >1250 and <2500:
+            case > 1250 and < 2500:
                 multiplier = 0.9f;
                 break;
-            case >2500 and <5000:
+            case > 2500 and < 5000:
                 multiplier = 0.8f;
                 break;
-            case >5000 and < 10000:
+            case > 5000 and < 10000:
                 multiplier = 0.75f;
                 break;
             case > 10000 and < 20000:
@@ -157,7 +154,7 @@ public class LaunchEnemies : MonoBehaviour
         while (timeToActivate > 0)
         {
             Countdown();
-            yield return new WaitForSeconds(multiplier*duration);
+            yield return new WaitForSeconds(multiplier * duration);
         }
 
         if (timeToActivate <= 0)

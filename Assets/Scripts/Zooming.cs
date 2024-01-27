@@ -20,7 +20,6 @@ public class Zooming : MonoBehaviour
     private bool runningZoom = false;
     private bool runningMove = false;
 
-
     private static Zooming zoomingManagerInstance;
 
     void Awake()
@@ -38,7 +37,6 @@ public class Zooming : MonoBehaviour
 
     public IEnumerator ZoomOnEnemy()
     {
-        /*StopCoroutine(ZoomOutEnemy());*/
         minFieldOfView = 35.0f;
         if (enemy.GetComponent<Enemy>())
         {
@@ -66,7 +64,6 @@ public class Zooming : MonoBehaviour
         }
         else
         {
-            Debug.Log("SMIGGA");
             minFieldOfView = 10;
         }
 
@@ -159,8 +156,6 @@ public class Zooming : MonoBehaviour
             cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
             circleCam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, zoom, ref velocity, smoothTime);
 
-            /*Debug.Log(Mathf.Abs(cam.fieldOfView - maxFieldOfView));*/
-
             if (Mathf.Abs(cam.fieldOfView - maxFieldOfView) < 1)
             {
                 break;
@@ -185,7 +180,6 @@ public class Zooming : MonoBehaviour
     {
         circleCam = camToAssign;
     }
-
     public void SetVariables(Camera camera, GameObject gameObjectToWatch, GameObject enemy, Camera camToAssign)
     {
         SetEnemy(enemy);
@@ -193,10 +187,5 @@ public class Zooming : MonoBehaviour
         cam = camera;
         zoom = cam.fieldOfView;
         gameobjectToWatch = gameObjectToWatch;
-    }
-
-    private void TimeCount()
-    {
-        time += 0.25f;
     }
 }

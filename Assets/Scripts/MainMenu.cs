@@ -7,17 +7,12 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mainMenuCanvas;
-
-    [SerializeField]
-    private GameObject optionCanvas;
-
-    [SerializeField]
-    private GameObject highScoreText;
+    [SerializeField] private GameObject mainMenuCanvas;
+    [SerializeField] private GameObject optionCanvas;
+    [SerializeField] private GameObject highScoreText;
 
     private TextMeshProUGUI textMesh;
-    const string SCORETEXT = "Score: ";
+    private const string SCORETEXT = "Score: ";
 
     private AsyncOperation _asyncOperation;
     public void Awake()
@@ -45,7 +40,8 @@ public class MainMenu : MonoBehaviour
     {
         int difficulty = PlayerPrefs.GetInt("Difficulty");
         string sceneName = "";
-        switch (difficulty){
+        switch (difficulty)
+        {
             case 0:
                 sceneName = "EasyScene";
                 break;

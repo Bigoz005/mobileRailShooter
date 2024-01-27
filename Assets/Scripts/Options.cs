@@ -7,36 +7,25 @@ using UnityEngine.SceneManagement;
 
 public class Options : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mainMenuCanvas;
-    [SerializeField]
-    private GameObject optionCanvas;
-    [SerializeField]
-    private GameObject creditsCanvas;
-
-    [SerializeField]
-    private AudioClip sfxClip;
+    [SerializeField] private GameObject mainMenuCanvas;
+    [SerializeField] private GameObject optionCanvas;
+    [SerializeField] private GameObject creditsCanvas;
+    [SerializeField] private AudioClip sfxClip;
 
     private GameObject musicManager;
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
 
-    [SerializeField]
-    private GameObject sliderFps;
-    [SerializeField]
-    private GameObject sliderDifficulty;
-    [SerializeField]
-    private GameObject sliderMusic;
-    [SerializeField]
-    private GameObject sliderSFX;
-    [SerializeField]
-    private GameObject touchToggle;
-
-    [SerializeField]
-    private GameObject text;
+    [SerializeField] private GameObject sliderFps;
+    [SerializeField] private GameObject sliderDifficulty;
+    [SerializeField] private GameObject sliderMusic;
+    [SerializeField] private GameObject sliderSFX;
+    [SerializeField] private GameObject touchToggle;
+    [SerializeField] private GameObject text;
 
     public void Awake()
     {
+
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
         soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
         enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
@@ -164,6 +153,7 @@ public class Options : MonoBehaviour
         PlayerPrefs.SetInt("MusicVolume", volume);
         PlayerPrefs.Save();
     }
+
     public void SetSFX()
     {
         int volume = (int)sliderSFX.GetComponent<Slider>().value;

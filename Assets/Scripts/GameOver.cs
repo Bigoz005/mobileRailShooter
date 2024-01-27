@@ -8,19 +8,13 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviour
 {
 
-    [SerializeField]
-    private GameObject gameoverCanvas;
-
-    [SerializeField]
-    private GameObject gameplayCanvas;
-
-    [SerializeField]
-    private Player player;
+    [SerializeField] private GameObject gameoverCanvas;
+    [SerializeField] private GameObject gameplayCanvas;
+    [SerializeField] private Player player;
 
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
     private GameObject musicManager;
-
     private AsyncOperation _asyncOperation;
 
     public void Awake()
@@ -69,20 +63,17 @@ public class GameOver : MonoBehaviour
 
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
     {
-        // Begin to load the Scene you have specified.
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         player.interstitialAd.ShowAd();
-
+        player.interstitialAd.wasPlayedOnGameOver = false;
         gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
         gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
-        // Don't let the Scene activate until you allow it to.
+
         this._asyncOperation.allowSceneActivation = false;
 
         while (!this._asyncOperation.isDone)
         {
-            /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
-
             if (this._asyncOperation.progress >= 0.89)
             {
                 gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;

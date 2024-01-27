@@ -3,7 +3,16 @@ guid: 61983cc1748768a4bad8ebdb909fb724
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameoverCanvas: {instanceID: 0}
+  - gameplayCanvas: {instanceID: 0}
+  - player: {instanceID: 0}
+  - soundPlayer: {fileID: 7071350427599673068, guid: 787d455f69ea6844a9ad3b768637b561,
+      type: 3}
+  - enemyPlayer: {fileID: 6611001745081752553, guid: 9785ecc5a1c6ca44b801713de9b2a2ae,
+      type: 3}
+  - musicManager: {fileID: 7003132054953289354, guid: 74c980b481fc4a448a02b6ec79872130,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -13,17 +13,14 @@ public class EnemyHard : MonoBehaviour
     private int index;
     private Transform originalSpecialElementTransform;
 
-    [SerializeField]
-    public AnimationCurve curve;
-    [SerializeField]
-    public AudioClip explosionClip;
+    [SerializeField] public AnimationCurve curve;
+    [SerializeField] public AudioClip explosionClip;
 
     private AudioSource audioSource;
 
     Vector3 startingPos;
 
-    [SerializeField]
-    private List<GameObject> specialElements;
+    [SerializeField] private List<GameObject> specialElements;
 
     public float _Time { get => time; set => time = value; }
 
@@ -85,7 +82,7 @@ public class EnemyHard : MonoBehaviour
         if (enabled)
         {
             gameObject.layer = 0;
-            
+
             Camera.main.GetComponentInChildren<Player>().GetHit();
             if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
             {

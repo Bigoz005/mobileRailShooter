@@ -7,14 +7,10 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
 
-    [SerializeField]
-    private GameObject pauseCanvas;
-    [SerializeField]
-    private GameObject optionCanvas;
-    [SerializeField]
-    private GameObject gameplayCanvas;
-    [SerializeField]
-    private Player player;
+    [SerializeField] private GameObject pauseCanvas;
+    [SerializeField] private GameObject optionCanvas;
+    [SerializeField] private GameObject gameplayCanvas;
+    [SerializeField] private Player player;
 
     private GameObject musicManager;
     private GameObject soundPlayer;
@@ -40,8 +36,9 @@ public class PauseMenu : MonoBehaviour
     public void Continue()
     {
         musicManager.GetComponent<AudioSource>().UnPause();
-        if (!soundPlayer.GetComponent<AudioSource>().isPlaying) { 
-        soundPlayer.GetComponent<AudioSource>().UnPause();
+        if (!soundPlayer.GetComponent<AudioSource>().isPlaying)
+        {
+            soundPlayer.GetComponent<AudioSource>().UnPause();
         }
         if (!enemyPlayer.GetComponent<AudioSource>().isPlaying)
         {
@@ -73,7 +70,6 @@ public class PauseMenu : MonoBehaviour
 
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
     {
-        // Begin to load the Scene you have specified.
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         player.interstitialAd.ShowAd();
@@ -81,13 +77,11 @@ public class PauseMenu : MonoBehaviour
         pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = false;
         pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
         pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
-        // Don't let the Scene activate until you allow it to.
+
         this._asyncOperation.allowSceneActivation = false;
 
         while (!this._asyncOperation.isDone)
         {
-            /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
-
             if (this._asyncOperation.progress >= 0.89)
             {
                 pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;

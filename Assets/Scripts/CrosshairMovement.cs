@@ -267,11 +267,11 @@ public class CrosshairMovement : MonoBehaviour
 
                         if (musicManager.powerUpOn)
                         {
-                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor;
+                            tempPoints = 4 * powerupMultiplier * points / 10 / controlsScoreDividor;
                         }
                         else
                         {
-                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor / 2;
+                            tempPoints = 2 * powerupMultiplier * points / 10 / controlsScoreDividor;
                         }
                         cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
