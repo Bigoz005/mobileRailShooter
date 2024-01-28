@@ -41,7 +41,14 @@ public class Leaderboard : MonoBehaviour
         {
             for (int i = 0; i < 9; ++i)
             {
-                scores[i].text = (i+1) + ". " + (msg[i].Username + ": " + msg[i].Score.ToString());
+                if (msg[i].Username.Length > 12)
+                {
+                    scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());
+                }
+                else
+                {
+                    scores[i].text = (i + 1) + ". " + (msg[i].Username + ": " + msg[i].Score.ToString());
+                }
             }
         }),
         ((error) =>
