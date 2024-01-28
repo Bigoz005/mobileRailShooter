@@ -11,9 +11,11 @@ public class Leaderboard : MonoBehaviour
     private int type = 0;
     [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI textMesh;
+    private bool fetched = false;
 
     private void Awake()
     {
+        fetched = false;
         StartCoroutine(WaitAndLoad());
     }
 
@@ -39,8 +41,13 @@ public class Leaderboard : MonoBehaviour
         LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
         ((msg) =>
         {
-            for (int i = 0; i < 9; ++i)
+            int j = 9;
+            if (msg.Length < j)
+                j = msg.Length;
+            
+            for (int i = 0; i < j; ++i)
             {
+
                 if (msg[i].Username.Length > 12)
                 {
                     scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());
@@ -58,8 +65,14 @@ public class Leaderboard : MonoBehaviour
 
         LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
         {
+            fetched = true;
             PlayerPrefs.SetInt("HighScore", msg.Score);
             PlayerPrefs.SetInt("Rank", msg.Rank);
+            textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+        },
+        (error) =>
+        {
+            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nLast knew data-failed to fetch");
         });
     }
 
@@ -71,13 +84,6 @@ public class Leaderboard : MonoBehaviour
         {
             GetLeaderboard();
         }));
-
-        //TODO: Jesli taki nick juz istnieje to zastap wynik - mozliwe ze trzeba usunac wpis i dodac nowy - narazie pozwolono na wiele wpisow
-
-        /*LeaderboardCreator.UpdateEntryUsername(publicLeaderboardKey, tempUsername, ((msg) =>
-        {
-            GetLeaderboard();
-        }));*/
     }
 
     public void IncreaseType()
@@ -102,11 +108,12 @@ public class Leaderboard : MonoBehaviour
 
     public IEnumerator WaitAndLoad()
     {
-        while(scores[0].text.Length == 0) { 
+        while (!fetched)
+        {
             yield return new WaitForSeconds(1f);
             GetLeaderboard();
-            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")");
         }
+
         yield return null;
     }
 }
