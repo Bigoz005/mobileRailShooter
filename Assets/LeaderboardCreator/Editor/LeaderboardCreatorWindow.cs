@@ -286,7 +286,7 @@ namespace LeaderboardCreatorEditor
         private static void Log(string message)
         {
             if (!Config.isUpdateLogsEnabled) return;
-            Debug.Log($"[Leaderboard Creator] {message}");
+          
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Dan.Main;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     private int score;
     private int highScore;
     private int health;
+    private string publicLeaderboardKey = "40d376740a12a143deb03173d5b29b01af5a340378b7979348016cc644ad0577";
 
     [SerializeField] private GameObject HealthTexture1;
     [SerializeField] private GameObject HealthTexture2;
@@ -143,6 +145,7 @@ public class Player : MonoBehaviour
         switch (health)
         {
             case 0:
+                this.interstitialAd.ShowAd();
                 if (score > highScore)
                 {
                     PlayerPrefs.SetInt("HighScore", score);
@@ -150,7 +153,7 @@ public class Player : MonoBehaviour
                 }
                 textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
                 textMesh2.SetText("Score: " + this.GetScore());
-                this.interstitialAd.ShowAd();
+
                 if (interstitialAd.wasShowed)
                 {
                     this.interstitialAd.wasPlayedOnGameOver = true;
@@ -159,6 +162,9 @@ public class Player : MonoBehaviour
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
                 Time.timeScale = 0;
+                LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, PlayerPrefs.GetString("Username"), GetScore(), ((msg) =>
+                {
+                }));
                 break;
             case 1:
                 HealthTexture2.SetActive(false);

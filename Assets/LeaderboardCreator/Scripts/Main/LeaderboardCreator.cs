@@ -261,13 +261,13 @@ namespace Dan.Main
         internal static void Log(string message)
         {
             if (!LoggingEnabled) return;
-            Debug.Log($"[LeaderboardCreator] {message}");
+            
         }
         
         internal static void LogError(string message)
         {
             if (!LoggingEnabled) return;
-            Debug.LogError($"[LeaderboardCreator] {message}");
+            
         }
     }
 }
