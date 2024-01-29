@@ -22,6 +22,9 @@ public class Options : MonoBehaviour
     [SerializeField] private GameObject sliderSFX;
     [SerializeField] private GameObject touchToggle;
     [SerializeField] private GameObject text;
+    [SerializeField] private GameObject gnome1;
+    [SerializeField] private GameObject gnome2;
+    public TextMeshProUGUI username;
 
     public void Awake()
     {
@@ -47,6 +50,10 @@ public class Options : MonoBehaviour
             }
         }
         GetFPS();
+        if (username != null)
+        {
+            username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
+        }
     }
 
     public void ShowMenu()
@@ -59,6 +66,11 @@ public class Options : MonoBehaviour
         enemyPlayer.GetComponent<AudioSource>().Pause();
         mainMenuCanvas.SetActive(true);
         optionCanvas.SetActive(false);
+        if (gnome1 != null && gnome2 != null)
+        {
+            gnome1.SetActive(true);
+            gnome2.SetActive(true);
+        }
     }
     public void ShowCredits()
     {
@@ -70,6 +82,11 @@ public class Options : MonoBehaviour
     {
         creditsCanvas.SetActive(false);
         optionCanvas.SetActive(true);
+        if (gnome1 != null && gnome2 != null)
+        {
+            gnome1.SetActive(false);
+            gnome2.SetActive(false);
+        }
     }
 
     public void ResetScore()

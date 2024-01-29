@@ -16,7 +16,7 @@ public class Leaderboard : MonoBehaviour
     private void Awake()
     {
         fetched = false;
-        StartCoroutine(WaitAndLoad());
+        WaitAndLoad();
     }
 
     public void GetLeaderboard()
@@ -38,42 +38,50 @@ public class Leaderboard : MonoBehaviour
                 break;
         }
 
-        LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
-        ((msg) =>
+        if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            int j = 9;
-            if (msg.Length < j)
-                j = msg.Length;
-            
-            for (int i = 0; i < j; ++i)
+            LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
+            ((msg) =>
             {
+                int j = 9;
+                if (msg.Length < j)
+                    j = msg.Length;
 
-                if (msg[i].Username.Length > 12)
+                for (int i = 0; i < j; ++i)
                 {
-                    scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());
+
+                    if (msg[i].Username.Length > 12)
+                    {
+                        scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());
+                    }
+                    else
+                    {
+                        scores[i].text = (i + 1) + ". " + (msg[i].Username + ": " + msg[i].Score.ToString());
+                    }
                 }
-                else
-                {
-                    scores[i].text = (i + 1) + ". " + (msg[i].Username + ": " + msg[i].Score.ToString());
-                }
-            }
-        }),
-        ((error) =>
+            }),
+            ((error) =>
+            {
+                scores[0].text = "Failed to fetch data";
+            }));
+
+            LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
+            {
+                fetched = true;
+                PlayerPrefs.SetInt("HighScore", msg.Score);
+                PlayerPrefs.SetInt("Rank", msg.Rank);
+                textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+            },
+            (error) =>
+            {
+                textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nLast knew data-failed to fetch");
+            });
+        }
+        else
         {
             scores[0].text = "Failed to fetch data";
-        }));
-
-        LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
-        {
-            fetched = true;
-            PlayerPrefs.SetInt("HighScore", msg.Score);
-            PlayerPrefs.SetInt("Rank", msg.Rank);
-            textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
-        },
-        (error) =>
-        {
             textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nLast knew data-failed to fetch");
-        });
+        }
     }
 
     public void SetLeaderboardEntry(int score)
@@ -106,14 +114,14 @@ public class Leaderboard : MonoBehaviour
         GetLeaderboard();
     }
 
-    public IEnumerator WaitAndLoad()
+    public async void WaitAndLoad()
     {
         while (!fetched)
         {
-            yield return new WaitForSeconds(1f);
+            await System.Threading.Tasks.Task.Delay(1000);
             GetLeaderboard();
+            await System.Threading.Tasks.Task.Yield();
         }
 
-        yield return null;
     }
 }

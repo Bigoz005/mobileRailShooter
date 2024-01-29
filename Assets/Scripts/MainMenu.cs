@@ -12,6 +12,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject usernameCanvas;
     [SerializeField] private GameObject highScoreText;
     [SerializeField] private GameObject playerNicknameText;
+    [SerializeField] private GameObject gnome1;
+    [SerializeField] private GameObject gnome2;
 
     private TextMeshProUGUI textMesh;
     private const string SCORETEXT = "Highscore: ";
@@ -57,12 +59,18 @@ public class MainMenu : MonoBehaviour
     public void ResetNickname()
     {
         PlayerPrefs.SetString("Username", "----");
+        GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
     }
 
     public void ShowOptions()
     {
         mainMenuCanvas.SetActive(false);
         optionCanvas.SetActive(true);
+        if (gnome1 != null && gnome2 != null)
+        {
+            gnome1.SetActive(false);
+            gnome2.SetActive(false);
+        }
     }
 
     public void ExitGame()
