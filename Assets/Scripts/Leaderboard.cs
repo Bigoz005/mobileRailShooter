@@ -43,13 +43,18 @@ public class Leaderboard : MonoBehaviour
             LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
             ((msg) =>
             {
+                foreach(TextMeshProUGUI score in scores)
+                {
+                    score.text = "";
+                }
+
                 int j = 9;
+
                 if (msg.Length < j)
                     j = msg.Length;
 
                 for (int i = 0; i < j; ++i)
                 {
-
                     if (msg[i].Username.Length > 12)
                     {
                         scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());

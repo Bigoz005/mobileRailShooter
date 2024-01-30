@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.17989331, g: 0.22524077, b: 0.3066693, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10891,7 +10891,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034251908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.770001, y: 6.77, z: 6.770001}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -10899,8 +10899,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -183.8, y: -530}
-  m_SizeDelta: {x: 182.3, y: 50}
+  m_AnchoredPosition: {x: -334, y: -530}
+  m_SizeDelta: {x: 119.98, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1034251910
 MonoBehaviour:
@@ -16073,8 +16073,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1040, y: -650}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -952.1, y: -650}
+  m_SizeDelta: {x: 174, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1465954910
 MonoBehaviour:
@@ -19776,7 +19776,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947018956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.4407, y: 2.4407, z: 2.4407}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19785,7 +19785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1398, y: 630}
+  m_AnchoredPosition: {x: 1241, y: 630}
   m_SizeDelta: {x: 43.7, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947018958
