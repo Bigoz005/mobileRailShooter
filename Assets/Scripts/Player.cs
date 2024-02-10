@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Dan.Main;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class Player : MonoBehaviour
     private int score;
     private int highScore;
     private int health;
+    private string publicLeaderboardKey = "40d376740a12a143deb03173d5b29b01af5a340378b7979348016cc644ad0577";
 
     [SerializeField] private GameObject HealthTexture1;
     [SerializeField] private GameObject HealthTexture2;
@@ -20,8 +23,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject ScoreText;
     [SerializeField] private GameObject ScoreText2;
     [SerializeField] private LaunchEnemies launchEnemies;
-    
-    private TextMeshProUGUI textMesh; 
+    [SerializeField] private GameObject rewardedButton;
+
+    private TextMeshProUGUI textMesh;
     private TextMeshProUGUI textMesh2;
 
     private GameObject musicManager;
@@ -29,7 +33,15 @@ public class Player : MonoBehaviour
     private GameObject enemyPlayer;
 
     public InterstitialAd interstitialAd;
+    public RewardedAd rewardedAd;
     private const string SCORETEXT = "Score: ";
+    public bool isRewarded;
+
+    float tick = 0f;
+    private Color grayColor = new Color(0.5f, 0.5f, 0.5f);
+    private Color fullColor = new Color(1f, 1f, 1f);
+    private Color blinkingColor = new Color(0.5f, 1f, 1f);
+    private Color blinkSecondColor = new Color(0.1f, 1f, 0.1f);
 
     public int GetPoints()
     {
@@ -49,6 +61,12 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             OpenMenu();
+        }
+
+        if (!isRewarded)
+        {
+            tick += Time.unscaledDeltaTime * 2;
+            rewardedButton.GetComponent<Image>().color = Color.Lerp(blinkSecondColor, blinkingColor, Mathf.PingPong(tick, 1));
         }
     }
 
@@ -73,20 +91,23 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        GameObject adsManager = GameObject.FindGameObjectWithTag("AdsManager");
         health = 3;
         score = 0;
         textMesh = ScoreText.GetComponent<TextMeshProUGUI>();
         textMesh.SetText(SCORETEXT + score);
         highScore = PlayerPrefs.GetInt("HighScore");
-        interstitialAd = GameObject.FindGameObjectWithTag("AdsManager").GetComponent<InterstitialAd>();
+        interstitialAd = adsManager.GetComponent<InterstitialAd>();
+        rewardedAd = adsManager.GetComponent<RewardedAd>();
+        isRewarded = false;
     }
 
     public void AddScore(int scoreToAdd)
     {
-        this.score += scoreToAdd;
-        if (this.score < 0)
+        score += scoreToAdd;
+        if (score < 0)
         {
-            this.score = 0;
+            score = 0;
         }
         textMesh.SetText(SCORETEXT + score);
     }
@@ -138,11 +159,52 @@ public class Player : MonoBehaviour
         CheckHealth();
     }
 
+    public void ShowRewardAd()
+    {
+        rewardedAd.ShowAd();
+    }
+
+    public void ShowInterAd()
+    {
+        interstitialAd.ShowAd();
+    }
+
+    public void ResumeGame()
+    {
+        try
+        {
+            health = 1;
+            isRewarded = true;
+            gameOverCanvas.SetActive(false);
+            gameplayCanvas.SetActive(true);
+            rewardedButton.GetComponent<Button>().interactable = false;
+            rewardedButton.GetComponent<Image>().color = grayColor;
+            Time.timeScale = 1;
+        }
+        catch (MissingReferenceException e)
+        {
+            Debug.Log(e.StackTrace);
+        }
+
+    }
+
     public void CheckHealth()
     {
         switch (health)
         {
             case 0:
+                if (!isRewarded)
+                {
+                    rewardedAd.player = this;
+                    rewardedAd._showAdButton = rewardedButton;
+                    rewardedButton.GetComponent<Image>().color = fullColor;
+                    rewardedButton.GetComponent<Button>().interactable = true;
+                }
+                else
+                {
+                    ShowInterAd();
+                }
+
                 if (score > highScore)
                 {
                     PlayerPrefs.SetInt("HighScore", score);
@@ -150,15 +212,20 @@ public class Player : MonoBehaviour
                 }
                 textMesh2 = ScoreText2.GetComponent<TextMeshProUGUI>();
                 textMesh2.SetText("Score: " + this.GetScore());
-                this.interstitialAd.ShowAd();
+
                 if (interstitialAd.wasShowed)
                 {
-                    this.interstitialAd.wasPlayedOnGameOver = true;
+                    interstitialAd.wasPlayedOnGameOver = true;
                     interstitialAd.wasShowed = false;
                 }
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
                 Time.timeScale = 0;
+
+                LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, PlayerPrefs.GetString("Username"), GetScore(), ((msg) =>
+                {
+                }));
+
                 break;
             case 1:
                 HealthTexture2.SetActive(false);
@@ -174,4 +241,6 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
+
 }

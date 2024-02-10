@@ -9,12 +9,17 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject optionCanvas;
+    [SerializeField] private GameObject usernameCanvas;
     [SerializeField] private GameObject highScoreText;
+    [SerializeField] private GameObject playerNicknameText;
+    [SerializeField] private GameObject gnome1;
+    [SerializeField] private GameObject gnome2;
 
     private TextMeshProUGUI textMesh;
-    private const string SCORETEXT = "Score: ";
+    private const string SCORETEXT = "Highscore: ";
 
     private AsyncOperation _asyncOperation;
+
     public void Awake()
     {
         RefreshHighscore();
@@ -23,19 +28,62 @@ public class MainMenu : MonoBehaviour
     public void RefreshHighscore()
     {
         textMesh = highScoreText.GetComponent<TextMeshProUGUI>();
-        textMesh.SetText(SCORETEXT + PlayerPrefs.GetInt("HighScore", 0));
+        textMesh.SetText(SCORETEXT + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")");
+    }
+
+    public void SetNickname()
+    {
+        string username = playerNicknameText.GetComponent<TextMeshProUGUI>().text;
+
+        if (username.Length != 1 && !username.Equals(""))
+        {
+            PlayerPrefs.SetString("Username", username);
+            StartGame();
+        }
+    }
+
+    public void CheckIfReadyToPlay()
+    {
+        string user = PlayerPrefs.GetString("Username");
+        if (user.Equals("----") || user.Equals("") || user == null)
+        {
+            usernameCanvas.SetActive(true);
+            mainMenuCanvas.SetActive(false);
+        }
+        else
+        {
+            StartGame();
+        }
+    }
+
+    public void ResetNickname()
+    {
+        PlayerPrefs.SetString("Username", "----");
+        GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
     }
 
     public void ShowOptions()
     {
         mainMenuCanvas.SetActive(false);
         optionCanvas.SetActive(true);
+        if (gnome1 != null && gnome2 != null)
+        {
+            gnome1.SetActive(false);
+            gnome2.SetActive(false);
+        }
+    }
+
+    public void ShowMenuFromUsername()
+    {
+        usernameCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(true);
     }
 
     public void ExitGame()
     {
         Application.Quit();
     }
+
     public void StartGame()
     {
         int difficulty = PlayerPrefs.GetInt("Difficulty");
@@ -58,21 +106,17 @@ public class MainMenu : MonoBehaviour
     }
 
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
-    {
-        // Begin to load the Scene you have specified.
+    {        
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = false;
         mainMenuCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
         mainMenuCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
 
-        // Don't let the Scene activate until you allow it to.
         this._asyncOperation.allowSceneActivation = false;
 
         while (!this._asyncOperation.isDone)
         {
-            /*Debug.Log($"[scene]:{sceneName} [load progress]: {this._asyncOperation.progress}");*/
-
             if (this._asyncOperation.progress >= 0.89)
             {
                 mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;

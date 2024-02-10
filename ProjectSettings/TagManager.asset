@@ -26,6 +26,9 @@ TagManager:
   - Miss
   - Canvas_Credits
   - AdsManager
+  - Canvas_Play
+  - LeaderboardManager
+  - RewardButton
   layers:
   - Default
   - TransparentFX

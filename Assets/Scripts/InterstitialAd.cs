@@ -28,19 +28,10 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
     }
 
     public void ShowAd()
-    { 
-        if(Time.realtimeSinceStartup - currentTime > adsInterval && !wasPlayedOnGameOver) { 
+    {
+        if(Time.realtimeSinceStartup - currentTime > adsInterval && !wasPlayedOnGameOver) {
             currentTime = Time.realtimeSinceStartup;
             Advertisement.Show(_adUnitId, this);
-        }
-    }
-
-    public IEnumerator WaitForLoad()
-    {
-        while(true)
-        {
-            LoadAd();
-            yield return new WaitForSeconds(15);
         }
     }
 

@@ -89,29 +89,30 @@ public class Zooming : MonoBehaviour
     {
         GameObject targetGameObject;
 
-        float rand = Random.Range(-1f, 1f);
+        float rand = Random.Range(0, 2);
+        int randInside = Random.Range(0, 4);
 
-        if (rand > 0)
+        if (rand == 1)
         {
-            if (enemy.transform.GetChild(4).CompareTag("RightBox"))
+            if (enemy.transform.GetChild(5).CompareTag("RightBox"))
             {
-                targetGameObject = enemy.transform.GetChild(4).gameObject;
+                targetGameObject = enemy.transform.GetChild(5).GetChild(randInside).gameObject;
             }
             else
             {
-                targetGameObject = enemy.transform.GetChild(2).gameObject;
+                targetGameObject = enemy.transform.GetChild(2).GetChild(randInside).gameObject;
             }
 
         }
         else
         {
-            if (enemy.transform.GetChild(5).CompareTag("LeftBox"))
+            if (enemy.transform.GetChild(4).CompareTag("LeftBox"))
             {
-                targetGameObject = enemy.transform.GetChild(5).gameObject;
+                targetGameObject = enemy.transform.GetChild(4).GetChild(randInside).gameObject;
             }
             else
             {
-                targetGameObject = enemy.transform.GetChild(1).gameObject;
+                targetGameObject = enemy.transform.GetChild(1).GetChild(randInside).gameObject;
             }
         }
 
