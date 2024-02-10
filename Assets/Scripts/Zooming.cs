@@ -92,11 +92,11 @@ public class Zooming : MonoBehaviour
         float rand = Random.Range(0, 2);
         int randInside = Random.Range(0, 4);
 
-        if (rand == 0)
+        if (rand == 1)
         {
-            if (enemy.transform.GetChild(4).CompareTag("RightBox"))
+            if (enemy.transform.GetChild(5).CompareTag("RightBox"))
             {
-                targetGameObject = enemy.transform.GetChild(4).GetChild(randInside).gameObject;
+                targetGameObject = enemy.transform.GetChild(5).GetChild(randInside).gameObject;
             }
             else
             {
@@ -106,9 +106,9 @@ public class Zooming : MonoBehaviour
         }
         else
         {
-            if (enemy.transform.GetChild(5).CompareTag("LeftBox"))
+            if (enemy.transform.GetChild(4).CompareTag("LeftBox"))
             {
-                targetGameObject = enemy.transform.GetChild(5).GetChild(randInside).gameObject;
+                targetGameObject = enemy.transform.GetChild(4).GetChild(randInside).gameObject;
             }
             else
             {

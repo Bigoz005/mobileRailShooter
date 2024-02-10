@@ -18349,6 +18349,7 @@ GameObject:
   - component: {fileID: 1787316367}
   - component: {fileID: 1787316366}
   - component: {fileID: 1787316368}
+  - component: {fileID: 1787316369}
   m_Layer: 0
   m_Name: AdsManager
   m_TagString: AdsManager
@@ -18403,6 +18404,22 @@ MonoBehaviour:
   adsInterval: 90
   wasPlayedOnGameOver: 0
   wasShowed: 0
+--- !u!114 &1787316369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787316365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db29afb36e6838e47b7ea39dc8a80a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showAdButton: {fileID: 0}
+  _androidAdUnitId: Rewarded_Android_Additional_Hp
+  _iOSAdUnitId: Rewarded_iOS
+  player: {fileID: 0}
 --- !u!1001 &1793587026
 PrefabInstance:
   m_ObjectHideFlags: 0

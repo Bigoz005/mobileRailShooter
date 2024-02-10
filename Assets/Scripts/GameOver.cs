@@ -36,12 +36,13 @@ public class GameOver : MonoBehaviour
         player.AddHealth(0);
         player.AddHealth(0);
         player.AddHealth(0);
+        player.isRewarded = false;
         Time.timeScale = 1;
     }
 
     public void BackToMainMenu()
     {
-        Time.timeScale = 1;
+        player.ShowInterAd();
 
         musicManager.GetComponent<MusicManager>().powerUpOn = false;
         if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
