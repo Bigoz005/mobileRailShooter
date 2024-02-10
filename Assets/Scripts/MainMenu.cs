@@ -73,6 +73,12 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void ShowMenuFromUsername()
+    {
+        usernameCanvas.SetActive(false);
+        mainMenuCanvas.SetActive(true);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
