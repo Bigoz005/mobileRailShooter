@@ -37,6 +37,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     public void OnInitializationComplete()
     {
         this.GetComponent<InterstitialAd>().LoadAd();
+        this.GetComponent<RewardedAd>().LoadAd();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
