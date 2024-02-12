@@ -25,19 +25,20 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
         }
     }
 
-    public void InitializeAds()
+    public async void InitializeAds()
     {
         _gameId = _androidGameId;
         if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(_gameId, _testMode, this);
+            await System.Threading.Tasks.Task.Yield();
         }
     }
 
     public void OnInitializationComplete()
     {
-        this.GetComponent<InterstitialAd>().LoadAd();
-        this.GetComponent<RewardedAd>().LoadAd();
+        GetComponent<InterstitialAd>().LoadAd();
+        GetComponent<RewardedAd>().LoadAd();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
@@ -52,7 +53,6 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 InitializeAds();
-                yield return new WaitForSeconds(10);
             }
         }
         yield return null;

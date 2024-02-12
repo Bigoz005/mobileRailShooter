@@ -60,10 +60,10 @@ public class GameOver : MonoBehaviour
 
         Time.timeScale = 1;
 
-        StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
+        LoadSceneAsyncProcess("MainMenuScene");
     }
 
-    private IEnumerator LoadSceneAsyncProcess(string sceneName)
+    private async void LoadSceneAsyncProcess(string sceneName)
     {
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
@@ -82,8 +82,8 @@ public class GameOver : MonoBehaviour
                 gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
-            yield return null;
+            await System.Threading.Tasks.Task.Yield();
         }
-        yield return null;
+        await System.Threading.Tasks.Task.Yield();
     }
 }

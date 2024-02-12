@@ -66,7 +66,7 @@ public class EnemyHard : Enemy
             {
                 while (Time.timeScale == 0)
                 {
-                    await Task.Delay(300);
+                    await Task.Delay(333);
                 }
 
                 if (time == TIME_TO_ATTACK - 1f && enabled)

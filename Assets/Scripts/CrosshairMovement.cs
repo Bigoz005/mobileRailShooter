@@ -51,7 +51,7 @@ public class CrosshairMovement : MonoBehaviour
     private ParticleSystem particle = null;
 
     private float duration = 17.0f;
-    
+
     private int points;
     private bool touchControlEnabled;
     private int i = 1;
@@ -101,13 +101,13 @@ public class CrosshairMovement : MonoBehaviour
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
             {
                 previousPosition = joystick.transform.localPosition;
-                self.transform.localPosition = new Vector3(previousPosition.x * 6.75f, previousPosition.y * 3.1f, previousPosition.z);
+                self.transform.localPosition = new Vector3(previousPosition.x * 7.3f, previousPosition.y * 4.5f, previousPosition.z);
                 reloadCircle.transform.localPosition = self.transform.localPosition;
             }
         }
         else
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 checkShoot();
             }
@@ -120,18 +120,15 @@ public class CrosshairMovement : MonoBehaviour
 
         if (touchControlEnabled)
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
-                {
-                    ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
+                ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
 
-                    if (!isReloding)
-                    {
-                        Vector2 anchoredPosition;
-                        RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
-                        reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
-                    }
+                if (!isReloding)
+                {
+                    Vector2 anchoredPosition;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
+                    reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
                 }
             }
         }
@@ -150,8 +147,9 @@ public class CrosshairMovement : MonoBehaviour
 
     private void checkShoot(Ray ray)
     {
+
         RaycastHit hit;
-        
+
 
         if (!musicManager.powerUpOn)
         {
@@ -307,28 +305,28 @@ public class CrosshairMovement : MonoBehaviour
             {
                 self.GetComponent<Image>().enabled = false;
             }
-            
+
             while (image.fillAmount > 0)
             {
                 while (Time.timeScale == 0)
                 {
                     await Task.Delay(200);
                 }
-                
+
                 ReloadCountdown(image);
-                
+
                 await Task.Delay(30);
             }
             if (image.fillAmount <= 0.1)
             {
                 image.fillAmount = 1;
+                isReloding = false;
             }
             if (PlayerPrefs.GetInt("Controls") != 1)
             {
                 self.GetComponent<Image>().enabled = true;
             }
             image.enabled = false;
-            isReloding = false;
             if (!touchControlEnabled)
             {
                 self.GetComponent<Image>().enabled = true;
@@ -394,7 +392,7 @@ public class CrosshairMovement : MonoBehaviour
 
     private void ReloadCountdown(Image image)
     {
-        image.fillAmount -= 0.05f;
+        image.fillAmount -= 0.075f;
     }
 
     private async void ChangeLightColor()

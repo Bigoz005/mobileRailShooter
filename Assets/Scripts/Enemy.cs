@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(zoomController.Move());
         CountdownToAttack();
         StartCoroutine(Shaking());
-        AimlockController();
+        StartCoroutine(AimlockController());
     }
 
     private void Attack()
@@ -122,7 +122,7 @@ public class Enemy : MonoBehaviour
         {
             gameObject.layer = 0;
             aimlock.SetActive(false);
-            /*StopCoroutine(AimlockController());*/
+            StopCoroutine(AimlockController());
             Camera.main.GetComponentInChildren<Player>().GetHit();
             if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
             {
@@ -171,7 +171,7 @@ public class Enemy : MonoBehaviour
             {
                 while (Time.timeScale == 0)
                 {
-                    await Task.Delay(300);
+                    await Task.Delay(333);
                 }
 
                 if (time == TIME_TO_ATTACK - 0.5f && enabled)
@@ -211,31 +211,27 @@ public class Enemy : MonoBehaviour
         aimCircle2.transform.rotation = startingTransformCircle2.rotation;
     }
 
-    private async void AimlockController()
+    private IEnumerator AimlockController()
     {
-        try
-        {
             Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
-            float timeFactor = 30f;
-            int fps = PlayerPrefs.GetInt("FPS", 0);
-
+            float timeFactor = 3f;
             bool wasYellow = false;
 
             while (time <= TIME_TO_ATTACK && enabled)
             {
                 while (Time.timeScale == 0)
                 {
-                    await Task.Delay(300);
+                    yield return new WaitForSeconds(0.25f);
                 }
 
                 if (aimlock.transform.localScale.x >= 10)
                 {
-                    aimlock.transform.localScale -= scaleChange * 30 * timeFactor / 10f;
+                    aimlock.transform.localScale -= scaleChange * 30 * timeFactor;
                 }
 
                 if (aimCircle1 != null)
                 {
-                    aimCircle1.transform.localScale -= (scaleChange * 550 * timeFactor / 30f);
+                    aimCircle1.transform.localScale -= (scaleChange * 550 * timeFactor / 2f);
                     if (aimCircle1.transform.localScale.x <= 0)
                     {
                         aimCircle1.SetActive(false);
@@ -244,7 +240,7 @@ public class Enemy : MonoBehaviour
 
                 if (aimCircle2 != null)
                 {
-                    aimCircle2.transform.localScale -= (scaleChange * 800 * timeFactor / 30f);
+                    aimCircle2.transform.localScale -= (scaleChange * 800 * timeFactor / 2f);
 
                     if (aimCircle2.transform.localScale.x <= 0)
                     {
@@ -252,28 +248,23 @@ public class Enemy : MonoBehaviour
                     }
                 }
 
-                aimlock.transform.Rotate(0f, 5 * timeFactor / 15, 0f);
+                aimlock.transform.Rotate(0f, 5 * timeFactor * 10, 0f);
 
                 if (wasYellow)
                 {
-                    aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - timeFactor / 1000f, aimlockMaterial.color.b);
+                    aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - timeFactor / 100f, aimlockMaterial.color.b);
                 }
                 else
                 {
-                    aimlockMaterial.color = new Color(aimlockMaterial.color.r + timeFactor / 2000f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                    aimlockMaterial.color = new Color(aimlockMaterial.color.r + timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
                     if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
                     {
                         wasYellow = true;
                     }
                 }
-                await Task.Delay(30);
+                yield return new WaitForSeconds(0.03f);
             }
-            await Task.Yield();
-        }
-        catch (MissingReferenceException e)
-        {
-            await Task.Yield();
-        }
+            yield return null;   
     }
 
     private IEnumerator Shaking()
@@ -304,6 +295,7 @@ public class Enemy : MonoBehaviour
     {
         StopCoroutine(Shaking());
         StopCoroutine(CountdownToExtinction());
+        StopCoroutine(AimlockController());
     }
 
     protected void ResetSpecialItem()
