@@ -119,9 +119,6 @@ public class MainMenu : MonoBehaviour
         {
             if (this._asyncOperation.progress >= 0.89)
             {
-                mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
-                mainMenuCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
-                mainMenuCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
             await System.Threading.Tasks.Task.Yield();

@@ -65,10 +65,10 @@ public class PauseMenu : MonoBehaviour
         }
 
         Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
-        LoadSceneAsyncProcess("MainMenuScene");
+        StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }
 
-    private async void LoadSceneAsyncProcess(string sceneName)
+    private IEnumerator LoadSceneAsyncProcess(string sceneName)
     {
         _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
@@ -89,9 +89,8 @@ public class PauseMenu : MonoBehaviour
                 pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 _asyncOperation.allowSceneActivation = true;
             }
-            await System.Threading.Tasks.Task.Yield();
+            yield return null;
         }
-
-        await System.Threading.Tasks.Task.Yield();
+        yield return null;
     }
 }

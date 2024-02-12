@@ -25,13 +25,12 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
         }
     }
 
-    public async void InitializeAds()
+    public void InitializeAds()
     {
         _gameId = _androidGameId;
         if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(_gameId, _testMode, this);
-            await System.Threading.Tasks.Task.Yield();
         }
     }
 
