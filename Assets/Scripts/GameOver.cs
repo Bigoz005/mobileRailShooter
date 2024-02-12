@@ -78,8 +78,6 @@ public class GameOver : MonoBehaviour
         {
             if (this._asyncOperation.progress >= 0.89)
             {
-                gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
-                gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
             yield return null;

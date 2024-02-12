@@ -36,8 +36,8 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
 
     public void OnInitializationComplete()
     {
-        this.GetComponent<InterstitialAd>().LoadAd();
-        this.GetComponent<RewardedAd>().LoadAd();
+        GetComponent<InterstitialAd>().LoadAd();
+        GetComponent<RewardedAd>().LoadAd();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
@@ -52,7 +52,6 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
                 InitializeAds();
-                yield return new WaitForSeconds(30);
             }
         }
         yield return null;

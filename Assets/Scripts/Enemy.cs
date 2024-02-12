@@ -2,32 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
+using System.Threading.Tasks;
 public class Enemy : MonoBehaviour
 {
-    private GameObject explosion;
-    private float duration;
-    private float time = 0;
-    private float TIME_TO_ATTACK = 1;
+    protected GameObject explosion;
+    protected float duration;
+    protected float time = 0;
+    protected float TIME_TO_ATTACK = 1;
     private GameObject aimlock;
     private GameObject aimCircle1;
     private GameObject aimCircle2;
     private Material aimlockMaterial;
-    private Zooming zoomController;
-    private int index;
-    private Transform originalSpecialElementTransform;
+    protected Zooming zoomController;
+    protected int index;
+    protected Transform originalSpecialElementTransform;
 
-    [SerializeField] public AnimationCurve curve;
-    [SerializeField] public AudioClip explosionClip;
+    [SerializeField] protected AnimationCurve curve;
+    [SerializeField] protected AudioClip explosionClip;
 
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
 
-    private Vector3 startingPos;
+    protected Vector3 startingPos;
     private Color startingAimlockMaterialColor;
     private Transform startingTransformAimlock;
     private Transform startingTransformCircle1;
     private Transform startingTransformCircle2;
 
-    [SerializeField] private List<GameObject> specialElements;
+    [SerializeField] public List<GameObject> specialElements;
 
     public float _Time { get => time; set => time = value; }
 
@@ -110,7 +111,7 @@ public class Enemy : MonoBehaviour
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
-        StartCoroutine(CountdownToAttack());
+        CountdownToAttack();
         StartCoroutine(Shaking());
         StartCoroutine(AimlockController());
     }
@@ -162,25 +163,38 @@ public class Enemy : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator CountdownToAttack()
+    private async void CountdownToAttack()
     {
-        while (time <= TIME_TO_ATTACK)
+        try
         {
-            if (time == TIME_TO_ATTACK - 0.5f && enabled)
+            while (time <= TIME_TO_ATTACK)
             {
-                audioSource.clip = explosionClip;
-                audioSource.Play();
-            }
+                while (Time.timeScale == 0)
+                {
+                    await Task.Delay(333);
+                }
 
-            if (time == TIME_TO_ATTACK)
-            {
-                Attack();
-            }
+                if (time == TIME_TO_ATTACK - 0.5f && enabled)
+                {
+                    audioSource.clip = explosionClip;
+                    audioSource.Play();
+                }
 
-            TimeCount();
-            yield return new WaitForSeconds(1);
+                if (time == TIME_TO_ATTACK)
+                {
+                    Attack();
+                }
+
+                TimeCount();
+                await Task.Delay(1000);
+            }
+            await Task.Yield();
         }
-        yield return null;
+        catch (MissingReferenceException e)
+        {
+            audioSource.Stop();
+            await Task.Yield();
+        }
     }
 
     public void ResetAimlockAndCircles()
@@ -199,73 +213,60 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator AimlockController()
     {
-        Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
-        float timeFactor = 30f;
-        int fps = PlayerPrefs.GetInt("FPS", 0);
+            Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
+            float timeFactor = 3f;
+            bool wasYellow = false;
 
-        switch (fps)
-        {
-            case 0:
-                timeFactor = 140f; //150
-                break;
-            case 1:
-                timeFactor = 90f; //100
-                break;
-            case 2:
-                timeFactor = 80f; //60
-                break;
-            case 3:
-                timeFactor = 70f; //30
-                break;
-        }
-
-        bool wasYellow = false;
-
-        while (time <= TIME_TO_ATTACK && enabled)
-        {
-            if (aimlock.transform.localScale.x >= 10)
+            while (time <= TIME_TO_ATTACK && enabled)
             {
-                aimlock.transform.localScale -= scaleChange * 30 * timeFactor / 10f;
-            }
-
-            if (aimCircle1 != null)
-            {
-                aimCircle1.transform.localScale -= (scaleChange * 120 * timeFactor / 30f);
-                if (aimCircle1.transform.localScale.x <= 0)
+                while (Time.timeScale == 0)
                 {
-                    aimCircle1.SetActive(false);
+                    yield return new WaitForSeconds(0.25f);
                 }
-            }
 
-            if (aimCircle2 != null)
-            {
-                aimCircle2.transform.localScale -= (scaleChange * 160 * timeFactor / 30f);
-
-                if (aimCircle2.transform.localScale.x <= 0)
+                if (aimlock.transform.localScale.x >= 10)
                 {
-                    aimCircle2.SetActive(false);
+                    aimlock.transform.localScale -= scaleChange * 30 * timeFactor;
                 }
-            }
 
-            aimlock.transform.Rotate(0f, 5 * timeFactor * Time.fixedDeltaTime, 0f);
-
-            if (wasYellow)
-            {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - Time.fixedDeltaTime * timeFactor / 100f, aimlockMaterial.color.b);
-            }
-            else
-            {
-                aimlockMaterial.color = new Color(aimlockMaterial.color.r + Time.fixedDeltaTime * timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
-                if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
+                if (aimCircle1 != null)
                 {
-                    wasYellow = true;
+                    aimCircle1.transform.localScale -= (scaleChange * 550 * timeFactor / 2f);
+                    if (aimCircle1.transform.localScale.x <= 0)
+                    {
+                        aimCircle1.SetActive(false);
+                    }
                 }
-            }
 
-            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
-        }
-        yield return null;
+                if (aimCircle2 != null)
+                {
+                    aimCircle2.transform.localScale -= (scaleChange * 800 * timeFactor / 2f);
+
+                    if (aimCircle2.transform.localScale.x <= 0)
+                    {
+                        aimCircle2.SetActive(false);
+                    }
+                }
+
+                aimlock.transform.Rotate(0f, 5 * timeFactor * 10, 0f);
+
+                if (wasYellow)
+                {
+                    aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - timeFactor / 100f, aimlockMaterial.color.b);
+                }
+                else
+                {
+                    aimlockMaterial.color = new Color(aimlockMaterial.color.r + timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                    if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
+                    {
+                        wasYellow = true;
+                    }
+                }
+                yield return new WaitForSeconds(0.03f);
+            }
+            yield return null;   
     }
+
     private IEnumerator Shaking()
     {
         Vector3 startPostition = transform.position;
@@ -281,12 +282,11 @@ public class Enemy : MonoBehaviour
         yield return null;
     }
 
-    private void Countdown()
+    protected void Countdown()
     {
         duration -= 1;
     }
-
-    private void TimeCount()
+    protected void TimeCount()
     {
         time += 0.25f;
     }
@@ -294,12 +294,11 @@ public class Enemy : MonoBehaviour
     public void StopAllGnomeCoroutines()
     {
         StopCoroutine(Shaking());
-        StopCoroutine(AimlockController());
-        StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());
+        StopCoroutine(AimlockController());
     }
 
-    private void ResetSpecialItem()
+    protected void ResetSpecialItem()
     {
         specialElements[index].SetActive(false);
         specialElements[index].transform.localPosition = originalSpecialElementTransform.localPosition;

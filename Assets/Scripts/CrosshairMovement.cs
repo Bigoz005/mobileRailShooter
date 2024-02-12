@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +51,7 @@ public class CrosshairMovement : MonoBehaviour
     private ParticleSystem particle = null;
 
     private float duration = 17.0f;
-    private float reloadDuration = 0.5f;
+
     private int points;
     private bool touchControlEnabled;
     private int i = 1;
@@ -100,13 +101,13 @@ public class CrosshairMovement : MonoBehaviour
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)
             {
                 previousPosition = joystick.transform.localPosition;
-                self.transform.localPosition = new Vector3(previousPosition.x * 6.75f, previousPosition.y * 3.1f, previousPosition.z);
+                self.transform.localPosition = new Vector3(previousPosition.x * 7.3f, previousPosition.y * 4.5f, previousPosition.z);
                 reloadCircle.transform.localPosition = self.transform.localPosition;
             }
         }
         else
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 checkShoot();
             }
@@ -119,18 +120,15 @@ public class CrosshairMovement : MonoBehaviour
 
         if (touchControlEnabled)
         {
-            if (Input.touchCount > 0)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began)
-                {
-                    ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
+                ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
 
-                    if (!isReloding)
-                    {
-                        Vector2 anchoredPosition;
-                        RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
-                        reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
-                    }
+                if (!isReloding)
+                {
+                    Vector2 anchoredPosition;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(reloadCircle.transform.parent.transform.parent.GetComponent<RectTransform>(), Input.GetTouch(0).position, circleCamera, out anchoredPosition);
+                    reloadCircle.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
                 }
             }
         }
@@ -149,8 +147,9 @@ public class CrosshairMovement : MonoBehaviour
 
     private void checkShoot(Ray ray)
     {
+
         RaycastHit hit;
-        reloadDuration = 2.0f;
+
 
         if (!musicManager.powerUpOn)
         {
@@ -190,7 +189,7 @@ public class CrosshairMovement : MonoBehaviour
                             hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
                             hit.collider.gameObject.transform.GetChild(4).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
                             hit.collider.gameObject.transform.GetChild(4).gameObject.SetActive(true);
-                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(4).gameObject));
+                            StartCoroutine(PointsTextVisibility(hit.collider.gameObject.transform.GetChild(4).gameObject));
                             hit.collider.gameObject.tag = "Untagged";
                         }
                         else
@@ -204,7 +203,7 @@ public class CrosshairMovement : MonoBehaviour
                             hit.collider.gameObject.transform.GetChild(6).gameObject.SetActive(true);
                             hit.collider.gameObject.transform.GetChild(7).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
                             hit.collider.gameObject.transform.GetChild(7).gameObject.SetActive(true);
-                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(7).gameObject));
+                            StartCoroutine(PointsTextVisibility(hit.collider.gameObject.transform.GetChild(7).gameObject));
                             hit.collider.gameObject.tag = "Untagged";
                         }
                         enemyAudioSource.Play();
@@ -214,7 +213,7 @@ public class CrosshairMovement : MonoBehaviour
                         particle = hit.collider.gameObject.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
                         hit.collider.gameObject.transform.GetChild(1).GetComponent<TextMeshPro>().SetText("+ " + points / controlsScoreDividor);
                         hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
+                        StartCoroutine(PointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
                         hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
                         if (particle.isPlaying)
                         {
@@ -240,7 +239,7 @@ public class CrosshairMovement : MonoBehaviour
                         if (i)
                         {
                             hit.collider.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                            StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
+                            StartCoroutine(PointsTextVisibility(hit.collider.gameObject.transform.GetChild(1).gameObject));
                         }
                         break;
                     case "PowerUp":
@@ -255,13 +254,8 @@ public class CrosshairMovement : MonoBehaviour
                         musicManager.playPowerUpMusic();
                         audioSource.clip = powerUpClip;
                         LasersObject.SetActive(true);
-                        if (musicManager.powerUpOn)
-                        {
-                            StopCoroutine(powerUpDuration());
-                            StopCoroutine(ChangeLightColor());
-                        }
-                        StartCoroutine(ChangeLightColor());
-                        StartCoroutine(powerUpDuration());
+                        ChangeLightColor();
+                        PowerUpDuration();
                         break;
                     case "Target":
 
@@ -276,12 +270,12 @@ public class CrosshairMovement : MonoBehaviour
                         cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                        StartCoroutine(pointsTextVisibility(hit.collider.gameObject.transform.GetChild(0).gameObject));
+                        StartCoroutine(PointsTextVisibility(hit.collider.gameObject.transform.GetChild(0).gameObject));
                         break;
                 }
             }
             self.GetComponent<Image>().enabled = false;
-            StartCoroutine(reload());
+            Reload();
             if (!(enemyAudioSource.clip == gnomeClip && enemyAudioSource.isPlaying))
             {
                 audioSource.Play();
@@ -289,7 +283,7 @@ public class CrosshairMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator pointsTextVisibility(GameObject gameObject)
+    private IEnumerator PointsTextVisibility(GameObject gameObject)
     {
         i = 1;
         while (i > 0)
@@ -300,64 +294,90 @@ public class CrosshairMovement : MonoBehaviour
         gameObject.SetActive(false);
         yield return null;
     }
-    private IEnumerator reload()
+    private async void Reload()
     {
-        Image image = reloadCircle.GetComponent<Image>();
-        image.enabled = true;
-        isReloding = true;
-        if (!touchControlEnabled)
+        try
         {
-            self.GetComponent<Image>().enabled = false;
-        }
+            Image image = reloadCircle.GetComponent<Image>();
+            image.enabled = true;
+            isReloding = true;
+            if (!touchControlEnabled)
+            {
+                self.GetComponent<Image>().enabled = false;
+            }
 
-        while (image.fillAmount > 0)
-        {
-            ReloadCountdown();
-            image.fillAmount -= 0.03f;
-            yield return new WaitForSeconds(0.01f);
+            while (image.fillAmount > 0)
+            {
+                while (Time.timeScale == 0)
+                {
+                    await Task.Delay(200);
+                }
+
+                ReloadCountdown(image);
+
+                await Task.Delay(30);
+            }
+            if (image.fillAmount <= 0.1)
+            {
+                image.fillAmount = 1;
+                isReloding = false;
+            }
+            if (PlayerPrefs.GetInt("Controls") != 1)
+            {
+                self.GetComponent<Image>().enabled = true;
+            }
+            image.enabled = false;
+            if (!touchControlEnabled)
+            {
+                self.GetComponent<Image>().enabled = true;
+            }
+            await Task.Yield();
         }
-        if (image.fillAmount <= 0.1)
+        catch (MissingReferenceException e)
         {
-            image.fillAmount = 1;
+            /*Debug.Log("Reload: " + e);*/
+            await Task.Yield();
         }
-        if (PlayerPrefs.GetInt("Controls") != 1)
-        {
-            self.GetComponent<Image>().enabled = true;
-        }
-        image.enabled = false;
-        isReloding = false;
-        if (!touchControlEnabled)
-        {
-            self.GetComponent<Image>().enabled = true;
-        }
-        yield return null;
     }
 
-    private IEnumerator powerUpDuration()
+    private async void PowerUpDuration()
     {
-        duration = 17.0f;
-        powerupMultiplier *= 2;
-        musicManager.powerUpOn = true;
-        while (musicManager.powerUpOn)
+        try
         {
-            if (duration <= 0)
+            duration = 17.0f;
+            powerupMultiplier *= 2;
+            musicManager.powerUpOn = true;
+            while (musicManager.powerUpOn)
             {
-                if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
+                while (Time.timeScale == 0)
                 {
-                    musicManager.playHardMusic();
+                    await Task.Delay(200);
                 }
-                else
+
+                if (duration <= 0)
                 {
-                    musicManager.playMainMusic();
+                    if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
+                    {
+                        musicManager.playHardMusic();
+                    }
+                    else
+                    {
+                        musicManager.playMainMusic();
+                    }
+                    LasersObject.SetActive(false);
+                    musicManager.powerUpOn = false;
                 }
-                LasersObject.SetActive(false);
-                musicManager.powerUpOn = false;
+                Countdown();
+                await Task.Delay(1000);
             }
-            Countdown();
-            yield return new WaitForSeconds(1);
+            powerupMultiplier = 1;
+            await Task.Yield();
         }
-        powerupMultiplier = 1;
-        yield return null;
+        catch (MissingReferenceException e)
+        {
+            /*Debug.Log("Power Up Duration: " + e);*/
+            await Task.Yield();
+        }
     }
 
     private void Countdown()
@@ -370,37 +390,51 @@ public class CrosshairMovement : MonoBehaviour
         i -= 1;
     }
 
-    private void ReloadCountdown()
+    private void ReloadCountdown(Image image)
     {
-        reloadDuration -= 0.03f;
+        image.fillAmount -= 0.075f;
     }
 
-    private IEnumerator ChangeLightColor()
+    private async void ChangeLightColor()
     {
-        previousIndex = -1;
-
-        if (PlayerPrefs.GetInt("Difficulty") == 2)
+        try
         {
-            directionalLight.intensity = 1.0f;
-        }
+            previousIndex = -1;
 
-        while (musicManager.powerUpOn)
-        {
-            index = Random.Range(0, colors.Length - 2);
-            while (previousIndex == index)
+            if (PlayerPrefs.GetInt("Difficulty") == 2)
             {
-                index = Random.Range(0, colors.Length - 2);
+                directionalLight.intensity = 1.0f;
             }
-            previousIndex = index;
-            directionalLight.color = colors[index];
-            yield return new WaitForSeconds(0.75f);
-        }
 
-        directionalLight.color = colors[6];
-        if (PlayerPrefs.GetInt("Difficulty") == 2)
-        {
-            directionalLight.intensity = 3.5f;
+            while (musicManager.powerUpOn)
+            {
+                while (Time.timeScale == 0)
+                {
+                    await Task.Delay(200);
+                }
+
+                index = Random.Range(0, colors.Length - 2);
+                while (previousIndex == index)
+                {
+                    index = Random.Range(0, colors.Length - 2);
+                }
+                previousIndex = index;
+                directionalLight.color = colors[index];
+                await Task.Delay(750);
+            }
+
+            directionalLight.color = colors[6];
+            if (PlayerPrefs.GetInt("Difficulty") == 2)
+            {
+                directionalLight.intensity = 3.5f;
+            }
+            await Task.Yield();
+
         }
-        yield return null;
+        catch (MissingReferenceException e)
+        {
+            /*Debug.Log("Change Light Color: " + e);*/
+            await Task.Yield();
+        }
     }
 }

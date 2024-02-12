@@ -2,29 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
+using System.Threading.Tasks;
 
-public class EnemyHard : MonoBehaviour
+public class EnemyHard : Enemy
 {
-    private GameObject explosion;
-    private float duration;
-    private float time = 0;
-    private float TIME_TO_ATTACK = 1.0f;
-    private Zooming zoomController;
-    private int index;
-    private Transform originalSpecialElementTransform;
-
-    [SerializeField] public AnimationCurve curve;
-    [SerializeField] public AudioClip explosionClip;
-
-    private AudioSource audioSource;
-
-    Vector3 startingPos;
-
-    [SerializeField] private List<GameObject> specialElements;
-
-    public float _Time { get => time; set => time = value; }
-
-    public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
 
     private void OnEnable()
     {
@@ -73,10 +54,43 @@ public class EnemyHard : MonoBehaviour
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
-        StartCoroutine(CountdownToAttack());
+        CountdownToAttack();
         StartCoroutine(Shaking());
     }
 
+    private async void CountdownToAttack()
+    {
+        try
+        {
+            while (time <= TIME_TO_ATTACK)
+            {
+                while (Time.timeScale == 0)
+                {
+                    await Task.Delay(333);
+                }
+
+                if (time == TIME_TO_ATTACK - 1f && enabled)
+                {
+                    audioSource.clip = explosionClip;
+                    audioSource.Play();
+                }
+
+                if (time == TIME_TO_ATTACK - 0.5f)
+                {
+                    Attack();
+                }
+
+                TimeCount();
+                await Task.Delay(1000);
+            }
+            await Task.Yield();
+        }
+        catch (MissingReferenceException e)
+        {
+            audioSource.Stop();
+            await Task.Yield();
+        }
+    }
     private void Attack()
     {
         if (enabled)
@@ -97,7 +111,7 @@ public class EnemyHard : MonoBehaviour
         StartCoroutine(CountdownToExtinction());
     }
 
-    public IEnumerator CountdownToExtinction()
+    public new IEnumerator CountdownToExtinction()
     {
         ResetSpecialItem();
 
@@ -110,27 +124,6 @@ public class EnemyHard : MonoBehaviour
                 gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
             Countdown();
-            yield return new WaitForSeconds(1);
-        }
-        yield return null;
-    }
-
-    private IEnumerator CountdownToAttack()
-    {
-        while (time <= TIME_TO_ATTACK)
-        {
-            if (time == TIME_TO_ATTACK - 1.0f && enabled)
-            {
-                audioSource.clip = explosionClip;
-                audioSource.Play();
-            }
-
-            if (time == TIME_TO_ATTACK - 0.5f)
-            {
-                Attack();
-                StopCoroutine(CountdownToAttack());
-            }
-            TimeCount();
             yield return new WaitForSeconds(1);
         }
         yield return null;
@@ -152,48 +145,9 @@ public class EnemyHard : MonoBehaviour
         yield return null;
     }
 
-    private void Countdown()
-    {
-        duration -= 1;
-    }
-
-    private void TimeCount()
-    {
-        time += 0.25f;
-    }
-
-    public void StopAllGnomeCoroutines()
+    public new void StopAllGnomeCoroutines()
     {
         StopCoroutine(Shaking());
-        StopCoroutine(CountdownToAttack());
         StopCoroutine(CountdownToExtinction());
-        StopCoroutine(CameraShake());
-    }
-
-    private IEnumerator CameraShake()
-    {
-        Vector3 originalPos = Camera.main.transform.localPosition;
-
-        float elapsed = 0.0f;
-
-        while (elapsed < 1)
-        {
-            float x = Random.Range(-1f, 1f) * 3;
-            float y = Random.Range(-1f, 1f) * 3;
-
-            Camera.main.transform.localPosition = new Vector3(x, y, originalPos.z);
-            elapsed += Time.fixedDeltaTime / 2;
-
-            yield return null;
-        }
-
-        Camera.main.transform.localPosition = originalPos;
-        yield return null;
-    }
-
-    private void ResetSpecialItem()
-    {
-        specialElements[index].SetActive(false);
-        specialElements[index].transform.localPosition = originalSpecialElementTransform.localPosition;
     }
 }

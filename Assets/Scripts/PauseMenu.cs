@@ -70,7 +70,7 @@ public class PauseMenu : MonoBehaviour
 
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
     {
-        this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         player.interstitialAd.ShowAd();
 
@@ -78,20 +78,19 @@ public class PauseMenu : MonoBehaviour
         pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = false;
         pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = false;
 
-        this._asyncOperation.allowSceneActivation = false;
+        _asyncOperation.allowSceneActivation = false;
 
-        while (!this._asyncOperation.isDone)
+        while (!_asyncOperation.isDone)
         {
-            if (this._asyncOperation.progress >= 0.89)
+            if (_asyncOperation.progress >= 0.89)
             {
                 pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
                 pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
                 pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
-                this._asyncOperation.allowSceneActivation = true;
+                _asyncOperation.allowSceneActivation = true;
             }
             yield return null;
         }
-
         yield return null;
     }
 }

@@ -102,10 +102,10 @@ public class MainMenu : MonoBehaviour
                 sceneName = "HardScene";
                 break;
         }
-        StartCoroutine(LoadSceneAsyncProcess(sceneName));
+        LoadSceneAsyncProcess(sceneName);
     }
 
-    private IEnumerator LoadSceneAsyncProcess(string sceneName)
+    private async void LoadSceneAsyncProcess(string sceneName)
     {        
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
@@ -119,14 +119,11 @@ public class MainMenu : MonoBehaviour
         {
             if (this._asyncOperation.progress >= 0.89)
             {
-                mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
-                mainMenuCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
-                mainMenuCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
-            yield return null;
+            await System.Threading.Tasks.Task.Yield();
         }
 
-        yield return null;
+        await System.Threading.Tasks.Task.Yield();
     }
 }

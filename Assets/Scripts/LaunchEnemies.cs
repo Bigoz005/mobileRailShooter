@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LaunchEnemies : MonoBehaviour
@@ -31,51 +32,58 @@ public class LaunchEnemies : MonoBehaviour
         }
     }
 
-    public IEnumerator ActivateRandomEnemy()
+    public async void ActivateRandomEnemy()
     {
-        index = Random.Range(0, 24);
-
-        int specialGroupIndex = Random.Range(0, 2);
-        int specialIndex = Random.Range(0, 3);
-
-        while (previousIndex == index)
+        try
         {
             index = Random.Range(0, 24);
-        }
-        previousIndex = index;
-        duration = 2;
 
-        if (isCounting)
+            int specialGroupIndex = Random.Range(0, 2);
+            int specialIndex = Random.Range(0, 3);
+
+            while (previousIndex == index)
+            {
+                index = Random.Range(0, 24);
+            }
+            previousIndex = index;
+            duration = 2;
+
+            if (isCounting)
+            {
+                StopCoroutine(activeCoroutineCountdown);
+            }
+
+            activeEnemy = gameObject.transform.GetChild(index).gameObject;
+            activeEnemy.tag = "Enemy";
+            activeEnemy.layer = LayerMask.NameToLayer("RayCast");
+            activeEnemy.SetActive(true);
+            activeEnemy.GetComponent<MeshRenderer>().enabled = true;
+
+
+            if (!activeEnemy.transform.name.Contains("Hard"))
+            {
+                activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
+                activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
+                activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
+                activeEnemy.GetComponent<Enemy>().enabled = true;
+            }
+            else
+            {
+                activeEnemy.GetComponent<EnemyHard>().enabled = true;
+            }
+
+            while (activeEnemy.activeInHierarchy)
+            {
+                await Task.Yield();
+            }
+
+            activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
+            await Task.Yield();
+        }
+        catch (MissingReferenceException e)
         {
-            StopCoroutine(activeCoroutineCountdown);
+            await Task.Yield();
         }
-
-        activeEnemy = gameObject.transform.GetChild(index).gameObject;
-        activeEnemy.tag = "Enemy";
-        activeEnemy.layer = LayerMask.NameToLayer("RayCast");
-        activeEnemy.SetActive(true);
-        activeEnemy.GetComponent<MeshRenderer>().enabled = true;
-
-
-        if (!activeEnemy.transform.name.Contains("Hard"))
-        {
-            activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
-            activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
-            activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
-            activeEnemy.GetComponent<Enemy>().enabled = true;
-        }
-        else
-        {
-            activeEnemy.GetComponent<EnemyHard>().enabled = true;
-        }
-
-        while (activeEnemy.activeInHierarchy)
-        {
-            yield return null;
-        }
-
-        activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
-        yield return null;
     }
 
     public IEnumerator CountdownToActivate()
@@ -160,7 +168,7 @@ public class LaunchEnemies : MonoBehaviour
         if (timeToActivate <= 0)
         {
             isCounting = false;
-            StartCoroutine(ActivateRandomEnemy());
+            ActivateRandomEnemy();
         }
 
         yield return null;

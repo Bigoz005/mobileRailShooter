@@ -20,7 +20,7 @@ namespace Dan.Main
 
         private static string GetError(UnityWebRequest request) =>
             request.responseCode + ": " + request.downloadHandler.text;
-        
+
         internal void Authorize(Action<string> callback)
         {
             if (!string.IsNullOrEmpty(PlayerPrefs.GetString(GUID_KEY, "")))
@@ -28,7 +28,7 @@ namespace Dan.Main
                 callback?.Invoke(PlayerPrefs.GetString(GUID_KEY));
                 return;
             }
-            
+
             var request = UnityWebRequest.Get(GetServerURL(Routes.Authorize));
             StartCoroutine(HandleRequest(request, isSuccessful =>
             {
@@ -45,7 +45,7 @@ namespace Dan.Main
                 callback?.Invoke(guid);
             }));
         }
-        
+
         internal void ResetAndAuthorize(Action<string> callback, Action onFinish)
         {
             callback += guid =>
@@ -56,67 +56,89 @@ namespace Dan.Main
             PlayerPrefs.DeleteKey(GUID_KEY);
             Authorize(callback);
         }
-        
+
         internal void SendGetRequest(string url, Action<bool> callback, Action<string> errorCallback)
         {
-            var request = UnityWebRequest.Get(url);
-            StartCoroutine(HandleRequest(request, isSuccessful =>
+            try
             {
-                if (!isSuccessful)
+                var request = UnityWebRequest.Get(url);
+                StartCoroutine(HandleRequest(request, isSuccessful =>
                 {
-                    HandleError(request);
-                    callback?.Invoke(false);
-                    errorCallback?.Invoke(GetError(request));
-                    return;
-                }
-                callback?.Invoke(true);
-                LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
-            }));
+                    if (!isSuccessful)
+                    {
+                        HandleError(request);
+                        callback?.Invoke(false);
+                        errorCallback?.Invoke(GetError(request));
+                        return;
+                    }
+                    callback?.Invoke(true);
+                    LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
+                }));
+            }
+            catch (MissingReferenceException e)
+            {
+                /*Debug.Log(e.StackTrace);*/
+            }
         }
-        
+
         internal void SendGetRequest(string url, Action<Entry> callback, Action<string> errorCallback)
         {
-            var request = UnityWebRequest.Get(url);
-            StartCoroutine(HandleRequest(request, isSuccessful =>
+            try
             {
-                if (!isSuccessful)
+                var request = UnityWebRequest.Get(url);
+                StartCoroutine(HandleRequest(request, isSuccessful =>
                 {
-                    HandleError(request);
-                    callback?.Invoke(new Entry());
-                    errorCallback?.Invoke(GetError(request));
-                    return;
-                }
-                var response = JsonUtility.FromJson<Entry>(request.downloadHandler.text);
-                callback?.Invoke(response);
-                LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
-            }));
+                    if (!isSuccessful)
+                    {
+                        HandleError(request);
+                        callback?.Invoke(new Entry());
+                        errorCallback?.Invoke(GetError(request));
+                        return;
+                    }
+                    var response = JsonUtility.FromJson<Entry>(request.downloadHandler.text);
+                    callback?.Invoke(response);
+                    LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
+                }));
+            }
+            catch (MissingReferenceException e)
+            {
+                /*Debug.Log(e.StackTrace);*/
+            }
         }
-        
+
         internal void SendGetRequest(string url, Action<Entry[]> callback, Action<string> errorCallback)
         {
-            var request = UnityWebRequest.Get(url);
-            StartCoroutine(HandleRequest(request, isSuccessful =>
+            try
             {
-                if (!isSuccessful)
+                var request = UnityWebRequest.Get(url);
+                StartCoroutine(HandleRequest(request, isSuccessful =>
                 {
-                    HandleError(request);
-                    callback?.Invoke(Array.Empty<Entry>());
-                    errorCallback?.Invoke(GetError(request));
-                    return;
-                }
-                var tmp = "{\"entries\":" + request.downloadHandler.text + "}";
-                var response = JsonUtility.FromJson<EntryResponse>(tmp);
-                callback?.Invoke(response.entries);
-                LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
-            }));
+
+                    if (!isSuccessful)
+                    {
+                        HandleError(request);
+                        callback?.Invoke(Array.Empty<Entry>());
+                        errorCallback?.Invoke(GetError(request));
+                        return;
+                    }
+                    var tmp = "{\"entries\":" + request.downloadHandler.text + "}";
+                    var response = JsonUtility.FromJson<EntryResponse>(tmp);
+                    callback?.Invoke(response.entries);
+                    LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
+                }));
+            }
+            catch (MissingReferenceException e)
+            {
+                /*Debug.Log(e.StackTrace);*/
+            }
         }
-        
+
         internal void SendPostRequest(string url, List<IMultipartFormSection> form, Action<bool> callback = null, Action<string> errorCallback = null)
         {
             var request = UnityWebRequest.Post(url, form);
             StartCoroutine(HandleRequest(request, callback, errorCallback));
         }
-        
+
 #if UNITY_ANDROID
         private class ForceAcceptAll : CertificateHandler
         {
@@ -143,12 +165,12 @@ namespace Dan.Main
             request.downloadHandler.Dispose();
             request.Dispose();
         }
-        
+
         private static void HandleError(UnityWebRequest request)
         {
-            var message = Enum.GetName(typeof(StatusCode), (StatusCode) request.responseCode);
+            var message = Enum.GetName(typeof(StatusCode), (StatusCode)request.responseCode);
             message = string.IsNullOrEmpty(message) ? "Unknown" : message.SplitByUppercase();
-                
+
             var downloadHandler = request.downloadHandler;
             var text = downloadHandler.text;
             if (!string.IsNullOrEmpty(text))
