@@ -27,7 +27,7 @@ public class RewardedAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
     {
         if (adUnitId.Equals(_adUnitIdReward))
         {
-            ReattachListener();
+            StartCoroutine(ReattachListener());
         }
     }
 
@@ -61,14 +61,14 @@ public class RewardedAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
         }
     }
 
-    private async void ReattachListener()
+    private IEnumerator ReattachListener()
     {
         while (_showAdButton == null)
         {
-            await System.Threading.Tasks.Task.Delay(5000);
+            yield return new WaitForSeconds(5);
         }
 
         _showAdButton.GetComponent<Button>().onClick.AddListener(ShowAd);
-        await System.Threading.Tasks.Task.Yield();
+        yield return null;
     }
 }

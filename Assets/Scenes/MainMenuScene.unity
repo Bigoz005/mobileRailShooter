@@ -10986,7 +10986,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 53.67202, y: -2.0365145, z: -133.94046, w: 32.585278}
+  m_margin: {x: 53.67202, y: -2.0365145, z: -194.46513, w: 32.585278}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18416,9 +18416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db29afb36e6838e47b7ea39dc8a80a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showAdButton: {fileID: 0}
   _androidAdUnitId: Rewarded_Android_Additional_Hp
   _iOSAdUnitId: Rewarded_iOS
+  _showAdButton: {fileID: 0}
   player: {fileID: 0}
 --- !u!1001 &1793587026
 PrefabInstance:

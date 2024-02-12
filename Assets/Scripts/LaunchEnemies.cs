@@ -38,52 +38,52 @@ public class LaunchEnemies : MonoBehaviour
         {
             index = Random.Range(0, 24);
 
-            int specialGroupIndex = Random.Range(0, 2);
-            int specialIndex = Random.Range(0, 3);
+        int specialGroupIndex = Random.Range(0, 2);
+        int specialIndex = Random.Range(0, 3);
 
-            while (previousIndex == index)
-            {
-                index = Random.Range(0, 24);
-            }
-            previousIndex = index;
-            duration = 2;
-
-            if (isCounting)
-            {
-                StopCoroutine(activeCoroutineCountdown);
-            }
-
-            activeEnemy = gameObject.transform.GetChild(index).gameObject;
-            activeEnemy.tag = "Enemy";
-            activeEnemy.layer = LayerMask.NameToLayer("RayCast");
-            activeEnemy.SetActive(true);
-            activeEnemy.GetComponent<MeshRenderer>().enabled = true;
-
-
-            if (!activeEnemy.transform.name.Contains("Hard"))
-            {
-                activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
-                activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
-                activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
-                activeEnemy.GetComponent<Enemy>().enabled = true;
-            }
-            else
-            {
-                activeEnemy.GetComponent<EnemyHard>().enabled = true;
-            }
-
-            while (activeEnemy.activeInHierarchy)
-            {
-                await Task.Yield();
-            }
-
-            activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
-            await Task.Yield();
+        while (previousIndex == index)
+        {
+            index = Random.Range(0, 24);
         }
-        catch (MissingReferenceException e)
+        previousIndex = index;
+        duration = 2;
+
+        if (isCounting)
+        {
+            StopCoroutine(activeCoroutineCountdown);
+        }
+
+        activeEnemy = gameObject.transform.GetChild(index).gameObject;
+        activeEnemy.tag = "Enemy";
+        activeEnemy.layer = LayerMask.NameToLayer("RayCast");
+        activeEnemy.SetActive(true);
+        activeEnemy.GetComponent<MeshRenderer>().enabled = true;
+
+
+        if (!activeEnemy.transform.name.Contains("Hard"))
+        {
+            activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
+            activeEnemy.transform.GetChild(2).gameObject.SetActive(true);
+            activeEnemy.transform.GetChild(3).gameObject.SetActive(true);
+            activeEnemy.GetComponent<Enemy>().enabled = true;
+        }
+        else
+        {
+            activeEnemy.GetComponent<EnemyHard>().enabled = true;
+        }
+
+        while (activeEnemy.activeInHierarchy)
         {
             await Task.Yield();
         }
+
+        activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
+        await Task.Yield();
+    }
+        catch (MissingReferenceException e)
+        {
+            await Task.Yield();
+}
     }
 
     public IEnumerator CountdownToActivate()

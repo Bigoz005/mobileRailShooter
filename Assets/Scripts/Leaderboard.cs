@@ -16,7 +16,7 @@ public class Leaderboard : MonoBehaviour
     private void Awake()
     {
         fetched = false;
-        WaitAndLoad();
+        StartCoroutine(WaitAndLoad());
     }
 
     public void GetLeaderboard()
@@ -119,14 +119,13 @@ public class Leaderboard : MonoBehaviour
         GetLeaderboard();
     }
 
-    public async void WaitAndLoad()
+    public IEnumerator WaitAndLoad()
     {
         while (!fetched)
         {
-            await System.Threading.Tasks.Task.Delay(1000);
             GetLeaderboard();
-            await System.Threading.Tasks.Task.Yield();
+            yield return new WaitForSeconds(1);
         }
-
+        yield return null;
     }
 }
