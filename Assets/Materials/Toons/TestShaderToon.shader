@@ -7,6 +7,7 @@ Shader "Gnoming/TESTSHADER"
 
         _InkColor("InkColor", Color) = (0,0,0,0)
         _InkSize("InkSize", float) = 1.0
+        _OutlineWidth("OutlineWidth", float) = 1.0
 
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
 
@@ -119,20 +120,42 @@ Shader "Gnoming/TESTSHADER"
 
             float4 _InkColor;
             float _InkSize;
+            half _OutlineWidth;
+            half4 _outlineColor; 
 
-            v2f vert (appdata v)
-            {
-                v2f o;
+           // v2f vert (appdata v)
+           float4 vert
+		   (
+                float4 position : POSITION,
+                float3 normal : NORMAL) : SV_POSITION {
+
+                float4 clipPosition = UnityObjectToClipPos(position);
+                float3 clipNormal = mul((float3x3) UNITY_MATRIX_VP, mul((float3x3) UNITY_MATRIX_M, normal));
+
+                //clipPosition.xyz += normalize(clipNormal) * _OutlineWidth/10;
+
+                float2 offset = normalize(clipNormal.xy) / _ScreenParams.xy * _OutlineWidth * clipPosition.w *6;
+                clipPosition.xy += offset;
+
+                return clipPosition;
+
+//                v2f o;
                 //Translate the vertex along the normal vector
                 // Increased size of model -> outline
-                o.vertex = UnityObjectToClipPos(v.vertex + (_InkSize * v.normal));
-                return o;
+
+                //o.vertex = UnityObjectToClipPos(v.vertex + _InkSize * v.normal);
+                //return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                return _InkColor;
+//            fixed4 frag (v2f i) : SV_Target
+  //          {
+    //            return _InkColor;
+      //      }
+
+            half4 frag() : SV_TARGET {
+                return _outlineColor;
             }
+
             ENDCG
         }
 
