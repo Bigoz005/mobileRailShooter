@@ -123,8 +123,9 @@ public class Leaderboard : MonoBehaviour
     {
         while (!fetched)
         {
-            GetLeaderboard();
             yield return new WaitForSeconds(1);
+            GetLeaderboard();
+            yield return null;
         }
         yield return null;
     }

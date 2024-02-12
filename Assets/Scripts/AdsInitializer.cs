@@ -51,8 +51,9 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
         {
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
+                yield return new WaitForSeconds(1);
                 InitializeAds();
-                yield return new WaitForSeconds(5);
+                yield return null;
             }
         }
         yield return null;
