@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.1733609, g: 0.2167033, b: 0.2987662, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,8 +98,9 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: b84bbea827d4ff14bb596f060342cdbb,
+  m_LightingDataAsset: {fileID: 112000000, guid: 603b9b59ef5eff34e96b9a49523a71ac,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 779809f18ef8bf74399bfc43d7e66886,
     type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -2308,6 +2309,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6590,6 +6601,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &453383316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 453383318}
+  - component: {fileID: 453383317}
+  m_Layer: 0
+  m_Name: ZoomController
+  m_TagString: ZoomController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &453383317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3d85ff0ea903948a348cd19bab74dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &453383318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 120.93613, y: 6.7718363, z: 36.844166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &459956251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8469,6 +8524,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10646,6 +10711,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13425,6 +13500,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14450,6 +14535,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14995,6 +15090,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16113,6 +16218,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17050,6 +17165,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17357,6 +17482,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22269,6 +22404,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22713,6 +22858,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24208,6 +24363,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25879,6 +26044,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28070,6 +28245,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28298,6 +28483,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28701,6 +28896,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29327,6 +29532,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29664,6 +29879,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31708,6 +31933,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33567,6 +33802,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34744,6 +34989,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36778,6 +37033,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37854,6 +38119,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38062,6 +38337,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38156,6 +38441,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 4094026990908853678, guid: e5612197ef90fcf438e6db6a8c7fb959,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38729,3 +39024,4 @@ SceneRoots:
   - {fileID: 750533144}
   - {fileID: 1117875655}
   - {fileID: 2147036280}
+  - {fileID: 453383318}

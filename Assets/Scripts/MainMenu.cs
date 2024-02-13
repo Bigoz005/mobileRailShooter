@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -97,8 +95,9 @@ public class MainMenu : MonoBehaviour
                 sceneName = "MediumScene";
                 break;
             case 2:
-                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().clip = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>().HardMusic;
-                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().Play();
+                GameObject musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+                musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().HardMusic;
+                musicManager.GetComponent<AudioSource>().Play();
                 sceneName = "HardScene";
                 break;
         }

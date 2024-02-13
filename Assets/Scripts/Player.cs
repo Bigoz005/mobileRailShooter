@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Dan.Main;
@@ -38,10 +36,10 @@ public class Player : MonoBehaviour
     public bool isRewarded;
 
     float tick = 0f;
-    private Color grayColor = new Color(0.5f, 0.5f, 0.5f);
-    private Color fullColor = new Color(1f, 1f, 1f);
-    private Color blinkingColor = new Color(0.5f, 1f, 1f);
-    private Color blinkSecondColor = new Color(0.1f, 1f, 0.1f);
+    private Color grayColor = new(0.5f, 0.5f, 0.5f);
+    private Color fullColor = new(1f, 1f, 1f);
+    private Color blinkingColor = new(0.5f, 1f, 1f);
+    private Color blinkSecondColor = new(0.1f, 1f, 0.1f);
 
     public int GetPoints()
     {
@@ -52,10 +50,12 @@ public class Player : MonoBehaviour
     {
         points = (int)pointsToAssign;
     }
+
     public int GetHealth()
     {
         return health;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -241,6 +241,4 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
-
 }

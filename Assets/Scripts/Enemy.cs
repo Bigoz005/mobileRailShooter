@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
     private GameObject aimCircle1;
     private GameObject aimCircle2;
     private Material aimlockMaterial;
-    protected Zooming zoomController;
+    [SerializeField] protected Zooming zoomController;
+    [SerializeField] protected GameObject objectToWatch;
     protected int index;
     protected Transform originalSpecialElementTransform;
 
@@ -35,10 +36,11 @@ public class Enemy : MonoBehaviour
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
     private void OnEnable()
     {
+        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         if (PlayerPrefs.GetInt("Difficulty", 0) != 2)
         {
             GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 1.5f;
-            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 1f;
+            audioSource.pitch = 1f;
         }
 
         index = Random.Range(1, 4);
@@ -49,7 +51,6 @@ public class Enemy : MonoBehaviour
         aimlock = this.gameObject.transform.GetChild(1).gameObject;
         aimCircle1 = this.gameObject.transform.GetChild(2).gameObject;
         aimCircle2 = this.gameObject.transform.GetChild(3).gameObject;
-
 
         if (aimlock.activeInHierarchy == false)
             aimlock.SetActive(true);
@@ -69,12 +70,7 @@ public class Enemy : MonoBehaviour
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
 
-        zoomController = GameObject.FindGameObjectWithTag("ZoomController").GetComponent<Zooming>();
-        GameObject objectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
-
-        time = 0;
-
-        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
+        time = 0;       
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;

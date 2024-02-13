@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.17989331, g: 0.22524077, b: 0.3066693, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,8 +98,9 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: b84bbea827d4ff14bb596f060342cdbb,
+  m_LightingDataAsset: {fileID: 112000000, guid: 849a63bcd7fbec14f89087dd93b17e12,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: c1f6073087171fd4dad0e97b44e71efd,
     type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -2546,6 +2547,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 37.209
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2764,6 +2775,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.009
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3491,6 +3512,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.259
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3853,6 +3884,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.582
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4046,6 +4087,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 12.782
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5769,6 +5820,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -24.032
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7049,6 +7110,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &453383316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 453383318}
+  - component: {fileID: 453383317}
+  m_Layer: 0
+  m_Name: ZoomController
+  m_TagString: ZoomController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &453383317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3d85ff0ea903948a348cd19bab74dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &453383318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 120.93613, y: 6.7718363, z: 36.844166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &467010368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7132,6 +7237,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -34.431
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7519,6 +7634,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 12.885
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8703,6 +8828,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.328
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8896,6 +9031,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.111
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11230,6 +11375,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.223
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11577,6 +11732,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.301
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12196,6 +12361,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.834
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19906,6 +20081,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -15.872
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21891,6 +22076,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.471
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26398,6 +26593,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.554
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27867,6 +28072,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.234
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29514,6 +29729,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.584
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30437,6 +30662,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.177
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31101,6 +31336,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.89
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31438,6 +31683,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.09
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32611,6 +32866,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.543
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34475,6 +34740,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -20.837
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35304,6 +35579,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.445
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35398,6 +35683,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.931
       objectReference: {fileID: 0}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 8896887670731120819, guid: 82a6db5f23bb1c84c96b03d98b165ffb,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36604,3 +36899,4 @@ SceneRoots:
   - {fileID: 1443793602}
   - {fileID: 249285464}
   - {fileID: 1099428743}
+  - {fileID: 453383318}

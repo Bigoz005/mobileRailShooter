@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.17989331, g: 0.22524077, b: 0.3066693, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,8 +98,9 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: b84bbea827d4ff14bb596f060342cdbb,
+  m_LightingDataAsset: {fileID: 112000000, guid: c8c6d7c7ec444d946aab1401593d7cb7,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 6ef65f36025f1e3469c81805c20582bc,
     type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -237,6 +238,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -3074,6 +3085,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -3216,7 +3237,7 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -28.26
+      value: -29.91
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
@@ -3644,6 +3665,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -5284,6 +5315,7 @@ Transform:
   m_Children:
   - {fileID: 529336193}
   - {fileID: 1719131268}
+  - {fileID: 1496544013}
   - {fileID: 2123246469}
   - {fileID: 1233252142}
   - {fileID: 1744502794}
@@ -6631,6 +6663,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -6847,6 +6889,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -8120,6 +8172,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &453383316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 453383318}
+  - component: {fileID: 453383317}
+  m_Layer: 0
+  m_Name: ZoomController
+  m_TagString: ZoomController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &453383317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3d85ff0ea903948a348cd19bab74dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &453383318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453383316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 120.93613, y: 6.7718363, z: 36.844166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &458360150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10067,6 +10163,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -11984,6 +12090,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -12200,6 +12316,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -13653,6 +13779,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -13882,6 +14018,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -14986,6 +15132,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -20544,6 +20700,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -20782,6 +20948,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -20986,6 +21162,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -22201,6 +22387,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -22994,6 +23190,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -26252,7 +26458,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1719131268}
+    m_TransformParent: {fileID: 282123775}
     m_Modifications:
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
@@ -26262,22 +26468,22 @@ PrefabInstance:
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2302696
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -92.11
+      value: 19.599998
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0859826
+      value: -13.627281
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -47.335278
+      value: -68.1
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
@@ -26287,7 +26493,7 @@ PrefabInstance:
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0000000018348643
+      value: 9.818784e-10
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
@@ -26297,7 +26503,7 @@ PrefabInstance:
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 4.5300408e-10
+      value: 0.0000000021129485
       objectReference: {fileID: 0}
     - target: {fileID: 4944559223813419333, guid: 034023ff02a37fc47aab6bc6c49bf15b,
         type: 3}
@@ -27006,6 +27212,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -28121,6 +28337,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -28749,6 +28975,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -29329,6 +29565,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -29708,37 +29954,37 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.71
+      value: 111.66
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.51
+      value: -14.54
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.76472
+      value: -20.4
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.25104767
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000000018626454
+      value: -5.8029975e-10
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -5.820767e-11
+      value: -0.9679748
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1.1641534e-10
+      value: 0.000000001773768
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
@@ -29748,7 +29994,7 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -150.921
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
@@ -29782,11 +30028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1496544013}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24457fdf8e66c3c49b7599931e0fdcb2, type: 3}
 --- !u!4 &1719131268 stripped
@@ -30542,12 +30784,12 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.31
+      value: -14.8
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.05
+      value: -9.7
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
@@ -31660,6 +31902,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -32640,6 +32892,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -32982,6 +33244,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -35466,6 +35738,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -35918,6 +36200,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: objectToWatch
+      value: 
+      objectReference: {fileID: 952492922}
+    - target: {fileID: 3714495734306685701, guid: d5bee685d1804134ba78b91a98c485f0,
+        type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 453383317}
     - target: {fileID: 4778611774802681026, guid: d5bee685d1804134ba78b91a98c485f0,
         type: 3}
       propertyPath: m_Layer
@@ -37577,3 +37869,4 @@ SceneRoots:
   - {fileID: 1879296603}
   - {fileID: 288373421}
   - {fileID: 1099428743}
+  - {fileID: 453383318}

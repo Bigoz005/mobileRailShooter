@@ -1,18 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
 using System.Threading.Tasks;
 
 public class EnemyHard : Enemy
 {
-
+    private Camera camMain;
     private void OnEnable()
     {
+        camMain = Camera.main;
+        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
         {
             GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>().pitch = 0.5f;
-            GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>().pitch = 0.75f;
+            audioSource.pitch = 0.75f;
         }
 
         index = Random.Range(1, 4);
@@ -22,12 +23,8 @@ public class EnemyHard : Enemy
         explosion = this.gameObject.transform.GetChild(0).gameObject;
         gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-        transform.LookAt(Camera.main.transform);
-        zoomController = GameObject.FindGameObjectWithTag("ZoomController").GetComponent<Zooming>();
-        GameObject objectToWatch = GameObject.FindGameObjectWithTag("MainGameObjectToWatch");
+        transform.LookAt(camMain.transform);
         time = 0;
-
-        audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
 
         explosion.SetActive(false);
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
@@ -50,7 +47,7 @@ public class EnemyHard : Enemy
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
-        zoomController.SetVariables(Camera.main, objectToWatch, this.gameObject, Camera.main.transform.GetChild(1).GetComponent<Camera>());
+        zoomController.SetVariables(camMain, objectToWatch, this.gameObject, camMain.transform.GetChild(1).GetComponent<Camera>());
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
@@ -97,8 +94,8 @@ public class EnemyHard : Enemy
         {
             gameObject.layer = 0;
 
-            Camera.main.GetComponentInChildren<Player>().GetHit();
-            if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+            camMain.GetComponentInChildren<Player>().GetHit();
+            if (camMain.GetComponentInChildren<Player>().GetHealth() != 0)
             {
                 CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
             }
@@ -138,7 +135,7 @@ public class EnemyHard : Enemy
         {
             float strength = curve.Evaluate(time * 4 / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
-            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
+            yield return new WaitUntil(() => camMain.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
 
         transform.position = startPostition;

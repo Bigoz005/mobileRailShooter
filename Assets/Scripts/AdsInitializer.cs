@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
-using UnityEngine.Networking;
 
 public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
 {

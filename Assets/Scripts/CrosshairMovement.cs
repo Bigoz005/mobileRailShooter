@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -95,7 +94,7 @@ public class CrosshairMovement : MonoBehaviour
 
     void Update()
     {
-        actualTime = actualTime + Time.deltaTime;
+        actualTime += Time.deltaTime;
         if (!touchControlEnabled)
         {
             if (previousPosition.x != joystick.transform.localPosition.x || previousPosition.y != joystick.transform.localPosition.y)

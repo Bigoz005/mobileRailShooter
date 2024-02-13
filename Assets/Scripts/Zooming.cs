@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Zooming : MonoBehaviour
@@ -24,7 +23,7 @@ public class Zooming : MonoBehaviour
 
     void Awake()
     {
-        if (zoomingManagerInstance == null)
+      /*  if (zoomingManagerInstance == null)
         {
             zoomingManagerInstance = this;
             DontDestroyOnLoad(gameObject);
@@ -32,7 +31,7 @@ public class Zooming : MonoBehaviour
         else if (zoomingManagerInstance != this)
         {
             Destroy(gameObject);
-        }
+        }*/
     }
 
     public IEnumerator ZoomOnEnemy()
