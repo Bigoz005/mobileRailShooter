@@ -7,7 +7,7 @@ using Dan.Main;
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> scores;
-    private string publicLeaderboardKey = "40d376740a12a143deb03173d5b29b01af5a340378b7979348016cc644ad0577";
+    private string publicLeaderboardKey = "adc4cd6ac33116a538d58e21c4db09a652d82bc8884da92c97f91b82bb1bac37";
     private int type = 0;
     [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI textMesh;
@@ -30,11 +30,11 @@ public class Leaderboard : MonoBehaviour
                 break;
             case 1:
                 filter = Dan.Enums.TimePeriodType.ThisWeek;
-                typeText.text = "This Week";
+                typeText.text = "New (This Week)";
                 break;
             case 2:
                 filter = Dan.Enums.TimePeriodType.Today;
-                typeText.text = "Today";
+                typeText.text = "New (Today)";
                 break;
         }
 
@@ -79,13 +79,13 @@ public class Leaderboard : MonoBehaviour
             },
             (error) =>
             {
-                textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nLast knew data-failed to fetch");
+                textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
             });
         }
         else
         {
             scores[0].text = "Failed to fetch data";
-            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nLast knew data-failed to fetch");
+            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
         }
     }
 
@@ -123,7 +123,7 @@ public class Leaderboard : MonoBehaviour
     {
         while (!fetched)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             GetLeaderboard();
             yield return null;
         }

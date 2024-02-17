@@ -34,6 +34,7 @@ public class GameOver : MonoBehaviour
         player.AddHealth(0);
         player.AddHealth(0);
         player.isRewarded = false;
+        ((CrosshairMovement)gameplayCanvas.transform.GetChild(0).GetComponent<Button>().onClick.GetPersistentTarget(0)).turnOffPowerUp();
         Time.timeScale = 1;
     }
 

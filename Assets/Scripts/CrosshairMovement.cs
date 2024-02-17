@@ -37,7 +37,7 @@ public class CrosshairMovement : MonoBehaviour
     [SerializeField]
     private GameObject gun;
     [SerializeField]
-    private Light directionalLight;
+    private Material[] materials;
 
     private Camera cam;
     private Vector3 previousPosition = new Vector3(0, 0, 0);
@@ -48,6 +48,7 @@ public class CrosshairMovement : MonoBehaviour
     private float previousTime;
     private float actualTime;
     private ParticleSystem particle = null;
+    private Color baseColor = new(1, 1, 1, 1);
 
     private float duration = 17.0f;
 
@@ -59,11 +60,13 @@ public class CrosshairMovement : MonoBehaviour
     private int powerupMultiplier = 1;
     private bool isReloding = false;
     private int controlsScoreDividor = 5;
-    private Color[] colors = { Color.blue, Color.cyan, Color.green, Color.magenta, Color.red, Color.yellow, Color.white };
+    private readonly Color[] colors = {Color.blue, Color.green, Color.red, Color.yellow};
+    public IEnumerator materialsCorutine;
 
     private void Start()
     {
         cam = Camera.main;
+        materialsCorutine = ChangeMaterialsColor();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
@@ -72,7 +75,10 @@ public class CrosshairMovement : MonoBehaviour
         previousTime = Time.deltaTime;
         actualTime = previousTime;
 
-        colors[6] = directionalLight.color;
+        foreach (Material mat in materials)
+        {
+            mat.color = baseColor;
+        }
 
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
@@ -114,7 +120,6 @@ public class CrosshairMovement : MonoBehaviour
     }
     public void checkShoot()
     {
-
         Ray ray = new();
 
         if (touchControlEnabled)
@@ -253,8 +258,8 @@ public class CrosshairMovement : MonoBehaviour
                         musicManager.playPowerUpMusic();
                         audioSource.clip = powerUpClip;
                         LasersObject.SetActive(true);
-                        ChangeLightColor();
                         PowerUpDuration();
+                        StartCoroutine(materialsCorutine);
                         break;
                     case "Target":
 
@@ -334,7 +339,7 @@ public class CrosshairMovement : MonoBehaviour
         }
         catch (MissingReferenceException e)
         {
-            /*Debug.Log("Reload: " + e);*/
+
             await Task.Yield();
         }
     }
@@ -391,10 +396,10 @@ public class CrosshairMovement : MonoBehaviour
 
     private void ReloadCountdown(Image image)
     {
-        image.fillAmount -= 0.075f;
+        image.fillAmount -= 0.05f;
     }
 
-    private async void ChangeLightColor()
+    /*private async void ChangeLightColor()
     {
         try
         {
@@ -432,8 +437,51 @@ public class CrosshairMovement : MonoBehaviour
         }
         catch (MissingReferenceException e)
         {
-            /*Debug.Log("Change Light Color: " + e);*/
+            Debug.Log("Change Light Color: " + e);
             await Task.Yield();
         }
+    }*/
+
+    public IEnumerator ChangeMaterialsColor()
+    {
+        while (musicManager.powerUpOn)
+        {
+            while (Time.timeScale == 0)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+
+            index = Random.Range(0, colors.Length - 1);
+            while (previousIndex == index)
+            {
+                index = Random.Range(0, colors.Length - 1);
+            }
+            previousIndex = index;
+
+            foreach (Material mat in materials)
+            {
+                mat.color = colors[index];
+            }
+
+            yield return new WaitForSeconds(0.75f);
+        }
+
+        foreach (Material mat in materials)
+        {
+            mat.color = baseColor;   
+        }
+
+        yield return null;
+    }
+
+    public void turnOffPowerUp()
+    {
+        foreach (Material mat in materials)
+        {
+            mat.color = baseColor;
+        }
+        StopCoroutine(materialsCorutine);
+        musicManager.powerUpOn = false;
+        LasersObject.SetActive(false);
     }
 }
