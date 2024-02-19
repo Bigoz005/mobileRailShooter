@@ -5,10 +5,12 @@ using UnityEngine;
 public class SystemPreferences : MonoBehaviour
 {
     bool isPaused = false;
+    bool isComic = false;
     [SerializeField]
     private Material[] materials;
     private Color baseColor = new(1, 1, 1, 1);
     public bool IsPaused { get => isPaused; set => isPaused = value; }
+    public bool IsComic { get => isComic; set => isComic = value; }
 
     public void Start()
     {
