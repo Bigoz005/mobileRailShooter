@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Dan.Main;
@@ -15,7 +13,7 @@ public class Player : MonoBehaviour
     private int score;
     private int highScore;
     private int health;
-    private string publicLeaderboardKey = "40d376740a12a143deb03173d5b29b01af5a340378b7979348016cc644ad0577";
+    private string publicLeaderboardKey = "adc4cd6ac33116a538d58e21c4db09a652d82bc8884da92c97f91b82bb1bac37";
 
     [SerializeField] private GameObject HealthTexture1;
     [SerializeField] private GameObject HealthTexture2;
@@ -38,10 +36,10 @@ public class Player : MonoBehaviour
     public bool isRewarded;
 
     float tick = 0f;
-    private Color grayColor = new Color(0.5f, 0.5f, 0.5f);
-    private Color fullColor = new Color(1f, 1f, 1f);
-    private Color blinkingColor = new Color(0.5f, 1f, 1f);
-    private Color blinkSecondColor = new Color(0.1f, 1f, 0.1f);
+    private Color grayColor = new(0.5f, 0.5f, 0.5f);
+    private Color fullColor = new(1f, 1f, 1f);
+    private Color blinkingColor = new(0.5f, 1f, 1f);
+    private Color blinkSecondColor = new(0.1f, 1f, 0.1f);
 
     public int GetPoints()
     {
@@ -52,10 +50,12 @@ public class Player : MonoBehaviour
     {
         points = (int)pointsToAssign;
     }
+
     public int GetHealth()
     {
         return health;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -241,6 +241,4 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
-
 }

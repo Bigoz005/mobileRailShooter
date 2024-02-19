@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -14,6 +12,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject playerNicknameText;
     [SerializeField] private GameObject gnome1;
     [SerializeField] private GameObject gnome2;
+    [SerializeField] private GameObject internetConnection;
 
     private TextMeshProUGUI textMesh;
     private const string SCORETEXT = "Highscore: ";
@@ -45,15 +44,23 @@ public class MainMenu : MonoBehaviour
     public void CheckIfReadyToPlay()
     {
         string user = PlayerPrefs.GetString("Username");
-        if (user.Equals("----") || user.Equals("") || user == null)
+        if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            usernameCanvas.SetActive(true);
-            mainMenuCanvas.SetActive(false);
+            internetConnection.SetActive(true);
         }
         else
         {
-            StartGame();
+            if (user.Equals("----") || user.Equals("") || user == null)
+            {
+                usernameCanvas.SetActive(true);
+                mainMenuCanvas.SetActive(false);
+            }
+            else
+            {
+                StartGame();
+            }
         }
+
     }
 
     public void ResetNickname()
@@ -75,8 +82,10 @@ public class MainMenu : MonoBehaviour
 
     public void ShowMenuFromUsername()
     {
+        internetConnection.SetActive(false);
         usernameCanvas.SetActive(false);
         mainMenuCanvas.SetActive(true);
+
     }
 
     public void ExitGame()
@@ -97,8 +106,9 @@ public class MainMenu : MonoBehaviour
                 sceneName = "MediumScene";
                 break;
             case 2:
-                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().clip = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>().HardMusic;
-                GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>().Play();
+                GameObject musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+                musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().HardMusic;
+                musicManager.GetComponent<AudioSource>().Play();
                 sceneName = "HardScene";
                 break;
         }
@@ -106,7 +116,7 @@ public class MainMenu : MonoBehaviour
     }
 
     private async void LoadSceneAsyncProcess(string sceneName)
-    {        
+    {
         this._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = false;
@@ -119,6 +129,9 @@ public class MainMenu : MonoBehaviour
         {
             if (this._asyncOperation.progress >= 0.89)
             {
+                mainMenuCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
+                mainMenuCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                mainMenuCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
             await System.Threading.Tasks.Task.Yield();

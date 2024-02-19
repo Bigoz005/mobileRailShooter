@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using System.Collections;
-using UnityEngine.Networking;
 
 public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
 {
@@ -51,8 +49,11 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
         {
             if (Application.internetReachability != NetworkReachability.NotReachable)
             {
+                yield return new WaitForSeconds(1);
                 InitializeAds();
+                yield return null;
             }
+            yield return null;
         }
         yield return null;
     }

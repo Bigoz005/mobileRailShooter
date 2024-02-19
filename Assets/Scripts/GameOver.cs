@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Dan.Main;
 
 public class GameOver : MonoBehaviour
 {
@@ -37,6 +34,7 @@ public class GameOver : MonoBehaviour
         player.AddHealth(0);
         player.AddHealth(0);
         player.isRewarded = false;
+        ((CrosshairMovement)gameplayCanvas.transform.GetChild(0).GetComponent<Button>().onClick.GetPersistentTarget(0)).turnOffPowerUp();
         Time.timeScale = 1;
     }
 
@@ -78,6 +76,8 @@ public class GameOver : MonoBehaviour
         {
             if (this._asyncOperation.progress >= 0.89)
             {
+                gameoverCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                gameoverCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 this._asyncOperation.allowSceneActivation = true;
             }
             yield return null;
