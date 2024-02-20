@@ -79,7 +79,7 @@ public class LaunchEnemies : MonoBehaviour
         activeCoroutineCountdown = StartCoroutine(CountdownToActivate());
         await Task.Yield();
     }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
             await Task.Yield();
 }

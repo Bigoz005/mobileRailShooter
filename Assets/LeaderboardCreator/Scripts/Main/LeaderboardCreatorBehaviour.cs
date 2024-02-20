@@ -75,7 +75,7 @@ namespace Dan.Main
                     LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
                 }));
             }
-            catch (MissingReferenceException e)
+            catch (MissingReferenceException)
             {
                 /*Debug.Log(e.StackTrace);*/
             }
@@ -100,7 +100,7 @@ namespace Dan.Main
                     LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
                 }));
             }
-            catch (MissingReferenceException e)
+            catch (MissingReferenceException)
             {
                 /*Debug.Log(e.StackTrace);*/
             }
@@ -127,7 +127,7 @@ namespace Dan.Main
                     LeaderboardCreator.Log("Successfully retrieved leaderboard data!");
                 }));
             }
-            catch (MissingReferenceException e)
+            catch (MissingReferenceException)
             {
                 /*Debug.Log(e.StackTrace);*/
             }

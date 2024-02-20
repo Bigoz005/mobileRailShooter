@@ -31,8 +31,6 @@ public class Options : MonoBehaviour
     [SerializeField] private Texture2D[] baseTextures;
     [SerializeField] private Texture2D[] comicTextures;
 
-    private bool isComic = false;
-
     public void Awake()
     {
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");

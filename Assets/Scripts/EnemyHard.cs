@@ -82,7 +82,7 @@ public class EnemyHard : Enemy
             }
             await Task.Yield();
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
             audioSource.Stop();
             await Task.Yield();

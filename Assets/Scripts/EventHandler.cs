@@ -8,10 +8,6 @@ public class EventHandler : MonoBehaviour
     private static EventHandler EventHandlerInstance;
     void Awake()
     {
-        gameObject.GetComponent<EventSystem>().enabled = false;
-        gameObject.GetComponent<StandaloneInputModule>().enabled = false;
-        /*gameObject.GetComponent<BaseInput>().enabled = false;*/
-        StartCoroutine(Initialization());
         if (EventHandlerInstance == null)
         {
             EventHandlerInstance = this;
@@ -21,6 +17,10 @@ public class EventHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        gameObject.GetComponent<EventSystem>().enabled = false;
+        gameObject.GetComponent<StandaloneInputModule>().enabled = false;
+        StartCoroutine(Initialization());
     }
 
     private IEnumerator Initialization()
@@ -28,7 +28,6 @@ public class EventHandler : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         gameObject.GetComponent<EventSystem>().enabled = true;
         gameObject.GetComponent<StandaloneInputModule>().enabled = true;
-        /*gameObject.GetComponent<BaseInput>().enabled = true;*/
         yield return null;
     }
 }

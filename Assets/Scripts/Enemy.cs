@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviour
             }
             await Task.Yield();
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
             audioSource.Stop();
             await Task.Yield();

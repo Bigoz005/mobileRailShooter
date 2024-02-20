@@ -9,7 +9,6 @@ public class AnimationScript : MonoBehaviour
     [SerializeField] private bool isRotating = false;
     [SerializeField] private bool isFloating = false;
     [SerializeField] private bool isScaling = false;
-    [SerializeField] private bool mirroring = false;
 
     [SerializeField] private Vector3 rotationAngle;
     [SerializeField] private float rotationSpeed;

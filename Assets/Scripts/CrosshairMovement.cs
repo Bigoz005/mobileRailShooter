@@ -51,6 +51,7 @@ public class CrosshairMovement : MonoBehaviour
     private Color baseColor = new(1, 1, 1, 1);
 
     private float duration = 17.0f;
+    private bool isSwapingActive = false;
 
     private int points;
     private bool touchControlEnabled;
@@ -60,13 +61,12 @@ public class CrosshairMovement : MonoBehaviour
     private int powerupMultiplier = 1;
     private bool isReloding = false;
     private int controlsScoreDividor = 5;
-    private readonly Color[] colors = {Color.blue, Color.green, Color.red, Color.yellow};
-    public IEnumerator materialsCorutine;
+    private readonly Color[] colors = { Color.blue, Color.green, Color.red, Color.yellow };
+
 
     private void Start()
     {
         cam = Camera.main;
-        materialsCorutine = ChangeMaterialsColor();
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
@@ -258,8 +258,9 @@ public class CrosshairMovement : MonoBehaviour
                         musicManager.playPowerUpMusic();
                         audioSource.clip = powerUpClip;
                         LasersObject.SetActive(true);
+                        musicManager.powerUpOn = true;
                         PowerUpDuration();
-                        StartCoroutine(materialsCorutine);
+                        StartCoroutine(ChangeMaterialsColor());
                         break;
                     case "Target":
 
@@ -337,7 +338,7 @@ public class CrosshairMovement : MonoBehaviour
             }
             await Task.Yield();
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
 
             await Task.Yield();
@@ -350,7 +351,6 @@ public class CrosshairMovement : MonoBehaviour
         {
             duration = 17.0f;
             powerupMultiplier *= 2;
-            musicManager.powerUpOn = true;
             while (musicManager.powerUpOn)
             {
                 while (Time.timeScale == 0)
@@ -377,7 +377,7 @@ public class CrosshairMovement : MonoBehaviour
             powerupMultiplier = 1;
             await Task.Yield();
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
             /*Debug.Log("Power Up Duration: " + e);*/
             await Task.Yield();
@@ -396,7 +396,7 @@ public class CrosshairMovement : MonoBehaviour
 
     private void ReloadCountdown(Image image)
     {
-        image.fillAmount -= 0.05f;
+        image.fillAmount -= 0.1f;
     }
 
     /*private async void ChangeLightColor()
@@ -444,44 +444,45 @@ public class CrosshairMovement : MonoBehaviour
 
     public IEnumerator ChangeMaterialsColor()
     {
-        while (musicManager.powerUpOn)
+        if (!isSwapingActive)
         {
-            while (Time.timeScale == 0)
+            isSwapingActive = true;
+            while (musicManager.powerUpOn)
             {
-                yield return new WaitForSeconds(0.3f);
-            }
+                while (Time.timeScale == 0)
+                {
+                    yield return new WaitForSeconds(0.3f);
+                }
 
-            index = Random.Range(0, colors.Length - 1);
-            while (previousIndex == index)
-            {
                 index = Random.Range(0, colors.Length - 1);
+                while (previousIndex == index)
+                {
+                    index = Random.Range(0, colors.Length - 1);
+                }
+                previousIndex = index;
+
+                foreach (Material mat in materials)
+                {
+                    mat.color = colors[index];
+                }
+
+                yield return new WaitForSeconds(0.75f);
             }
-            previousIndex = index;
 
             foreach (Material mat in materials)
             {
-                mat.color = colors[index];
+                mat.color = baseColor;
             }
 
-            yield return new WaitForSeconds(0.75f);
+            isSwapingActive = false;
         }
-
-        foreach (Material mat in materials)
-        {
-            mat.color = baseColor;   
-        }
-
         yield return null;
     }
 
     public void turnOffPowerUp()
     {
-        foreach (Material mat in materials)
-        {
-            mat.color = baseColor;
-        }
-        StopCoroutine(materialsCorutine);
         musicManager.powerUpOn = false;
+        musicManager.playHardMusic();
         LasersObject.SetActive(false);
     }
 }
