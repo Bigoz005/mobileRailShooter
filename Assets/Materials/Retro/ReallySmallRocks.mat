@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ReallySmallRocks
+  m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
+  m_Parent: {fileID: 2100000, guid: b55ad8bdcc9fe2b4f8964ca3a792ac6e, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _draw_toggle
+  m_InvalidKeywords:
+  - TOGGLE_RETRO
+  - _GLOSSYREFLECTIONS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _HvyTex:
+        m_Texture: {fileID: 2800000, guid: fba0b8a86d21b034093057e602206a35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LitTex:
+        m_Texture: {fileID: 2800000, guid: fba0b8a86d21b034093057e602206a35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 6cf54faba48b51c45af7d22ca798531f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexRGB:
+        m_Texture: {fileID: 2800000, guid: 6cf54faba48b51c45af7d22ca798531f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MedTex:
+        m_Texture: {fileID: 2800000, guid: fba0b8a86d21b034093057e602206a35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _COMIC_TOGGLE: 0
+    - _Cutoff: 0.5
+    - _InkSize: 0.01
+    - _OutlineWidth: 1
+    - _RETRO_TOGGLE: 0
+    - _Repeat: 1
+    - _comic_toggle: 0
+    - _draw_toggle: 1
+    - _isToggledRetro: 1
+    - _retro_toggle: 0
+    - comicToggle: 0
+    - drawToggle: 0
+    - retroToggle: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

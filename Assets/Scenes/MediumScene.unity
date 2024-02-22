@@ -1967,7 +1967,6 @@ MonoBehaviour:
   isRotating: 1
   isFloating: 0
   isScaling: 0
-  mirroring: 0
   rotationAngle: {x: 0, y: 1, z: 0}
   rotationSpeed: 0.3
   floatSpeed: 0
@@ -3233,12 +3232,12 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.31
+      value: -14.39
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -29.91
+      value: -32.25
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
@@ -23567,6 +23566,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2278274022941764938, guid: 66072c42e7f38924f90a2ea3e36cc606,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 481f5342eb2958f4ca5493757d069637, type: 2}
     - target: {fileID: 5319147200080114589, guid: 66072c42e7f38924f90a2ea3e36cc606,
         type: 3}
       propertyPath: m_Layer
@@ -26124,6 +26128,7 @@ MonoBehaviour:
   gnome1: {fileID: 0}
   gnome2: {fileID: 0}
   username: {fileID: 0}
+  skyboxMaterials: []
   toonMaterials: []
   baseTextures: []
   comicTextures: []
@@ -37313,7 +37318,7 @@ PrefabInstance:
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.027
+      value: -14.55
       objectReference: {fileID: 0}
     - target: {fileID: 3805318389859771188, guid: 24457fdf8e66c3c49b7599931e0fdcb2,
         type: 3}

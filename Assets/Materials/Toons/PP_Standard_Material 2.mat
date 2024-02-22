@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PP_Standard_Material 2
-  m_Shader: {fileID: 4800000, guid: b1cf531b824663e4092d341f011b99a9, type: 3}
+  m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -46,9 +46,25 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 6.79, y: 3.9}
         m_Offset: {x: 0, y: 0}
+    - _HvyTex:
+        m_Texture: {fileID: 2800000, guid: dcdbd87d990c2c64a8be79c50e2f02f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LitTex:
+        m_Texture: {fileID: 2800000, guid: 8246e9199aa5e03499266dafa014fbe3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 6.38, y: 3.9}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexRGB:
+        m_Texture: {fileID: 2800000, guid: 84fff70e4edc68c4084731fe6fab5e8b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MedTex:
+        m_Texture: {fileID: 2800000, guid: ae4940f1237cfce47b453a0709c230ea, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -77,13 +93,24 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineWidth: 1
     - _Parallax: 0.0202
+    - _Repeat: 4
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _comic_toggle: 0
+    - _draw_toggle: 0
+    - _isToggled: 0
+    - _isToggledComic: 0
+    - _isToggledHandDraw: 0
+    - _isToggledRetro: 0
+    - _ph: 16
+    - _pixels: 1024
+    - _pw: 9
+    - _retro_toggle: 0
     m_Colors:
-    - _Color: {r: 0, g: 1, b: 0.2544005, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0.8820901, g: 1, b: 0, a: 1}
     - _InkColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

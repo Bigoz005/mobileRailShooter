@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class Options : MonoBehaviour
 {
@@ -15,19 +16,23 @@ public class Options : MonoBehaviour
     private GameObject enemyPlayer;
 
 
-    [SerializeField] private Skybox proceduralSkybox;
     [SerializeField] private GameObject sliderFps;
     [SerializeField] private GameObject sliderDifficulty;
     [SerializeField] private GameObject sliderMusic;
     [SerializeField] private GameObject sliderSFX;
     [SerializeField] private GameObject touchToggle;
     [SerializeField] private GameObject comicToggle;
+    [SerializeField] private GameObject retroToggle;
+    [SerializeField] private GameObject drawToggle;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject gnome1;
     [SerializeField] private GameObject gnome2;
     public TextMeshProUGUI username;
 
+    [SerializeField] private Material[] skyboxMaterials;
     [SerializeField] private Material[] toonMaterials;
+    /*[SerializeField] private Material[] retroMaterials;
+    [SerializeField] private Material[] drawMaterials;*/
     [SerializeField] private Texture2D[] baseTextures;
     [SerializeField] private Texture2D[] comicTextures;
 
@@ -49,7 +54,6 @@ public class Options : MonoBehaviour
             }
             else
             {
-
                 touchToggle.GetComponent<Toggle>().isOn = false;
             }
 
@@ -61,6 +65,25 @@ public class Options : MonoBehaviour
             {
                 comicToggle.GetComponent<Toggle>().isOn = false;
             }
+
+            if ((PlayerPrefs.GetInt("DrawShader", 1) == 0))
+            {
+                drawToggle.GetComponent<Toggle>().isOn = true;
+            }
+            else
+            {
+                drawToggle.GetComponent<Toggle>().isOn = false;
+            }
+
+            if ((PlayerPrefs.GetInt("RetroShader", 1) == 0))
+            {
+                retroToggle.GetComponent<Toggle>().isOn = true;
+            }
+            else
+            {
+                retroToggle.GetComponent<Toggle>().isOn = false;
+            }
+
         }
         GetFPS();
         if (username != null)
@@ -223,54 +246,138 @@ public class Options : MonoBehaviour
     public void SetComicMaterials()
     {
         bool comicType = (bool)comicToggle.GetComponent<Toggle>().isOn;
-        
+
         if (comicType)
         {
             PlayerPrefs.SetInt("ComicShader", 0);
-            toonMaterials[0].mainTexture = comicTextures[0];
-            toonMaterials[14].mainTexture = comicTextures[1];
-
-            toonMaterials[1].mainTexture = null;
-            toonMaterials[2].mainTexture = null;
+            drawToggle.GetComponent<Toggle>().isOn = false;
+            retroToggle.GetComponent<Toggle>().isOn = false;
             
-            toonMaterials[3].mainTexture = null;
-            toonMaterials[4].mainTexture = null;
-            toonMaterials[5].mainTexture = null;
-            toonMaterials[6].mainTexture = null;
-            toonMaterials[7].mainTexture = null;
-
-            toonMaterials[8].mainTexture = comicTextures[2];
-            toonMaterials[9].mainTexture = comicTextures[2];
-
-            toonMaterials[11].color = new(0.7f, 0, 0, 1);
-            toonMaterials[11].color = new(0.5f, 1, 1, 1);
-            RenderSettings.skybox.SetFloat("_AtmosphereThickness", 0.75f);
+            foreach (Material mat in toonMaterials)
+            {
+                Shader shader = mat.shader;
+                EnableComic(mat, shader);
+            }
         }
         else
         {
             PlayerPrefs.SetInt("ComicShader", 1);
-            toonMaterials[0].mainTexture = baseTextures[3];
-            toonMaterials[14].mainTexture = baseTextures[4];
-            
-            toonMaterials[8].mainTexture = baseTextures[2];
-            toonMaterials[9].mainTexture = baseTextures[2];
-            
-            toonMaterials[1].mainTexture = baseTextures[0];
-            toonMaterials[2].mainTexture = baseTextures[0];
-            
-            toonMaterials[3].mainTexture = baseTextures[1];
-            toonMaterials[4].mainTexture = baseTextures[1];
-            toonMaterials[5].mainTexture = baseTextures[1];
-            toonMaterials[6].mainTexture = baseTextures[1];
-            toonMaterials[7].mainTexture = baseTextures[1];
+        }
 
-            toonMaterials[11].color = new(1f, 0, 0, 1);
-            toonMaterials[11].color = new(0.8f, 1, 1, 1);
-
-            RenderSettings.skybox.SetFloat("_AtmosphereThickness", 0.35f);
-
-        }        
-
+        checkSkybox();
         PlayerPrefs.Save();
+    }
+
+    public void SetRetroMaterials()
+    {
+        bool retroType = (bool)retroToggle.GetComponent<Toggle>().isOn;
+
+        if (retroType)
+        {
+            PlayerPrefs.SetInt("RetroShader", 0);
+            comicToggle.GetComponent<Toggle>().isOn = false;
+            drawToggle.GetComponent<Toggle>().isOn = false;
+
+            foreach(Material mat in toonMaterials)
+            {
+                Shader shader = mat.shader;
+                EnableRetro(mat, shader);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("RetroShader", 1);
+        }
+        checkSkybox();
+        PlayerPrefs.Save();
+    }
+
+    public void SetDrawMaterials()
+    {
+        bool drawType = (bool)drawToggle.GetComponent<Toggle>().isOn;
+
+        if (drawType)
+        {
+            PlayerPrefs.SetInt("DrawShader", 0);
+            comicToggle.GetComponent<Toggle>().isOn = false;
+            retroToggle.GetComponent<Toggle>().isOn = false;
+
+            foreach (Material mat in toonMaterials)
+            {
+                Shader shader = mat.shader;
+                EnableDraw(mat , shader);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("DrawShader", 1);
+        }
+        checkSkybox();
+        PlayerPrefs.Save();
+    }
+
+    public void checkSkybox()
+    {
+        if((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn)
+        {
+            RenderSettings.skybox = skyboxMaterials[1];
+            if ((bool)comicToggle.GetComponent<Toggle>().isOn) { 
+                RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
+            }
+            else
+            {
+                RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
+            }
+        }
+        else
+        {
+            RenderSettings.skybox = skyboxMaterials[0];
+            foreach(Material mat in toonMaterials)
+            {
+                Shader shader = mat.shader;
+                DisableMaterialsPropetrties(mat, shader);
+                Debug.Log("disable all");
+            }
+        }
+    }
+
+    public void EnableRetro(Material mat , Shader shader)
+    {
+        Shader.EnableKeyword("_retro_toggle");
+        Shader.DisableKeyword("_draw_toggle");
+        Shader.DisableKeyword("_comic_toggle");
+        mat.SetFloat("_retro_toggle", 1);
+        mat.SetFloat("_comic_toggle", 0);
+        mat.SetFloat("_draw_toggle", 0);
+    }
+
+    public void EnableComic(Material mat, Shader shader)
+    {
+        Shader.DisableKeyword("_draw_toggle");
+        Shader.DisableKeyword("_retro_toggle");
+        Shader.EnableKeyword("_comic_toggle");
+        mat.SetFloat("_comic_toggle", 1);
+        mat.SetFloat("_retro_toggle", 0);
+        mat.SetFloat("_draw_toggle", 0);
+    }
+
+    public void EnableDraw(Material mat, Shader shader)
+    {
+        Shader.EnableKeyword("_draw_toggle");
+        Shader.DisableKeyword("_retro_toggle");
+        Shader.DisableKeyword("_comic_toggle");
+        mat.SetFloat("_draw_toggle", 1);
+        mat.SetFloat("_retro_toggle", 0);
+        mat.SetFloat("_comic_toggle", 0);
+    }
+
+    public void DisableMaterialsPropetrties(Material mat, Shader shader)
+    {
+        Shader.DisableKeyword("_draw_toggle");
+        Shader.DisableKeyword("_retro_toggle");
+        Shader.DisableKeyword("_comic_toggle");
+        mat.SetFloat("_draw_toggle", 0);
+        mat.SetFloat("_retro_toggle", 0);
+        mat.SetFloat("_comic_toggle", 0);
     }
 }

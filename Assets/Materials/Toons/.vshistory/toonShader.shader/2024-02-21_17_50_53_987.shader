@@ -1,9 +1,10 @@
-Shader "Gnoming/ToonShader"
+Shader "Gnoming/Retro"
 {
     Properties
     {
         _Color("Color", Color) = (1,1,1,1)
         _MainTex("Albedo", 2D) = "white" {}
+        _MainTexRGB ("Base (RGB)", 2D) = "white" {}	
 
         _InkColor("InkColor", Color) = (0,0,0,0)
         _InkSize("InkSize", float) = 1.0
@@ -157,6 +158,43 @@ Shader "Gnoming/ToonShader"
             }
 
             ENDCG
+        }
+
+       	Pass {
+			CGPROGRAM
+			#pragma vertex vert_img
+			#pragma fragment frag
+ 
+			#include "UnityCG.cginc"
+ 
+			uniform sampler2D _MainTexRGB;
+
+			float _ObjectColor;
+
+			float4 frag(v2f_img i) : COLOR {
+				float4 c = tex2D(_MainTexRGB, i.uv);
+				float lum = c.r*.31 + c.g*.3 + c.b*.45;
+				float4 output_color = float4(0.1,0.6,0.5,1);
+				if(lum < 0.4) {
+					output_color = float4(0.7,1,0.5,1);
+				}
+				float x = i.pos.x;
+				float y = i.pos.y;
+				float block_size = 8;
+				float rad = (block_size) / 2;
+				// depending on lum [0,1] we draw as halftone with black background.
+				float cx = (x - (x % block_size)) + rad;
+				float cy = (y - (y % block_size)) + rad;
+				float dx = x - cx;
+				float dy = y - cy;
+				float r = sqrt((dx*dx) + (dy*dy));
+				float cr = (block_size * lum) / 1.2f;
+				if(r > cr) {					
+					output_color = float4(0,0,0,1) ; // black
+				}
+				return output_color;
+			}
+			ENDCG
         }
 
         Pass
@@ -403,8 +441,6 @@ Shader "Gnoming/ToonShader"
             #include "UnityStandardMeta.cginc"
             ENDCG
         }
-    }
-
-
+}
     FallBack "VertexLit"
 }
