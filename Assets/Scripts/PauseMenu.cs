@@ -1,5 +1,7 @@
+using Dan.Main;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -52,7 +54,16 @@ public class PauseMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        Time.timeScale = 1;
+        pauseCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().SetText("Record score?");
+        pauseCanvas.transform.GetChild(1).gameObject.SetActive(false);
+        pauseCanvas.transform.GetChild(2).gameObject.SetActive(false);
+        pauseCanvas.transform.GetChild(3).gameObject.SetActive(false);
+        pauseCanvas.transform.GetChild(4).gameObject.SetActive(true);
+        pauseCanvas.transform.GetChild(5).gameObject.SetActive(true);
+    }
+
+    private void TurnMenuMusic()
+    {
         musicManager.GetComponent<MusicManager>().powerUpOn = false;
         if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
         {
@@ -63,8 +74,29 @@ public class PauseMenu : MonoBehaviour
         {
             musicManager.GetComponent<AudioSource>().UnPause();
         }
-
+        Time.timeScale = 1;
         Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused = false;
+    }
+
+    public void Save()
+    {
+        if (player.GetScore() > PlayerPrefs.GetInt("HighScore") && PlayerPrefs.GetInt("HighScore", 0) != 0)
+        {
+            PlayerPrefs.SetInt("HighScore", player.GetScore());
+            PlayerPrefs.Save();
+        }
+
+        TurnMenuMusic();
+        LeaderboardCreator.UploadNewEntry(player.GetPublicLeaderboardKey(), PlayerPrefs.GetString("Username"), player.GetScore(), ((msg) =>
+        {
+        }));
+
+        StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
+    }
+
+    public void DontSave()
+    {
+        TurnMenuMusic();
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }
 

@@ -164,6 +164,11 @@ public class Player : MonoBehaviour
         rewardedAd.ShowAd();
     }
 
+    public string GetPublicLeaderboardKey()
+    {
+        return publicLeaderboardKey;
+    }
+
     public void ShowInterAd()
     {
         interstitialAd.ShowAd();

@@ -15,7 +15,6 @@ public class Options : MonoBehaviour
     private GameObject soundPlayer;
     private GameObject enemyPlayer;
 
-
     [SerializeField] private GameObject sliderFps;
     [SerializeField] private GameObject sliderDifficulty;
     [SerializeField] private GameObject sliderMusic;
@@ -31,23 +30,33 @@ public class Options : MonoBehaviour
 
     [SerializeField] private Material[] skyboxMaterials;
     [SerializeField] private Material[] toonMaterials;
-    /*[SerializeField] private Material[] retroMaterials;
-    [SerializeField] private Material[] drawMaterials;*/
     [SerializeField] private Texture2D[] baseTextures;
     [SerializeField] private Texture2D[] comicTextures;
 
     public void Awake()
     {
+
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
         soundPlayer = GameObject.FindGameObjectWithTag("SoundPlayer");
         enemyPlayer = GameObject.FindGameObjectWithTag("EnemyPlayer");
 
         sliderFps.GetComponent<Slider>().value = PlayerPrefs.GetInt("FPS", 3);
-        sliderDifficulty.GetComponent<Slider>().value = PlayerPrefs.GetInt("Difficulty", 1);
         sliderMusic.GetComponent<Slider>().value = PlayerPrefs.GetInt("MusicVolume", 100);
         sliderSFX.GetComponent<Slider>().value = PlayerPrefs.GetInt("SFXVolume", 100);
+        
         if (SceneManager.GetActiveScene().name.Equals("MainMenuScene"))
         {
+            sliderDifficulty.GetComponent<Slider>().value = PlayerPrefs.GetInt("Difficulty", 1);
+            foreach (Material mat in toonMaterials)
+            {
+                DisableMaterialsPropetrties(mat, mat.shader);
+            }
+
+            comicToggle.GetComponent<Toggle>().isOn = false;
+            drawToggle.GetComponent<Toggle>().isOn = false;
+            retroToggle.GetComponent<Toggle>().isOn = false;
+
+
             if ((PlayerPrefs.GetInt("Controls", 1) == 0))
             {
                 touchToggle.GetComponent<Toggle>().isOn = true;
@@ -84,12 +93,31 @@ public class Options : MonoBehaviour
                 retroToggle.GetComponent<Toggle>().isOn = false;
             }
 
+            foreach (Material mat in toonMaterials)
+            {
+                if ((bool)comicToggle.GetComponent<Toggle>().isOn)
+                {
+                    EnableComic(mat, mat.shader);
+                }
+                else if ((bool)drawToggle.GetComponent<Toggle>().isOn)
+                {
+                    EnableDraw(mat, mat.shader);
+                }
+                else if ((bool)retroToggle.GetComponent<Toggle>().isOn)
+                {
+                    EnableRetro(mat, mat.shader);
+                }
+            }
+            checkSkybox();
         }
+
         GetFPS();
         if (username != null)
         {
             username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
         }
+
+
     }
 
     public void ShowMenu()
@@ -252,7 +280,7 @@ public class Options : MonoBehaviour
             PlayerPrefs.SetInt("ComicShader", 0);
             drawToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
-            
+
             foreach (Material mat in toonMaterials)
             {
                 Shader shader = mat.shader;
@@ -278,7 +306,7 @@ public class Options : MonoBehaviour
             comicToggle.GetComponent<Toggle>().isOn = false;
             drawToggle.GetComponent<Toggle>().isOn = false;
 
-            foreach(Material mat in toonMaterials)
+            foreach (Material mat in toonMaterials)
             {
                 Shader shader = mat.shader;
                 EnableRetro(mat, shader);
@@ -305,7 +333,7 @@ public class Options : MonoBehaviour
             foreach (Material mat in toonMaterials)
             {
                 Shader shader = mat.shader;
-                EnableDraw(mat , shader);
+                EnableDraw(mat, shader);
             }
         }
         else
@@ -318,10 +346,11 @@ public class Options : MonoBehaviour
 
     public void checkSkybox()
     {
-        if((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn)
+        if ((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn)
         {
             RenderSettings.skybox = skyboxMaterials[1];
-            if ((bool)comicToggle.GetComponent<Toggle>().isOn) { 
+            if ((bool)comicToggle.GetComponent<Toggle>().isOn)
+            {
                 RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
             }
             else
@@ -332,7 +361,7 @@ public class Options : MonoBehaviour
         else
         {
             RenderSettings.skybox = skyboxMaterials[0];
-            foreach(Material mat in toonMaterials)
+            foreach (Material mat in toonMaterials)
             {
                 Shader shader = mat.shader;
                 DisableMaterialsPropetrties(mat, shader);
@@ -341,7 +370,7 @@ public class Options : MonoBehaviour
         }
     }
 
-    public void EnableRetro(Material mat , Shader shader)
+    public void EnableRetro(Material mat, Shader shader)
     {
         Shader.EnableKeyword("_retro_toggle");
         Shader.DisableKeyword("_draw_toggle");

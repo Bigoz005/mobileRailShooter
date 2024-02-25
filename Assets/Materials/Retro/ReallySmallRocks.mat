@@ -11,8 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
   m_Parent: {fileID: 2100000, guid: b55ad8bdcc9fe2b4f8964ca3a792ac6e, type: 2}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _draw_toggle
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - TOGGLE_RETRO
   - _GLOSSYREFLECTIONS_OFF
@@ -56,7 +55,7 @@ Material:
     - _RETRO_TOGGLE: 0
     - _Repeat: 1
     - _comic_toggle: 0
-    - _draw_toggle: 1
+    - _draw_toggle: 0
     - _isToggledRetro: 1
     - _retro_toggle: 0
     - comicToggle: 0

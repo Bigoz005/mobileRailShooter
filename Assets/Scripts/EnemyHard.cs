@@ -51,43 +51,33 @@ public class EnemyHard : Enemy
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
-        CountdownToAttack();
+        StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
     }
 
-    private async void CountdownToAttack()
+    private IEnumerator CountdownToAttack()
     {
-        try
+        while (time <= TIME_TO_ATTACK)
         {
-            while (time <= TIME_TO_ATTACK)
+
+            if (time == TIME_TO_ATTACK - 1f && enabled)
             {
-                while (Time.timeScale == 0)
-                {
-                    await Task.Delay(333);
-                }
-
-                if (time == TIME_TO_ATTACK - 1f && enabled)
-                {
-                    audioSource.clip = explosionClip;
-                    audioSource.Play();
-                }
-
-                if (time == TIME_TO_ATTACK - 0.5f)
-                {
-                    Attack();
-                }
-
-                TimeCount();
-                await Task.Delay(1000);
+                audioSource.clip = explosionClip;
+                audioSource.Play();
             }
-            await Task.Yield();
+
+            if (time >= TIME_TO_ATTACK - 0.5f)
+            {
+                Attack();
+                yield return null;
+            }
+
+            TimeCount();
+            yield return new WaitForSeconds(1);
         }
-        catch (MissingReferenceException)
-        {
-            audioSource.Stop();
-            await Task.Yield();
-        }
+        yield return null;
     }
+
     private void Attack()
     {
         if (enabled)

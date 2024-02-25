@@ -48,12 +48,15 @@ Material:
     - _InkSize: 0.025
     - _OutlineWidth: 1
     - _Repeat: 40
+    - _comic_toggle: 0
+    - _draw_toggle: 0
     - _isToggledComic: 0
     - _isToggledHandDraw: 0
     - _isToggledRetro: 0
     - _ph: 16
     - _pixels: 1024
     - _pw: 9
+    - _retro_toggle: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

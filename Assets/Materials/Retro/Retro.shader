@@ -118,7 +118,6 @@ Shader "Gnoming/Retro"
 			}
 
             #else
-
             #if defined(_comic_toggle)
 
                 float4 frag(v2f_img i) : COLOR {

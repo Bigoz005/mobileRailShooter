@@ -76,24 +76,6 @@ public class CrosshairMovement : MonoBehaviour
         previousTime = Time.deltaTime;
         actualTime = previousTime;
 
-        switch (SceneManager.GetActiveScene().name)
-        {
-            case "EasyScene":
-                baseColor = new(0.7f,1f,0.7f,1);
-                break;
-            case "MediumScene":
-                baseColor = new(0.7f, 0.5f, 0.5f, 1);
-                break;
-            case "HardScene":
-                baseColor = new(0.6f, 0.3f, 0.8f, 1);
-                break;
-        }
-
-        foreach (Material mat in materials)
-        {
-            mat.color = baseColor;
-        }
-
         if (PlayerPrefs.GetInt("Controls") == 1)
         {
             touchControlEnabled = true;

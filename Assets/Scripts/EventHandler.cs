@@ -12,15 +12,14 @@ public class EventHandler : MonoBehaviour
         {
             EventHandlerInstance = this;
             DontDestroyOnLoad(gameObject);
+            gameObject.GetComponent<EventSystem>().enabled = false;
+            gameObject.GetComponent<StandaloneInputModule>().enabled = false;
+            StartCoroutine(Initialization());
         }
         else if (EventHandlerInstance != this)
         {
             Destroy(gameObject);
         }
-
-        gameObject.GetComponent<EventSystem>().enabled = false;
-        gameObject.GetComponent<StandaloneInputModule>().enabled = false;
-        StartCoroutine(Initialization());
     }
 
     private IEnumerator Initialization()

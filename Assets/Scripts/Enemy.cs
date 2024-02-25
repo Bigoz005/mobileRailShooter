@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     private GameObject aimCircle1;
     private GameObject aimCircle2;
     private Material aimlockMaterial;
+    private Camera cam;
     [SerializeField] protected Zooming zoomController;
     [SerializeField] protected GameObject objectToWatch;
     protected int index;
@@ -64,8 +65,8 @@ public class Enemy : MonoBehaviour
         startingTransformAimlock = aimlock.transform;
         startingTransformCircle1 = aimCircle1.transform;
         startingTransformCircle2 = aimCircle2.transform;
-
-        transform.LookAt(Camera.main.transform);
+        cam = Camera.main;
+        transform.LookAt(cam.transform);
         aimlock.SetActive(true);
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
@@ -103,11 +104,11 @@ public class Enemy : MonoBehaviour
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
-        zoomController.SetVariables(Camera.main, objectToWatch, this.gameObject, Camera.main.transform.GetChild(1).GetComponent<Camera>());
+        zoomController.SetVariables(cam, objectToWatch, this.gameObject, cam.transform.GetChild(1).GetComponent<Camera>());
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
-        CountdownToAttack();
+        StartCoroutine(CountdownToAttack());
         StartCoroutine(Shaking());
         StartCoroutine(AimlockController());
     }
@@ -119,8 +120,8 @@ public class Enemy : MonoBehaviour
             gameObject.layer = 0;
             aimlock.SetActive(false);
             StopCoroutine(AimlockController());
-            Camera.main.GetComponentInChildren<Player>().GetHit();
-            if (Camera.main.GetComponentInChildren<Player>().GetHealth() != 0)
+            cam.GetComponentInChildren<Player>().GetHit();
+            if (cam.GetComponentInChildren<Player>().GetHealth() != 0)
             {
                 CameraShaker.Instance.ShakeOnce(3f, 3f, 0.34f, 0.34f);
             }
@@ -159,38 +160,26 @@ public class Enemy : MonoBehaviour
         yield return null;
     }
 
-    private async void CountdownToAttack()
+    private IEnumerator CountdownToAttack()
     {
-        try
-        {
             while (time <= TIME_TO_ATTACK)
             {
-                while (Time.timeScale == 0)
-                {
-                    await Task.Delay(333);
-                }
-
                 if (time == TIME_TO_ATTACK - 0.5f && enabled)
                 {
                     audioSource.clip = explosionClip;
                     audioSource.Play();
                 }
 
-                if (time == TIME_TO_ATTACK)
+                if (time >= TIME_TO_ATTACK)
                 {
                     Attack();
+                    yield return null;
                 }
 
                 TimeCount();
-                await Task.Delay(1000);
+                yield return new WaitForSeconds(1);
             }
-            await Task.Yield();
-        }
-        catch (MissingReferenceException)
-        {
-            audioSource.Stop();
-            await Task.Yield();
-        }
+        yield return null;
     }
 
     public void ResetAimlockAndCircles()
@@ -271,7 +260,7 @@ public class Enemy : MonoBehaviour
         {
             float strength = curve.Evaluate(time / TIME_TO_ATTACK);
             transform.position = startPostition + Random.insideUnitSphere * strength;
-            yield return new WaitUntil(() => Camera.main.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
+            yield return new WaitUntil(() => cam.gameObject.GetComponent<SystemPreferences>().IsPaused == false);
         }
 
         transform.position = startPostition;
