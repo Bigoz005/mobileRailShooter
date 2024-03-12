@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
+
 public class Enemy : MonoBehaviour
 {
     protected GameObject explosion;
-    protected float duration;
+    protected float duration;    
     protected float time = 0;
     protected float TIME_TO_ATTACK = 1;
     private GameObject aimlock;
@@ -37,6 +39,12 @@ public class Enemy : MonoBehaviour
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
     private void OnEnable()
     {
+        if (SceneManager.GetActiveScene().name.Equals("HardScene")) {
+            TIME_TO_ATTACK = 0.75f;
+        }else if (SceneManager.GetActiveScene().name.Equals("EasyScene"))
+        {
+            TIME_TO_ATTACK = 1.25f;
+        }
         audioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();
         if (PlayerPrefs.GetInt("Difficulty", 0) != 2)
         {
@@ -104,7 +112,7 @@ public class Enemy : MonoBehaviour
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
-        zoomController.SetVariables(cam, objectToWatch, this.gameObject, cam.transform.GetChild(1).GetComponent<Camera>());
+        zoomController.SetVariables(cam, objectToWatch, this.gameObject, cam.transform.GetChild(1).GetComponent<Camera>(), specialIndex);
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
@@ -166,7 +174,7 @@ public class Enemy : MonoBehaviour
             {
                 if (time == TIME_TO_ATTACK - 0.5f && enabled)
                 {
-                    audioSource.clip = explosionClip;
+                    audioSource.clip = explosionClip;                    
                     audioSource.Play();
                 }
 

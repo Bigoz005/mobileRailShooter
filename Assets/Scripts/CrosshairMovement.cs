@@ -315,8 +315,13 @@ public class CrosshairMovement : MonoBehaviour
                 }
 
                 ReloadCountdown(image);
-
-                await Task.Delay(30);
+                if (SceneManager.GetActiveScene().name.Equals("HardScene"))
+                {
+                    await Task.Delay(20);
+                }
+                else { 
+                    await Task.Delay(30);
+                }
             }
             if (image.fillAmount <= 0.1)
             {
@@ -478,7 +483,13 @@ public class CrosshairMovement : MonoBehaviour
     public void turnOffPowerUp()
     {
         musicManager.powerUpOn = false;
-        musicManager.playHardMusic();
+        if(SceneManager.GetActiveScene().name.Equals("HardScene")) { 
+            musicManager.playHardMusic();
+        }
+        else
+        {
+            musicManager.playMainMusic();
+        }
         LasersObject.SetActive(false);
     }
 }

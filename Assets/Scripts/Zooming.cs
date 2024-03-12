@@ -13,6 +13,7 @@ public class Zooming : MonoBehaviour
     private Camera cam;
     private float time;
     private float time_to_attack;
+    private int specialIndex;
     private GameObject gameobjectToWatch;
     private Camera circleCam = null;
 
@@ -50,8 +51,6 @@ public class Zooming : MonoBehaviour
 
         Vector3 dir = enemy.transform.position - cam.transform.position;
         RaycastHit hit;
-
-        Debug.DrawRay(cam.transform.position, dir, Color.yellow, 1000);
 
         if (Physics.Raycast(cam.transform.position, dir, out hit, 10000))
         {
@@ -180,12 +179,13 @@ public class Zooming : MonoBehaviour
     {
         circleCam = camToAssign;
     }
-    public void SetVariables(Camera camera, GameObject gameObjectToWatch, GameObject enemy, Camera camToAssign)
+    public void SetVariables(Camera camera, GameObject gameObjectToWatch, GameObject enemy, Camera camToAssign, int index)
     {
         SetEnemy(enemy);
         SetCircleCam(camToAssign);
         cam = camera;
         zoom = cam.fieldOfView;
         gameobjectToWatch = gameObjectToWatch;
+        specialIndex = index;
     }
 }

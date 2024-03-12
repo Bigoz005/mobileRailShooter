@@ -156,7 +156,7 @@ Material:
     - retroToggle: 0
     - tile: 15
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.6, g: 0.3, b: 0.8, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color1in: {r: 1, g: 1, b: 1, a: 1}
     - _Color1out: {r: 1, g: 1, b: 1, a: 1}

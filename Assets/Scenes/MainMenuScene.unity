@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18346009, g: 0.22903746, b: 0.30587873, a: 1}
+  m_IndirectSpecularColor: {r: 3.4085479, g: 3.1275446, b: 2.3237956, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6661,7 +6661,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -199.3667, y: 0, z: 296.98297, w: 33.16861}
+  m_margin: {x: -200.31671, y: 0, z: 292.45718, w: 33.16861}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -20064,7 +20064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _androidGameId: 5538247
   _iOSGameId: 5538246
-  _testMode: 1
+  _testMode: 0
 --- !u!4 &1787316367
 Transform:
   m_ObjectHideFlags: 0

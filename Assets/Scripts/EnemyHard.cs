@@ -47,7 +47,7 @@ public class EnemyHard : Enemy
         specialElements[index].SetActive(true);
         originalSpecialElementTransform = specialElements[index].transform;
 
-        zoomController.SetVariables(camMain, objectToWatch, this.gameObject, camMain.transform.GetChild(1).GetComponent<Camera>());
+        zoomController.SetVariables(camMain, objectToWatch, this.gameObject, camMain.transform.GetChild(1).GetComponent<Camera>(), specialIndex);
 
         StartCoroutine(zoomController.ZoomOnEnemy());
         StartCoroutine(zoomController.Move());
@@ -59,7 +59,6 @@ public class EnemyHard : Enemy
     {
         while (time <= TIME_TO_ATTACK)
         {
-
             if (time == TIME_TO_ATTACK - 1f && enabled)
             {
                 audioSource.clip = explosionClip;

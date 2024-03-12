@@ -31,7 +31,7 @@ public class LaunchEnemies : MonoBehaviour
         }
     }
 
-    public async void ActivateRandomEnemy()
+    public async void ActivateRandomEnemy(float duration)
     {
         try
         {
@@ -45,7 +45,7 @@ public class LaunchEnemies : MonoBehaviour
             index = Random.Range(0, 24);
         }
         previousIndex = index;
-        duration = 2;
+        
 
         if (isCounting)
         {
@@ -53,12 +53,13 @@ public class LaunchEnemies : MonoBehaviour
         }
 
         activeEnemy = gameObject.transform.GetChild(index).gameObject;
+         
         activeEnemy.tag = "Enemy";
         activeEnemy.layer = LayerMask.NameToLayer("RayCast");
         activeEnemy.SetActive(true);
         activeEnemy.GetComponent<MeshRenderer>().enabled = true;
 
-
+        duration = 2;
         if (!activeEnemy.transform.name.Contains("Hard"))
         {
             activeEnemy.transform.GetChild(1).gameObject.SetActive(true);
@@ -112,31 +113,31 @@ public class LaunchEnemies : MonoBehaviour
                 multiplier = 0.8f;
                 break;
             case > 5000 and < 10000:
-                multiplier = 0.75f;
-                break;
-            case > 10000 and < 20000:
                 multiplier = 0.7f;
                 break;
-            case > 20000 and < 30000:
+            case > 10000 and < 20000:
                 multiplier = 0.65f;
                 break;
-            case > 30000 and < 41000:
+            case > 20000 and < 30000:
                 multiplier = 0.6f;
                 break;
-            case > 41000 and < 53000:
+            case > 30000 and < 41000:
                 multiplier = 0.5f;
                 break;
+            case > 41000 and < 53000:
+                multiplier = 0.45f;
+                break;
             case > 53000 and < 67000:
-                multiplier = 0.47f;
+                multiplier = 0.40f;
                 break;
             case > 67000 and < 85000:
-                multiplier = 0.44f;
+                multiplier = 0.38f;
                 break;
             case > 85000 and < 128000:
-                multiplier = 0.4f;
+                multiplier = 0.35f;
                 break;
             case > 128000 and < 150000:
-                multiplier = 0.35f;
+                multiplier = 0.32f;
                 break;
             case > 150000 and < 200000:
                 multiplier = 0.3f;
@@ -167,7 +168,7 @@ public class LaunchEnemies : MonoBehaviour
         if (timeToActivate <= 0)
         {
             isCounting = false;
-            ActivateRandomEnemy();
+            ActivateRandomEnemy(multiplier * duration);
         }
 
         yield return null;
