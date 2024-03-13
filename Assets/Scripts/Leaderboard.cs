@@ -30,11 +30,11 @@ public class Leaderboard : MonoBehaviour
                 break;
             case 1:
                 filter = Dan.Enums.TimePeriodType.ThisWeek;
-                typeText.text = "New (This Week)";
+                typeText.text = "New Users (Week)";
                 break;
             case 2:
                 filter = Dan.Enums.TimePeriodType.Today;
-                typeText.text = "New (Today)";
+                typeText.text = "New Users (Today)";
                 break;
         }
 
@@ -72,10 +72,17 @@ public class Leaderboard : MonoBehaviour
 
             LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
             {
-                fetched = true;
-                PlayerPrefs.SetInt("HighScore", msg.Score);
-                PlayerPrefs.SetInt("Rank", msg.Rank);
-                textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                int highscore = PlayerPrefs.GetInt("HighScore", 0);
+                if (msg.Score < highscore) {
+                    SetLeaderboardEntry(highscore);
+                    fetched = false;
+                }
+                else {
+                    fetched = true;
+                    PlayerPrefs.SetInt("HighScore", msg.Score);
+                    PlayerPrefs.SetInt("Rank", msg.Rank);
+                    textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                }
             },
             (error) =>
             {
@@ -95,7 +102,6 @@ public class Leaderboard : MonoBehaviour
 
         LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, tempUsername, score, ((msg) =>
         {
-            GetLeaderboard();
         }));
     }
 

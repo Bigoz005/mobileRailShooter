@@ -81,7 +81,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Save()
     {
-        if (player.GetScore() > PlayerPrefs.GetInt("HighScore") && PlayerPrefs.GetInt("HighScore", 0) != 0)
+
+        if (player.GetScore() > PlayerPrefs.GetInt("HighScore") && PlayerPrefs.GetInt("HighScore", -1) != -1)
         {
             PlayerPrefs.SetInt("HighScore", player.GetScore());
             PlayerPrefs.Save();
@@ -136,6 +137,7 @@ public class PauseMenu : MonoBehaviour
                 pauseCanvas.transform.GetChild(1).GetComponent<Button>().interactable = true;
                 pauseCanvas.transform.GetChild(2).GetComponent<Button>().interactable = true;
                 pauseCanvas.transform.GetChild(3).GetComponent<Button>().interactable = true;
+                
                 _asyncOperation.allowSceneActivation = true;
             }
             yield return null;

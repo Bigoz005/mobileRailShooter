@@ -19137,6 +19137,7 @@ MonoBehaviour:
   healthClip: {fileID: 8300000, guid: 3cdce9eaf67c55d41a7f95bdd1e2a4f0, type: 3}
   powerUpClip: {fileID: 8300000, guid: 654cc188b99cfba4ba96891f37f2c86d, type: 3}
   gnomeClip: {fileID: 8300000, guid: 106f1d3da633a7b4c914016c232ab294, type: 3}
+  targetClip: {fileID: 8300000, guid: 039658efcc2eec546bde1274a4386f57, type: 3}
   LasersObject: {fileID: 2147036279}
   circleCamera: {fileID: 1468136304}
   gun: {fileID: 1078004788}

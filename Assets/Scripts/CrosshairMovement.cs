@@ -32,6 +32,8 @@ public class CrosshairMovement : MonoBehaviour
     [SerializeField]
     private AudioClip gnomeClip;
     [SerializeField]
+    private AudioClip targetClip;
+    [SerializeField]
     private GameObject LasersObject;
     [SerializeField]
     private Camera circleCamera;
@@ -281,6 +283,7 @@ public class CrosshairMovement : MonoBehaviour
                         {
                             tempPoints = 2 * powerupMultiplier * points / 10 / controlsScoreDividor;
                         }
+                        audioSource.clip = targetClip;
                         cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).gameObject.SetActive(true);
