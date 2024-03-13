@@ -82,16 +82,14 @@ public class PauseMenu : MonoBehaviour
     public void Save()
     {
 
-        if (player.GetScore() > PlayerPrefs.GetInt("HighScore") && PlayerPrefs.GetInt("HighScore", -1) != -1)
+        if (player.GetScore() >= PlayerPrefs.GetInt("HighScore"))
         {
             PlayerPrefs.SetInt("HighScore", player.GetScore());
             PlayerPrefs.Save();
+            //SaveScore();
         }
 
         TurnMenuMusic();
-        SaveScore();
-
-
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }
 

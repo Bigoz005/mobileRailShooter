@@ -24,15 +24,6 @@ public class Zooming : MonoBehaviour
 
     void Awake()
     {
-      /*  if (zoomingManagerInstance == null)
-        {
-            zoomingManagerInstance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (zoomingManagerInstance != this)
-        {
-            Destroy(gameObject);
-        }*/
     }
 
     public IEnumerator ZoomOnEnemy()
@@ -55,9 +46,9 @@ public class Zooming : MonoBehaviour
         if (Physics.Raycast(cam.transform.position, dir, out hit, 10000))
         {
             minFieldOfView = minFieldOfView - Mathf.Log(hit.distance * 3.0f, 1.2f);
-            if (minFieldOfView < 6)
+            if (minFieldOfView < 8f)
             {
-                minFieldOfView = 6;
+                minFieldOfView = 8f;
             }
         }
         else

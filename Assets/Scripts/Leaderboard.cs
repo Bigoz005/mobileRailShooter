@@ -77,10 +77,11 @@ public class Leaderboard : MonoBehaviour
                     SetLeaderboardEntry(highscore);
                     fetched = false;
                 }
-                else {
+                else 
+                {
                     fetched = true;
-                    PlayerPrefs.SetInt("HighScore", msg.Score);
-                    PlayerPrefs.SetInt("Rank", msg.Rank);
+                    //PlayerPrefs.SetInt("HighScore", msg.Score);
+                    //PlayerPrefs.SetInt("Rank", msg.Rank);
                     textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
                 }
             },
@@ -98,7 +99,7 @@ public class Leaderboard : MonoBehaviour
 
     public void SetLeaderboardEntry(int score)
     {
-        string tempUsername = PlayerPrefs.GetString("Username", "----");
+        string tempUsername = PlayerPrefs.GetString("Username");
 
         LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, tempUsername, score, ((msg) =>
         {

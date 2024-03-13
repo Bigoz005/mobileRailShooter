@@ -227,7 +227,7 @@ public class Player : MonoBehaviour
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
 
-                SaveScore();
+                //SaveScore();
 
                 Time.timeScale = 0;
                 break;
