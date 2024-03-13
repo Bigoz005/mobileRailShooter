@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using Dan.Main;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
 {
@@ -225,12 +226,10 @@ public class Player : MonoBehaviour
                 }
                 gameOverCanvas.SetActive(true);
                 gameplayCanvas.SetActive(false);
+
+                SaveScore();
+
                 Time.timeScale = 0;
-
-                LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, PlayerPrefs.GetString("Username"), GetScore(), ((msg) =>
-                {
-                }));
-
                 break;
             case 1:
                 HealthTexture2.SetActive(false);
@@ -244,6 +243,23 @@ public class Player : MonoBehaviour
                 HealthTexture2.SetActive(true);
                 HealthTexture3.SetActive(true);
                 break;
+        }
+    }
+
+    private async void SaveScore()
+    {
+        try
+        {
+            LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, PlayerPrefs.GetString("Username"), GetScore(), ((msg) =>
+            {
+
+            }));
+            
+            await Task.Yield();
+        }
+        catch (MissingReferenceException)
+        {
+            await Task.Yield();
         }
     }
 }

@@ -365,7 +365,6 @@ public class Options : MonoBehaviour
             {
                 Shader shader = mat.shader;
                 DisableMaterialsPropetrties(mat, shader);
-                Debug.Log("disable all");
             }
         }
     }

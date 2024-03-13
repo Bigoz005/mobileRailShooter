@@ -67,6 +67,19 @@ public class CrosshairMovement : MonoBehaviour
 
     private void Start()
     {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "EasyScene":
+                baseColor = new(0.85f, 0.85f, 0.85f, 1);
+                break;
+            case "MediumScene":
+                baseColor = new(0.65f, 0.65f, 0.65f, 1);
+                break;
+            case "HardScene":
+                baseColor = new(0.36f, 0.36f, 0.36f, 1);
+                break;
+        }
+
         cam = Camera.main;
         audioSource = GameObject.FindGameObjectWithTag("SoundPlayer").GetComponent<AudioSource>();
         enemyAudioSource = GameObject.FindGameObjectWithTag("EnemyPlayer").GetComponent<AudioSource>();

@@ -33,8 +33,6 @@ public class SystemPreferences : MonoBehaviour
                     color = new(0.36f, 0.36f, 0.36f, 1);
                     break;
             }
-
-            Debug.Log("Draw Shader: "+PlayerPrefs.GetInt("DrawShader", 1));
         }
         else
         {
@@ -42,8 +40,6 @@ public class SystemPreferences : MonoBehaviour
             {
                 RenderSettings.skybox = skybox;
                 RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
-                Debug.Log("Retro Shader: " + PlayerPrefs.GetInt("RetroShader", 1));
-                Debug.Log("Comic Shader: " + PlayerPrefs.GetInt("ComicShader", 1));
             }
 
             switch (SceneManager.GetActiveScene().name)

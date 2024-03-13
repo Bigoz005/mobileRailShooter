@@ -53,7 +53,7 @@ public class Leaderboard : MonoBehaviour
                 if (msg.Length < j)
                     j = msg.Length;
 
-                for (int i = 0; i < j; ++i)
+                for (int i = 0; i <= j; ++i)
                 {
                     if (msg[i].Username.Length > 12)
                     {

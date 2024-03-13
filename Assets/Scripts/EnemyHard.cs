@@ -92,6 +92,8 @@ public class EnemyHard : Enemy
         }
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
+        
+
         StartCoroutine(zoomController.MoveBack());
         StartCoroutine(zoomController.ZoomOutEnemy());
         StartCoroutine(CountdownToExtinction());

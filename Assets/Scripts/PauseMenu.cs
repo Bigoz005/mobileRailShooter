@@ -1,6 +1,7 @@
 using Dan.Main;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -87,9 +88,8 @@ public class PauseMenu : MonoBehaviour
         }
 
         TurnMenuMusic();
-        LeaderboardCreator.UploadNewEntry(player.GetPublicLeaderboardKey(), PlayerPrefs.GetString("Username"), player.GetScore(), ((msg) =>
-        {
-        }));
+        SaveScore();
+
 
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }
@@ -98,6 +98,23 @@ public class PauseMenu : MonoBehaviour
     {
         TurnMenuMusic();
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
+    }
+
+    private async void SaveScore()
+    {
+        try
+        {
+            LeaderboardCreator.UploadNewEntry(player.GetPublicLeaderboardKey(), PlayerPrefs.GetString("Username"), player.GetScore(), ((msg) =>
+            {
+
+            }));
+
+            await Task.Yield();
+        }
+        catch (MissingReferenceException)
+        {
+            await Task.Yield();
+        }
     }
 
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
