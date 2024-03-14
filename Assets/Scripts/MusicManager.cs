@@ -9,6 +9,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     AudioClip hardMusic;
     [SerializeField]
+    AudioClip mediumMusic;
+    [SerializeField]
     AudioClip powerUpMusic;
 
     private static MusicManager musicManagerInstance;
@@ -16,6 +18,8 @@ public class MusicManager : MonoBehaviour
 
     public AudioClip MainMusic { get => mainMusic; set => mainMusic = value; }
     public AudioClip HardMusic { get => hardMusic; set => hardMusic = value; }
+
+    public AudioClip MediumMusic { get => mediumMusic; set => mediumMusic = value; }
     public AudioClip PowerUpMusic { get => powerUpMusic; set => powerUpMusic = value; }
 
     void Awake()
@@ -36,6 +40,12 @@ public class MusicManager : MonoBehaviour
         this.GetComponent<AudioSource>().clip = mainMusic;
         this.GetComponent<AudioSource>().Play();
         powerUpOn = false;
+    }
+
+    public void playMediumMusic()
+    {
+        this.GetComponent<AudioSource>().clip = mediumMusic;
+        this.GetComponent<AudioSource>().Play();
     }
 
     public void playHardMusic()

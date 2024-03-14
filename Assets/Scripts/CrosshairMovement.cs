@@ -275,14 +275,8 @@ public class CrosshairMovement : MonoBehaviour
                         break;
                     case "Target":
 
-                        if (musicManager.powerUpOn)
-                        {
-                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor * 2;
-                        }
-                        else
-                        {
-                            tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor / 2;
-                        }
+                        tempPoints = powerupMultiplier * points / 10 / controlsScoreDividor / 2;
+
                         audioSource.clip = targetClip;
                         cam.gameObject.GetComponent<Player>().AddScore(tempPoints);
                         hit.collider.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>().SetText("+ " + tempPoints);
@@ -335,7 +329,8 @@ public class CrosshairMovement : MonoBehaviour
                 {
                     await Task.Delay(20);
                 }
-                else { 
+                else
+                {
                     await Task.Delay(30);
                 }
             }
@@ -380,6 +375,11 @@ public class CrosshairMovement : MonoBehaviour
                     if (PlayerPrefs.GetInt("Difficulty", 0) == 2)
                     {
                         musicManager.playHardMusic();
+                    }
+                    else
+                    if (PlayerPrefs.GetInt("Difficulty", 0) == 1)
+                    {
+                        musicManager.playMediumMusic();
                     }
                     else
                     {
@@ -499,8 +499,14 @@ public class CrosshairMovement : MonoBehaviour
     public void turnOffPowerUp()
     {
         musicManager.powerUpOn = false;
-        if(SceneManager.GetActiveScene().name.Equals("HardScene")) { 
+        if (SceneManager.GetActiveScene().name.Equals("HardScene"))
+        {
             musicManager.playHardMusic();
+        }
+        else
+        if (SceneManager.GetActiveScene().name.Equals("MediumScene"))
+        {
+            musicManager.playMediumMusic();
         }
         else
         {

@@ -43,26 +43,34 @@ public class Leaderboard : MonoBehaviour
             LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
             ((msg) =>
             {
-                foreach(TextMeshProUGUI score in scores)
+                foreach (TextMeshProUGUI score in scores)
                 {
                     score.text = "";
                 }
 
-                int j = 9;
+                int j = 10;
 
                 if (msg.Length < j)
-                    j = msg.Length;
-
-                for (int i = 0; i <= j; ++i)
                 {
-                    if (msg[i].Username.Length > 12)
+                    j = msg.Length + 1;
+                }
+                try
+                {
+                    for (int i = 1; i <= j; ++i)
                     {
-                        scores[i].text = (i + 1) + ". " + (msg[i].Username.Substring(0, 12) + ": " + msg[i].Score.ToString());
+                        if (msg[i - 1].Username.Length > 12)
+                        {
+                            scores[i - 1].text = (i) + ". " + (msg[i - 1].Username.Substring(0, 12) + ": " + msg[i - 1].Score.ToString());
+                        }
+                        else
+                        {
+                            scores[i - 1].text = (i) + ". " + (msg[i - 1].Username + ": " + msg[i - 1].Score.ToString());
+                        }
                     }
-                    else
-                    {
-                        scores[i].text = (i + 1) + ". " + (msg[i].Username + ": " + msg[i].Score.ToString());
-                    }
+                }
+                catch (System.IndexOutOfRangeException)
+                {
+                    scores[0].text = "Failed to fetch data";
                 }
             }),
             ((error) =>
@@ -73,15 +81,14 @@ public class Leaderboard : MonoBehaviour
             LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
             {
                 int highscore = PlayerPrefs.GetInt("HighScore", 0);
-                if (msg.Score < highscore) {
+                if (msg.Score < highscore || (!msg.Username.Equals(PlayerPrefs.GetString("Username")) && !PlayerPrefs.GetString("Username").Equals("----")))
+                {
                     SetLeaderboardEntry(highscore);
                     fetched = false;
                 }
-                else 
+                else
                 {
                     fetched = true;
-                    //PlayerPrefs.SetInt("HighScore", msg.Score);
-                    //PlayerPrefs.SetInt("Rank", msg.Rank);
                     textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
                 }
             },
@@ -94,13 +101,15 @@ public class Leaderboard : MonoBehaviour
         {
             scores[0].text = "Failed to fetch data";
             textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
+            fetched = true;
         }
     }
 
     public void SetLeaderboardEntry(int score)
     {
-        string tempUsername = PlayerPrefs.GetString("Username");
+        LeaderboardCreator.DeleteEntry(publicLeaderboardKey);
 
+        string tempUsername = PlayerPrefs.GetString("Username");
         LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, tempUsername, score, ((msg) =>
         {
         }));

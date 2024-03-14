@@ -14494,14 +14494,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Game made by RetroDrummer97\n\nMusic is a 8-bit versions of: Wishfulland
-    - \"Epic Ninja Warrior\" & Wishfulland - \"Wave of Technology\"\n\nAssets used
-    under Standard Unity Asset Store EULA license: \nPure Poly -Free Low Poly Nature
-    Forest\nSynty Studios - POLYGON Starter Pack - Low Poly 3D Art by Synty\nAurynSky
-    - Simple Gems Ultimate Animated Customizable Pack\nFenerax Studios - Joystick
-    Pack\n\nAsset used under CC BY 4.0 DEED license:\n@Argylle_ - Low Poly Frog (http://tinyurl.com/283sme5h)\n[Used
-    only in Hard Level with changed materials]\n\nLeaderboard-creator tool used in
-    game was made by Danial Jumagaliyev(danqzq)"
+  m_text: "Game made by RetroDrummer97\n\nMusic is a 8-bit versions of Wishfulland
+    songs: \n\"Epic Ninja Warrior\", \"Wave of Technology\", \"Sword of Fate\", \"Destiny
+    Unknown\"\n\nAssets used under Standard Unity Asset Store EULA license: \nPure
+    Poly -Free Low Poly Nature Forest\nSynty Studios - POLYGON Starter Pack - Low
+    Poly 3D Art by Synty\nAurynSky - Simple Gems Ultimate Animated Customizable Pack\nFenerax
+    Studios - Joystick Pack\n\nAsset used under CC BY 4.0 DEED license:\n@Argylle_
+    - Low Poly Frog (http://tinyurl.com/283sme5h)\n[Used only in Hard Level with
+    changed materials]\n\nLeaderboard-creator tool used in game was made by Danial
+    Jumagaliyev(danqzq)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14528,7 +14529,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.9
+  m_fontSize: 45.85
   m_fontSizeBase: 61.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16597,7 +16598,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMusic: {fileID: 8300000, guid: 4c736f1a85a1b724684892b18cdf3d37, type: 3}
-  hardMusic: {fileID: 8300000, guid: 0ee0be836223f234182b9f53c808ffa8, type: 3}
+  hardMusic: {fileID: 8300000, guid: 05c8b5de79765b74788ca21a7d88abcd, type: 3}
+  mediumMusic: {fileID: 8300000, guid: 1adda917b22519d40b81c1b9906788d5, type: 3}
   powerUpMusic: {fileID: 8300000, guid: e6d90ae1f9a3e5e4e876c9ce337e2f27, type: 3}
   powerUpOn: 0
 --- !u!1 &1397611931

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Enemy : MonoBehaviour
 {
     protected GameObject explosion;
-    protected float duration;    
+    protected float duration;
     protected float time = 0;
     protected float TIME_TO_ATTACK = 1;
     private GameObject aimlock;
@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Zooming zoomController;
     [SerializeField] protected GameObject objectToWatch;
     protected int index;
-    protected Transform originalSpecialElementTransform;
+    protected Vector3 originalSpecialElementTransform;
 
     [SerializeField] protected AnimationCurve curve;
     [SerializeField] protected AudioClip explosionClip;
@@ -39,9 +39,11 @@ public class Enemy : MonoBehaviour
     public float _TIME_TO_ATTACK { get => TIME_TO_ATTACK; }
     private void OnEnable()
     {
-        if (SceneManager.GetActiveScene().name.Equals("HardScene")) {
+        if (SceneManager.GetActiveScene().name.Equals("HardScene"))
+        {
             TIME_TO_ATTACK = 0.75f;
-        }else if (SceneManager.GetActiveScene().name.Equals("EasyScene"))
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("EasyScene"))
         {
             TIME_TO_ATTACK = 1.25f;
         }
@@ -79,7 +81,7 @@ public class Enemy : MonoBehaviour
         aimCircle1.SetActive(true);
         aimCircle2.SetActive(true);
 
-        time = 0;       
+        time = 0;
 
         aimlockMaterial = aimlock.GetComponent<MeshRenderer>().material;
         duration = explosion.GetComponent<ParticleSystem>().main.duration - 1;
@@ -108,9 +110,7 @@ public class Enemy : MonoBehaviour
         }
 
         index = specialIndex;
-        specialElements[index].gameObject.GetComponent<MeshRenderer>().enabled = true;
-        specialElements[index].SetActive(true);
-        originalSpecialElementTransform = specialElements[index].transform;
+        StartCoroutine(EnableBonus(index));
 
         zoomController.SetVariables(cam, objectToWatch, this.gameObject, cam.transform.GetChild(1).GetComponent<Camera>(), specialIndex);
 
@@ -137,6 +137,8 @@ public class Enemy : MonoBehaviour
         }
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         ResetAimlockAndCircles();
+        ResetSpecialItem(index);
+
         StartCoroutine(zoomController.MoveBack());
         StartCoroutine(zoomController.ZoomOutEnemy());
         StartCoroutine(CountdownToExtinction());
@@ -145,8 +147,6 @@ public class Enemy : MonoBehaviour
     public IEnumerator CountdownToExtinction()
     {
         float tempDuration = duration - 1;
-
-        ResetSpecialItem();
 
         while (duration >= 0)
         {
@@ -170,23 +170,23 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator CountdownToAttack()
     {
-            while (time <= TIME_TO_ATTACK)
+        while (time <= TIME_TO_ATTACK)
+        {
+            if (time == TIME_TO_ATTACK - 0.5f && enabled)
             {
-                if (time == TIME_TO_ATTACK - 0.5f && enabled)
-                {
-                    audioSource.clip = explosionClip;                    
-                    audioSource.Play();
-                }
-
-                if (time >= TIME_TO_ATTACK)
-                {
-                    Attack();
-                    yield return null;
-                }
-
-                TimeCount();
-                yield return new WaitForSeconds(1);
+                audioSource.clip = explosionClip;
+                audioSource.Play();
             }
+
+            if (time >= TIME_TO_ATTACK)
+            {
+                Attack();
+                yield return null;
+            }
+
+            TimeCount();
+            yield return new WaitForSeconds(1);
+        }
         yield return null;
     }
 
@@ -206,58 +206,58 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator AimlockController()
     {
-            Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
-            float timeFactor = 3f;
-            bool wasYellow = false;
+        Vector3 scaleChange = new Vector3(0.003f, 0.003f, 0.003f);
+        float timeFactor = 3f;
+        bool wasYellow = false;
 
-            while (time <= TIME_TO_ATTACK && enabled)
+        while (time <= TIME_TO_ATTACK && enabled)
+        {
+            while (Time.timeScale == 0)
             {
-                while (Time.timeScale == 0)
-                {
-                    yield return new WaitForSeconds(0.25f);
-                }
-
-                if (aimlock.transform.localScale.x >= 10)
-                {
-                    aimlock.transform.localScale -= scaleChange * 30 * timeFactor;
-                }
-
-                if (aimCircle1 != null)
-                {
-                    aimCircle1.transform.localScale -= (scaleChange * 550 * timeFactor / 2f);
-                    if (aimCircle1.transform.localScale.x <= 0)
-                    {
-                        aimCircle1.SetActive(false);
-                    }
-                }
-
-                if (aimCircle2 != null)
-                {
-                    aimCircle2.transform.localScale -= (scaleChange * 800 * timeFactor / 2f);
-
-                    if (aimCircle2.transform.localScale.x <= 0)
-                    {
-                        aimCircle2.SetActive(false);
-                    }
-                }
-
-                aimlock.transform.Rotate(0f, 5 * timeFactor * 10, 0f);
-
-                if (wasYellow)
-                {
-                    aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - timeFactor / 100f, aimlockMaterial.color.b);
-                }
-                else
-                {
-                    aimlockMaterial.color = new Color(aimlockMaterial.color.r + timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
-                    if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
-                    {
-                        wasYellow = true;
-                    }
-                }
-                yield return new WaitForSeconds(0.03f);
+                yield return new WaitForSeconds(0.25f);
             }
-            yield return null;   
+
+            if (aimlock.transform.localScale.x >= 10)
+            {
+                aimlock.transform.localScale -= scaleChange * 30 * timeFactor;
+            }
+
+            if (aimCircle1 != null)
+            {
+                aimCircle1.transform.localScale -= (scaleChange * 550 * timeFactor / 2f);
+                if (aimCircle1.transform.localScale.x <= 0)
+                {
+                    aimCircle1.SetActive(false);
+                }
+            }
+
+            if (aimCircle2 != null)
+            {
+                aimCircle2.transform.localScale -= (scaleChange * 800 * timeFactor / 2f);
+
+                if (aimCircle2.transform.localScale.x <= 0)
+                {
+                    aimCircle2.SetActive(false);
+                }
+            }
+
+            aimlock.transform.Rotate(0f, 5 * timeFactor * 10, 0f);
+
+            if (wasYellow)
+            {
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r, aimlockMaterial.color.g - timeFactor / 100f, aimlockMaterial.color.b);
+            }
+            else
+            {
+                aimlockMaterial.color = new Color(aimlockMaterial.color.r + timeFactor / 200f, aimlockMaterial.color.g, aimlockMaterial.color.b);
+                if (aimlockMaterial.color.r >= 1 && aimlockMaterial.color.g >= 1)
+                {
+                    wasYellow = true;
+                }
+            }
+            yield return new WaitForSeconds(0.03f);
+        }
+        yield return null;
     }
 
     private IEnumerator Shaking()
@@ -272,6 +272,15 @@ public class Enemy : MonoBehaviour
         }
 
         transform.position = startPostition;
+        yield return null;
+    }
+
+    protected IEnumerator EnableBonus(int index)
+    {
+        originalSpecialElementTransform = new Vector3(specialElements[index].transform.position.x, specialElements[index].transform.position.y, specialElements[index].transform.position.z);
+        yield return new WaitForSeconds(0.4f);
+        specialElements[index].gameObject.GetComponent<MeshRenderer>().enabled = true;
+        specialElements[index].SetActive(true);
         yield return null;
     }
 
@@ -291,9 +300,9 @@ public class Enemy : MonoBehaviour
         StopCoroutine(AimlockController());
     }
 
-    protected void ResetSpecialItem()
+    protected void ResetSpecialItem(int index)
     {
+        specialElements[index].transform.position = new Vector3(originalSpecialElementTransform.x, originalSpecialElementTransform.y, originalSpecialElementTransform.z);
         specialElements[index].SetActive(false);
-        specialElements[index].transform.localPosition = originalSpecialElementTransform.localPosition;
     }
 }

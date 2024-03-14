@@ -44,8 +44,7 @@ public class EnemyHard : Enemy
         }
 
         index = specialIndex;
-        specialElements[index].SetActive(true);
-        originalSpecialElementTransform = specialElements[index].transform;
+        StartCoroutine(EnableBonus(index));
 
         zoomController.SetVariables(camMain, objectToWatch, this.gameObject, camMain.transform.GetChild(1).GetComponent<Camera>(), specialIndex);
 
@@ -92,7 +91,7 @@ public class EnemyHard : Enemy
         }
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
-        
+        ResetSpecialItem(index);
 
         StartCoroutine(zoomController.MoveBack());
         StartCoroutine(zoomController.ZoomOutEnemy());
@@ -101,8 +100,6 @@ public class EnemyHard : Enemy
 
     public new IEnumerator CountdownToExtinction()
     {
-        ResetSpecialItem();
-
         while (duration >= 0)
         {
             if (duration == 0)

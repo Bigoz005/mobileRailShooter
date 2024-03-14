@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Dan.Main;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class MainMenu : MonoBehaviour
     private const string SCORETEXT = "Highscore: ";
 
     private AsyncOperation _asyncOperation;
+    private string publicLeaderboardKey = "adc4cd6ac33116a538d58e21c4db09a652d82bc8884da92c97f91b82bb1bac37";
 
     public void Awake()
     {
@@ -65,6 +67,7 @@ public class MainMenu : MonoBehaviour
 
     public void ResetNickname()
     {
+        LeaderboardCreator.DeleteEntry(publicLeaderboardKey);
         PlayerPrefs.SetString("Username", "----");
         GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
     }
@@ -96,6 +99,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         int difficulty = PlayerPrefs.GetInt("Difficulty");
+        GameObject musicManager = GameObject.FindGameObjectWithTag("MusicManager");
         string sceneName = "";
         switch (difficulty)
         {
@@ -104,14 +108,16 @@ public class MainMenu : MonoBehaviour
                 break;
             case 1:
                 sceneName = "MediumScene";
+                musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MediumMusic;
+                musicManager.GetComponent<AudioSource>().Play();
                 break;
             case 2:
-                GameObject musicManager = GameObject.FindGameObjectWithTag("MusicManager");
                 musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().HardMusic;
-                musicManager.GetComponent<AudioSource>().Play();
                 sceneName = "HardScene";
+                musicManager.GetComponent<AudioSource>().Play();
                 break;
         }
+        
         LoadSceneAsyncProcess(sceneName);
     }
 
