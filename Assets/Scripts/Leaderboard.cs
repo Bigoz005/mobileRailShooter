@@ -7,7 +7,6 @@ using Dan.Main;
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> scores;
-    private string publicLeaderboardKey = "adc4cd6ac33116a538d58e21c4db09a652d82bc8884da92c97f91b82bb1bac37";
     private int type = 0;
     [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI textMesh;
@@ -19,7 +18,7 @@ public class Leaderboard : MonoBehaviour
         StartCoroutine(WaitAndLoad());
     }
 
-    public void GetLeaderboard()
+    public void UpdateTable()
     {
         Dan.Enums.TimePeriodType filter = Dan.Enums.TimePeriodType.AllTime;
         switch (type)
@@ -40,8 +39,7 @@ public class Leaderboard : MonoBehaviour
 
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter),
-            ((msg) =>
+            Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter), ((msg) =>
             {
                 foreach (TextMeshProUGUI score in scores)
                 {
@@ -52,7 +50,7 @@ public class Leaderboard : MonoBehaviour
 
                 if (msg.Length < j)
                 {
-                    j = msg.Length + 1;
+                    j = msg.Length;
                 }
                 try
                 {
@@ -77,19 +75,42 @@ public class Leaderboard : MonoBehaviour
             {
                 scores[0].text = "Failed to fetch data";
             }));
+        }
+    }
 
-            LeaderboardCreator.GetPersonalEntry(publicLeaderboardKey, (msg) =>
+    public void GetLeaderboard()
+    {
+        UpdateTable();
+
+        if (Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            Leaderboards.Gnomes.GetPersonalEntry((msg) =>
             {
                 int highscore = PlayerPrefs.GetInt("HighScore", 0);
-                if (msg.Score < highscore || (!msg.Username.Equals(PlayerPrefs.GetString("Username")) && !PlayerPrefs.GetString("Username").Equals("----")))
+                if (!PlayerPrefs.GetString("Username").Equals("----"))
                 {
-                    SetLeaderboardEntry(highscore);
-                    fetched = false;
+                    if (msg.Score < highscore)
+                    {
+                        Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, ((msg) =>
+                        {
+                        }), (err) =>
+                         {
+                             Leaderboards.Gnomes.DeleteEntry();
+                             Leaderboards.Gnomes.ResetPlayer();
+                             Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore);
+                             fetched = false;
+                         });
+                    }
+                    else
+                    {
+                        fetched = true;
+                        textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                    }
                 }
                 else
                 {
                     fetched = true;
-                    textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                    textMesh.SetText("Highscore: " + highscore);
                 }
             },
             (error) =>
@@ -103,16 +124,11 @@ public class Leaderboard : MonoBehaviour
             textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
             fetched = true;
         }
-    }
 
-    public void SetLeaderboardEntry(int score)
-    {
-        LeaderboardCreator.DeleteEntry(publicLeaderboardKey);
-
-        string tempUsername = PlayerPrefs.GetString("Username");
-        LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, tempUsername, score, ((msg) =>
+        if (textMesh.text.Equals("Highscore: "))
         {
-        }));
+            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0));
+        }
     }
 
     public void IncreaseType()

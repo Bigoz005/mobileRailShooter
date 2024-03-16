@@ -9,8 +9,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject optionCanvas;
     [SerializeField] private GameObject usernameCanvas;
+    [SerializeField] private Leaderboard leaderboard;
     [SerializeField] private GameObject highScoreText;
     [SerializeField] private GameObject playerNicknameText;
+    [SerializeField] private GameObject playerText;
     [SerializeField] private GameObject gnome1;
     [SerializeField] private GameObject gnome2;
     [SerializeField] private GameObject internetConnection;
@@ -19,11 +21,10 @@ public class MainMenu : MonoBehaviour
     private const string SCORETEXT = "Highscore: ";
 
     private AsyncOperation _asyncOperation;
-    private string publicLeaderboardKey = "adc4cd6ac33116a538d58e21c4db09a652d82bc8884da92c97f91b82bb1bac37";
 
     public void Awake()
     {
-        RefreshHighscore();
+        //RefreshHighscore();
     }
 
     public void RefreshHighscore()
@@ -38,13 +39,26 @@ public class MainMenu : MonoBehaviour
 
         if (username.Length != 1 && !username.Equals(""))
         {
-            PlayerPrefs.SetString("Username", username);
-            StartGame();
+           Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByUsername(username), (msg) => {
+               if(msg.Length == 0)
+               {
+                   PlayerPrefs.SetString("Username", username);
+                   Leaderboards.Gnomes.UploadNewEntry(username, PlayerPrefs.GetInt("Highscore", 0));
+                   StartGame();
+               }
+               else
+               {
+                   /*Debug.Log(msg[0].Username);
+                   Debug.Log(msg[0].Score);*/
+                   playerText.GetComponent<TextMeshProUGUI>().text = "Name already taken, try different";
+               }
+            });
         }
     }
 
     public void CheckIfReadyToPlay()
     {
+        playerText.GetComponent<TextMeshProUGUI>().text = "Enter username for leaderboard record (only letters) ";
         string user = PlayerPrefs.GetString("Username");
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -67,9 +81,11 @@ public class MainMenu : MonoBehaviour
 
     public void ResetNickname()
     {
-        LeaderboardCreator.DeleteEntry(publicLeaderboardKey);
         PlayerPrefs.SetString("Username", "----");
         GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
+        Leaderboards.Gnomes.DeleteEntry();
+        Leaderboards.Gnomes.ResetPlayer();
+        leaderboard.UpdateTable();
     }
 
     public void ShowOptions()

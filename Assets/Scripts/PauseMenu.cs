@@ -66,7 +66,7 @@ public class PauseMenu : MonoBehaviour
     private void TurnMenuMusic()
     {
         musicManager.GetComponent<MusicManager>().powerUpOn = false;
-        if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
+        if (musicManager.GetComponent<MusicManager>().HardMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().PowerUpMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name) || musicManager.GetComponent<MusicManager>().MediumMusic.name.Equals(musicManager.GetComponent<AudioSource>().clip.name))
         {
             musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().MainMusic;
             musicManager.GetComponent<AudioSource>().Play();
@@ -82,11 +82,10 @@ public class PauseMenu : MonoBehaviour
     public void Save()
     {
 
-        if (player.GetScore() >= PlayerPrefs.GetInt("HighScore"))
+        if (player.GetScore() > PlayerPrefs.GetInt("HighScore"))
         {
             PlayerPrefs.SetInt("HighScore", player.GetScore());
             PlayerPrefs.Save();
-            //SaveScore();
         }
 
         TurnMenuMusic();
@@ -98,24 +97,6 @@ public class PauseMenu : MonoBehaviour
         TurnMenuMusic();
         StartCoroutine(LoadSceneAsyncProcess("MainMenuScene"));
     }
-
-    private async void SaveScore()
-    {
-        try
-        {
-            LeaderboardCreator.UploadNewEntry(player.GetPublicLeaderboardKey(), PlayerPrefs.GetString("Username"), player.GetScore(), ((msg) =>
-            {
-
-            }));
-
-            await Task.Yield();
-        }
-        catch (MissingReferenceException)
-        {
-            await Task.Yield();
-        }
-    }
-
     private IEnumerator LoadSceneAsyncProcess(string sceneName)
     {
         _asyncOperation = SceneManager.LoadSceneAsync(sceneName);

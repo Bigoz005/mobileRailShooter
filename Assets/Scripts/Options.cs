@@ -153,16 +153,6 @@ public class Options : MonoBehaviour
         }
     }
 
-    public void ResetScore()
-    {
-        PlayerPrefs.SetInt("HighScore", 0);
-        PlayerPrefs.Save();
-        if (text != null)
-        {
-            text.GetComponent<TextMeshProUGUI>().text = "HighScore: 0";
-        }
-    }
-
     public void SetFPS()
     {
         int fps = (int)sliderFps.GetComponent<Slider>().value;
