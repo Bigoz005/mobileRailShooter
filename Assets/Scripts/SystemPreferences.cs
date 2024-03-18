@@ -19,7 +19,7 @@ public class SystemPreferences : MonoBehaviour
         if (PlayerPrefs.GetInt("DrawShader", 1) == 0)
         {
             RenderSettings.skybox = skybox;
-            RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
+            RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
 
             switch (SceneManager.GetActiveScene().name)
             {
@@ -39,7 +39,7 @@ public class SystemPreferences : MonoBehaviour
             if (PlayerPrefs.GetInt("RetroShader", 1) == 0 || PlayerPrefs.GetInt("ComicShader", 1) == 0)
             {
                 RenderSettings.skybox = skybox;
-                RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
+                RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
             }
 
             switch (SceneManager.GetActiveScene().name)
@@ -55,6 +55,7 @@ public class SystemPreferences : MonoBehaviour
                     break;
             }
         }
+
 
         foreach (Material mat in toonMaterials)
         {

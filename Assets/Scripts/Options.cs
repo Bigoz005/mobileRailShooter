@@ -268,6 +268,8 @@ public class Options : MonoBehaviour
         if (comicType)
         {
             PlayerPrefs.SetInt("ComicShader", 0);
+            PlayerPrefs.SetInt("DrawShader", 1);
+            PlayerPrefs.SetInt("RetroShader", 1);
             drawToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
 
@@ -293,6 +295,8 @@ public class Options : MonoBehaviour
         if (retroType)
         {
             PlayerPrefs.SetInt("RetroShader", 0);
+            PlayerPrefs.SetInt("ComicShader", 1);
+            PlayerPrefs.SetInt("DrawShader", 1);
             comicToggle.GetComponent<Toggle>().isOn = false;
             drawToggle.GetComponent<Toggle>().isOn = false;
 
@@ -317,6 +321,8 @@ public class Options : MonoBehaviour
         if (drawType)
         {
             PlayerPrefs.SetInt("DrawShader", 0);
+            PlayerPrefs.SetInt("RetroShader", 1);
+            PlayerPrefs.SetInt("ComicShader", 1);
             comicToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
 
@@ -339,13 +345,13 @@ public class Options : MonoBehaviour
         if ((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn)
         {
             RenderSettings.skybox = skyboxMaterials[1];
-            if ((bool)comicToggle.GetComponent<Toggle>().isOn)
+            if ((bool)drawToggle.GetComponent<Toggle>().isOn)
             {
-                RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
+                RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
             }
             else
             {
-                RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
+                RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
             }
         }
         else
