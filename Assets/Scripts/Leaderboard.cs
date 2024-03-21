@@ -80,55 +80,60 @@ public class Leaderboard : MonoBehaviour
 
     public void GetLeaderboard()
     {
-        UpdateTable();
+        int highscore = PlayerPrefs.GetInt("HighScore", 0);
 
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            Leaderboards.Gnomes.GetPersonalEntry((msg) =>
+            if (PlayerPrefs.GetString("Username").Equals("----") || PlayerPrefs.GetString("Username").Equals(""))
             {
-                int highscore = PlayerPrefs.GetInt("HighScore", 0);
-                if (!PlayerPrefs.GetString("Username").Equals("----"))
+                Leaderboards.Gnomes.DeleteEntry();
+                Leaderboards.Gnomes.ResetPlayer();
+                textMesh.SetText("Start game and enter username");
+            }
+            else
+            {
+                Leaderboards.Gnomes.GetPersonalEntry((msg) =>
                 {
-                    if (msg.Score < highscore)
+                    if (msg.Score >= highscore)
                     {
-                        Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, ((msg) =>
-                        {
-                        }), (err) =>
-                         {
-                             Leaderboards.Gnomes.DeleteEntry();
-                             Leaderboards.Gnomes.ResetPlayer();
-                             Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore);
-                             fetched = false;
-                         });
+                        textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                        PlayerPrefs.SetInt("Highscore", msg.Score);
                     }
                     else
                     {
-                        fetched = true;
-                        textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
+                        Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, (msg2) =>
+                        {
+                            Leaderboards.Gnomes.GetPersonalEntry((msg3) =>
+                            {
+                                textMesh.SetText("Highscore: " + msg3.Score + " (Global Rank: " + msg3.Rank + ")");
+                            });
+                        }, (err) =>
+                        {
+                            Leaderboards.Gnomes.DeleteEntry();
+                            Leaderboards.Gnomes.ResetPlayer();
+                            Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, (msg4) =>
+                            {
+                                Leaderboards.Gnomes.GetPersonalEntry((msg5) =>
+                                {
+                                    textMesh.SetText("Highscore: " + msg5.Score + " (Global Rank: " + msg5.Rank + ")");
+                                });
+                            });
+                        });
                     }
-                }
-                else
-                {
-                    fetched = true;
-                    textMesh.SetText("Highscore: " + highscore);
-                }
-            },
-            (error) =>
-            {
-                textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
-            });
+                }, (error) =>
+               {
+                   textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + "\nFailed to fetch data");
+               });
+            }
+            fetched = true;
         }
         else
         {
             scores[0].text = "Failed to fetch data";
-            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + " (Global Rank: " + PlayerPrefs.GetInt("Rank", 0) + ")\nFailed to fetch data");
-            fetched = true;
+            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + "\nFailed to fetch data");
         }
 
-        if (textMesh.text.Equals("Highscore: "))
-        {
-            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0));
-        }
+        UpdateTable();
     }
 
     public void IncreaseType()

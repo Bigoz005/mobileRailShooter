@@ -84,8 +84,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetString("Username", "----");
         GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
         Leaderboards.Gnomes.DeleteEntry();
-        Leaderboards.Gnomes.ResetPlayer();
-        leaderboard.UpdateTable();
+        leaderboard.GetLeaderboard();
     }
 
     public void ShowOptions()
