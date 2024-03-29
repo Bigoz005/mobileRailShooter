@@ -7,7 +7,6 @@ using Dan.Main;
 public class Leaderboard : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> scores;
-    private int type = 0;
     [SerializeField] private TextMeshProUGUI typeText;
     [SerializeField] private TextMeshProUGUI textMesh;
     private bool fetched = false;
@@ -20,26 +19,9 @@ public class Leaderboard : MonoBehaviour
 
     public void UpdateTable()
     {
-        Dan.Enums.TimePeriodType filter = Dan.Enums.TimePeriodType.AllTime;
-        switch (type)
-        {
-            case 0:
-                filter = Dan.Enums.TimePeriodType.AllTime;
-                typeText.text = "All Time";
-                break;
-            case 1:
-                filter = Dan.Enums.TimePeriodType.ThisWeek;
-                typeText.text = "New Users (Week)";
-                break;
-            case 2:
-                filter = Dan.Enums.TimePeriodType.Today;
-                typeText.text = "New Users (Today)";
-                break;
-        }
-
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByTimePeriod(filter), ((msg) =>
+            Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByTimePeriod(Dan.Enums.TimePeriodType.AllTime), ((msg) =>
             {
                 foreach (TextMeshProUGUI score in scores)
                 {
@@ -54,6 +36,11 @@ public class Leaderboard : MonoBehaviour
                 }
                 try
                 {
+                    if (msg == null || msg[0].Score != 0)
+                    {
+                        scores[0].text = "Fetching...";
+                    }
+
                     for (int i = 1; i <= j; ++i)
                     {
                         if (msg[i - 1].Username.Length > 12)
@@ -63,6 +50,11 @@ public class Leaderboard : MonoBehaviour
                         else
                         {
                             scores[i - 1].text = (i) + ". " + (msg[i - 1].Username + ": " + msg[i - 1].Score.ToString());
+                        }
+
+                        if(i == j)
+                        {
+                            fetched = true;
                         }
                     }
                 }
@@ -76,84 +68,19 @@ public class Leaderboard : MonoBehaviour
                 scores[0].text = "Failed to fetch data";
             }));
         }
-    }
-
-    public void GetLeaderboard()
-    {
-        int highscore = PlayerPrefs.GetInt("HighScore", 0);
-
-        if (Application.internetReachability != NetworkReachability.NotReachable)
+        if (PlayerPrefs.GetString("Username").Equals("----") || PlayerPrefs.GetString("Username", "").Equals(""))
         {
-            if (PlayerPrefs.GetString("Username").Equals("----") || PlayerPrefs.GetString("Username").Equals(""))
-            {
-                Leaderboards.Gnomes.DeleteEntry();
-                Leaderboards.Gnomes.ResetPlayer();
-                textMesh.SetText("Start game and enter username");
-            }
-            else
-            {
-                Leaderboards.Gnomes.GetPersonalEntry((msg) =>
-                {
-                    if (msg.Score >= highscore)
-                    {
-                        textMesh.SetText("Highscore: " + msg.Score + " (Global Rank: " + msg.Rank + ")");
-                        PlayerPrefs.SetInt("Highscore", msg.Score);
-                    }
-                    else
-                    {
-                        Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, (msg2) =>
-                        {
-                            Leaderboards.Gnomes.GetPersonalEntry((msg3) =>
-                            {
-                                textMesh.SetText("Highscore: " + msg3.Score + " (Global Rank: " + msg3.Rank + ")");
-                            });
-                        }, (err) =>
-                        {
-                            Leaderboards.Gnomes.DeleteEntry();
-                            Leaderboards.Gnomes.ResetPlayer();
-                            Leaderboards.Gnomes.UploadNewEntry(PlayerPrefs.GetString("Username"), highscore, (msg4) =>
-                            {
-                                Leaderboards.Gnomes.GetPersonalEntry((msg5) =>
-                                {
-                                    textMesh.SetText("Highscore: " + msg5.Score + " (Global Rank: " + msg5.Rank + ")");
-                                });
-                            });
-                        });
-                    }
-                }, (error) =>
-               {
-                   textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + "\nFailed to fetch data");
-               });
-            }
-            fetched = true;
+            resetNicknameText();
         }
         else
         {
-            scores[0].text = "Failed to fetch data";
-            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("HighScore", 0) + "\nFailed to fetch data");
+            textMesh.SetText("Highscore: " + PlayerPrefs.GetInt("Highscore", 0));
         }
-
-        UpdateTable();
     }
 
-    public void IncreaseType()
+    public void resetNicknameText()
     {
-        type++;
-        if (type > 2)
-        {
-            type = 0;
-        }
-        GetLeaderboard();
-    }
-
-    public void DecreaseType()
-    {
-        type--;
-        if (type < 0)
-        {
-            type = 2;
-        }
-        GetLeaderboard();
+        textMesh.SetText("Start game and enter username");
     }
 
     public IEnumerator WaitAndLoad()
@@ -161,7 +88,7 @@ public class Leaderboard : MonoBehaviour
         while (!fetched)
         {
             yield return new WaitForSeconds(1f);
-            GetLeaderboard();
+            UpdateTable();
             yield return null;
         }
         yield return null;

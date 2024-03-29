@@ -39,20 +39,20 @@ public class MainMenu : MonoBehaviour
 
         if (username.Length != 1 && !username.Equals(""))
         {
-           Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByUsername(username), (msg) => {
+           /*Leaderboards.Gnomes.GetEntries(Dan.Models.LeaderboardSearchQuery.ByUsername(username), (msg) => {
                if(msg.Length == 0)
-               {
+               {*/
                    PlayerPrefs.SetString("Username", username);
-                   Leaderboards.Gnomes.UploadNewEntry(username, PlayerPrefs.GetInt("Highscore", 0));
+                   /*Leaderboards.Gnomes.UploadNewEntry(username, PlayerPrefs.GetInt("Highscore", 0));*/
                    StartGame();
-               }
+               /*}
                else
                {
-                   /*Debug.Log(msg[0].Username);
-                   Debug.Log(msg[0].Score);*/
+                   *//*Debug.Log(msg[0].Username);
+                   Debug.Log(msg[0].Score);*//*
                    playerText.GetComponent<TextMeshProUGUI>().text = "Name already taken, try different";
-               }
-            });
+               }*/
+            /*});*/
         }
     }
 
@@ -83,8 +83,7 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.SetString("Username", "----");
         GetComponent<Options>().username.text = "Username: " + PlayerPrefs.GetString("Username", "----");
-        Leaderboards.Gnomes.DeleteEntry();
-        leaderboard.GetLeaderboard();
+        leaderboard.resetNicknameText();
     }
 
     public void ShowOptions()
@@ -127,8 +126,8 @@ public class MainMenu : MonoBehaviour
                 musicManager.GetComponent<AudioSource>().Play();
                 break;
             case 2:
-                musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().HardMusic;
                 sceneName = "HardScene";
+                musicManager.GetComponent<AudioSource>().clip = musicManager.GetComponent<MusicManager>().HardMusic;
                 musicManager.GetComponent<AudioSource>().Play();
                 break;
         }
