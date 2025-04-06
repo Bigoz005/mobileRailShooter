@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
   m_Parent: {fileID: 2100000, guid: be7e5181de8cb13449b4942a7dd6d0cb, type: 2}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _draw_toggle
   m_InvalidKeywords:
   - _DRAW_TOGGLE
   - _GLOSSYREFLECTIONS_OFF
@@ -49,7 +50,9 @@ Material:
     - _Repeat: 800
     - _comic_toggle: 0
     - _draw_toggle: 0
+    - _holo_toggle: 0
     - _retro_toggle: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 0.8680749, b: 1, a: 1}
   m_BuildTextureStacks: []

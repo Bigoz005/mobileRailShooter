@@ -10,7 +10,7 @@ Material:
   m_Name: Frog
   m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
   m_Parent: {fileID: 2100000, guid: 4303e06edc0bb234bb861779eca850d4, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_ModifiedSerializedProperties: 16
   m_ValidKeywords: []
   m_InvalidKeywords:
   - TOGGLE_RETRO
@@ -20,7 +20,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -55,8 +56,10 @@ Material:
     - _InkSize: 0.1
     - _Metallic: 0.2
     - _RETRO_TOGGLE: 0
+    - _ZWrite: 0
     - _comic_toggle: 0
     - _draw_toggle: 0
+    - _holo_toggle: 0
     - _isToggledRetro: 1
     - _retro_toggle: 0
     - comicToggle: 0

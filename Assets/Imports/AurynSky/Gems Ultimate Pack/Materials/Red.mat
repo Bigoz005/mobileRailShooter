@@ -100,6 +100,7 @@ Material:
     - _OutlineWidth: 1
     - _Parallax: 0.02
     - _Repeat: 4
+    - _RimPower: 3
     - _SmoothnessTextureChannel: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -107,10 +108,12 @@ Material:
     - _ZWrite: 1
     - _comic_toggle: 0
     - _draw_toggle: 0
+    - _holo_toggle: 0
     - _retro_toggle: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _InkColor: {r: 0, g: 0, b: 0, a: 0}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.03676468, g: 0.03676468, b: 0.03676468, a: 1}
   m_BuildTextureStacks: []

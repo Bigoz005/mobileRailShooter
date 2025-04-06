@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: e6565f47b557698469ebbfb46193a803, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _draw_toggle
   m_InvalidKeywords:
   - _DRAW_TOGGLE
   - _GLOSSYREFLECTIONS_OFF
@@ -98,13 +99,15 @@ Material:
     - _OutlineWidth: 0.25
     - _Parallax: 0.02
     - _Repeat: 60
+    - _RimPower: 3
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _comic_toggle: 0
     - _draw_toggle: 0
+    - _holo_toggle: 0
     - _isToggled: 0
     - _isToggledComic: 0
     - _isToggledHandDraw: 0
@@ -117,5 +120,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _InkColor: {r: 0, g: 0, b: 0, a: 0}
+    - _RimColor: {r: 0, g: 0.8680749, b: 1, a: 1}
     - _ShadowTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

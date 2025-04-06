@@ -17,7 +17,11 @@ Shader "Gnoming/Retro"
         [Toggle(_retro_toggle)] _retro_toggle ("_retro_toggle", Float) = 0.0
         [Toggle(_comic_toggle)] _comic_toggle ("_comic_toggle", Float) = 0.0
         [Toggle(_draw_toggle)] _draw_toggle ("_draw_toggle", Float) = 0.0
+        [Toggle(_holo_toggle)] _holo_toggle ("_holo_toggle", Float) = 0.0
 
+       
+        _RimColor ("Rim Color", Color) = (1,1,1,1)
+       [HideInInspector] _RimPower ("Rim Power", Range(0.1, 8.0)) = 3.0
         // Blending state
         [HideInInspector] _Mode ("__mode", Float) = 0.0
         [HideInInspector] _SrcBlend ("__src", Float) = 1.0
@@ -33,19 +37,20 @@ Shader "Gnoming/Retro"
     {
         Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
         LOD 300
- 
+        //Zwrite [_ZWrite]
+        
         Pass {
             CGPROGRAM
 			#pragma vertex vert_img;
-			#pragma fragment frag;            
+			#pragma fragment frag;           
             
-            #pragma multi_compile _retro_toggle _comic_toggle _draw_toggle _
+            #pragma multi_compile _retro_toggle _comic_toggle _draw_toggle _holo_toggle _
             
 			#include "UnityCG.cginc" 
  
 			uniform sampler2D _MainTexRGB;  
             uniform sampler2D _MainShadowMap;
-
+             
 			uniform float4 _Color; 
             fixed _Repeat;
        
@@ -170,7 +175,6 @@ Shader "Gnoming/Retro"
             #else
             #if defined(_draw_toggle)
             
-                sampler2D _MainTex;
                 sampler2D _LitTex;
                 sampler2D _MedTex;
                 sampler2D _HvyTex;
@@ -194,6 +198,51 @@ Shader "Gnoming/Retro"
                     c.rgb = c.rgb*_Color.rgb;
                     return c;
                 }
+            #else
+            #if defined(_holo_toggle)
+            
+
+            sampler2D _MainTex;
+            float4 _RimColor;
+            float _RimPower;
+            float _Transparency;
+
+            struct v2f_img2
+            {
+                float4 pos : SV_POSITION; // Pozycja
+                float2 uv : TEXCOORD0;    // Koordynaty UV
+                float3 viewDir : TEXCOORD1; // Dodane: kierunek widzenia
+                float3 normal : TEXCOORD2;   // Normal
+            };
+
+            v2f_img2 vert(appdata_full v)
+            {
+                v2f_img2 o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord;
+
+                // Obliczanie kierunku widzenia (View Direction)
+                float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                o.viewDir = normalize(_WorldSpaceCameraPos - worldPos);
+
+                 // Przekazanie normal (normalnego wektora)
+                o.normal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
+
+                return o;
+            }
+
+            float4 frag (v2f_img2 i) : COLOR
+            {
+                float rim = 1.0 - saturate(dot(normalize(i.viewDir), i.normal));
+                float4 color = tex2D(_MainTexRGB, i.uv) * 10;
+                float3 emission = _RimColor.rgb * pow(rim, _RimPower);
+                
+                float alpha = _Transparency + pow(rim, _RimPower);
+                float3 finalColor =  (_Transparency + emission) * color;
+
+                return float4(finalColor, saturate(alpha)); // Przezroczystoœæ z widocznymi krawêdziami
+            }
+                 
 
             #else
 
@@ -205,14 +254,14 @@ Shader "Gnoming/Retro"
             #endif
             #endif
             #endif
+            #endif
 			ENDCG
         }
         
-
         Pass
         {
-            Cull Front
-            Blend [_SrcBlend] [_DstBlend]
+            Cull [_Cull]
+            //Blend [_SrcBlend] [_DstBlend]
             
             CGPROGRAM
             #pragma vertex vert
@@ -254,6 +303,7 @@ Shader "Gnoming/Retro"
 
             ENDCG
         }
+
     }
     FallBack "VertexLit"
 }

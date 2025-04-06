@@ -22,6 +22,7 @@ public class Options : MonoBehaviour
     [SerializeField] private GameObject touchToggle;
     [SerializeField] private GameObject comicToggle;
     [SerializeField] private GameObject retroToggle;
+    [SerializeField] private GameObject holoToggle;
     [SerializeField] private GameObject drawToggle;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject gnome1;
@@ -55,6 +56,7 @@ public class Options : MonoBehaviour
             comicToggle.GetComponent<Toggle>().isOn = false;
             drawToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
+            holoToggle.GetComponent<Toggle>().isOn = false;
 
 
             if ((PlayerPrefs.GetInt("Controls", 1) == 0))
@@ -93,6 +95,14 @@ public class Options : MonoBehaviour
                 retroToggle.GetComponent<Toggle>().isOn = false;
             }
 
+            if ((PlayerPrefs.GetInt("HoloShader", 1) == 0)) 
+            {
+                holoToggle.GetComponent<Toggle>().isOn = true;
+            } else 
+            {
+                holoToggle.GetComponent<Toggle>().isOn = false;
+            }
+
             foreach (Material mat in toonMaterials)
             {
                 if ((bool)comicToggle.GetComponent<Toggle>().isOn)
@@ -106,6 +116,9 @@ public class Options : MonoBehaviour
                 else if ((bool)retroToggle.GetComponent<Toggle>().isOn)
                 {
                     EnableRetro(mat, mat.shader);
+                } 
+                else if ((bool)holoToggle.GetComponent<Toggle>().isOn) {
+                    EnableHolo(mat, mat.shader);
                 }
             }
             checkSkybox();
@@ -270,6 +283,8 @@ public class Options : MonoBehaviour
             PlayerPrefs.SetInt("ComicShader", 0);
             PlayerPrefs.SetInt("DrawShader", 1);
             PlayerPrefs.SetInt("RetroShader", 1);
+            PlayerPrefs.SetInt("HoloShader", 1);
+            holoToggle.GetComponent<Toggle>().isOn = false;
             drawToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
 
@@ -297,6 +312,8 @@ public class Options : MonoBehaviour
             PlayerPrefs.SetInt("RetroShader", 0);
             PlayerPrefs.SetInt("ComicShader", 1);
             PlayerPrefs.SetInt("DrawShader", 1);
+            PlayerPrefs.SetInt("HoloShader", 1);
+            holoToggle.GetComponent<Toggle>().isOn = false;
             comicToggle.GetComponent<Toggle>().isOn = false;
             drawToggle.GetComponent<Toggle>().isOn = false;
 
@@ -323,6 +340,8 @@ public class Options : MonoBehaviour
             PlayerPrefs.SetInt("DrawShader", 0);
             PlayerPrefs.SetInt("RetroShader", 1);
             PlayerPrefs.SetInt("ComicShader", 1);
+            PlayerPrefs.SetInt("HoloShader", 1);
+            holoToggle.GetComponent<Toggle>().isOn = false;
             comicToggle.GetComponent<Toggle>().isOn = false;
             retroToggle.GetComponent<Toggle>().isOn = false;
 
@@ -340,17 +359,39 @@ public class Options : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public void SetHoloMaterials() {
+        bool holoType = (bool)holoToggle.GetComponent<Toggle>().isOn;
+        Debug.Log("OOOO : " + holoType);
+        if (holoType) {
+            PlayerPrefs.SetInt("DrawShader", 1);
+            PlayerPrefs.SetInt("RetroShader", 1);
+            PlayerPrefs.SetInt("ComicShader", 1);
+            PlayerPrefs.SetInt("HoloShader", 0);
+            drawToggle.GetComponent<Toggle>().isOn = false;
+            comicToggle.GetComponent<Toggle>().isOn = false;
+            retroToggle.GetComponent<Toggle>().isOn = false;
+
+            foreach (Material mat in toonMaterials) {
+                Shader shader = mat.shader;
+                EnableHolo(mat, shader);
+            }
+        } else {
+            PlayerPrefs.SetInt("HoloShader", 1);
+        }
+        checkSkybox();
+        PlayerPrefs.Save();
+    }
+
     public void checkSkybox()
     {
-        if ((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn)
+        if ((bool)drawToggle.GetComponent<Toggle>().isOn || (bool)retroToggle.GetComponent<Toggle>().isOn || (bool)comicToggle.GetComponent<Toggle>().isOn || (bool)holoToggle.GetComponent<Toggle>().isOn)
         {
             RenderSettings.skybox = skyboxMaterials[1];
             if ((bool)drawToggle.GetComponent<Toggle>().isOn)
             {
                 RenderSettings.skybox.SetColor("_Tint", new(1, 1, 1, 1));
             }
-            else
-            {
+            else{
                 RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
             }
         }
@@ -370,19 +411,42 @@ public class Options : MonoBehaviour
         Shader.EnableKeyword("_retro_toggle");
         Shader.DisableKeyword("_draw_toggle");
         Shader.DisableKeyword("_comic_toggle");
+        Shader.DisableKeyword("_holo_toggle");
         mat.SetFloat("_retro_toggle", 1);
         mat.SetFloat("_comic_toggle", 0);
+        mat.SetFloat("_holo_toggle", 0);
         mat.SetFloat("_draw_toggle", 0);
+        mat.SetFloat("_ZWrite", 0); // W³¹czenie zapisu do bufora Z
+        mat.SetInt("_Cull", 1);
     }
+
+    public void EnableHolo(Material mat, Shader shader) {
+        Shader.DisableKeyword("_retro_toggle");
+        Shader.DisableKeyword("_draw_toggle");
+        Shader.DisableKeyword("_comic_toggle");
+        Shader.EnableKeyword("_holo_toggle");
+        mat.SetFloat("_comic_toggle", 0);
+        mat.SetFloat("_draw_toggle", 0);
+        mat.SetFloat("_retro_toggle", 0);
+        mat.SetFloat("_holo_toggle", 1);
+        mat.SetFloat("_ZWrite", 0); // Wy³¹czenie zapisu do bufora Z
+        mat.SetInt("_Cull", 0);
+
+    }
+
 
     public void EnableComic(Material mat, Shader shader)
     {
         Shader.DisableKeyword("_draw_toggle");
         Shader.DisableKeyword("_retro_toggle");
         Shader.EnableKeyword("_comic_toggle");
+        Shader.DisableKeyword("_holo_toggle");
         mat.SetFloat("_comic_toggle", 1);
         mat.SetFloat("_retro_toggle", 0);
         mat.SetFloat("_draw_toggle", 0);
+        mat.SetFloat("_holo_toggle", 0);
+        mat.SetFloat("_ZWrite", 0); // W³¹czenie zapisu do bufora Z       
+        mat.SetInt("_Cull", 1);
     }
 
     public void EnableDraw(Material mat, Shader shader)
@@ -390,9 +454,13 @@ public class Options : MonoBehaviour
         Shader.EnableKeyword("_draw_toggle");
         Shader.DisableKeyword("_retro_toggle");
         Shader.DisableKeyword("_comic_toggle");
+        Shader.DisableKeyword("_holo_toggle");
+        mat.SetFloat("_holo_toggle", 0);
         mat.SetFloat("_draw_toggle", 1);
         mat.SetFloat("_retro_toggle", 0);
         mat.SetFloat("_comic_toggle", 0);
+        mat.SetFloat("_ZWrite",0); // W³¹czenie zapisu do bufora Z
+        mat.SetInt("_Cull",1);
     }
 
     public void DisableMaterialsPropetrties(Material mat, Shader shader)
@@ -400,8 +468,12 @@ public class Options : MonoBehaviour
         Shader.DisableKeyword("_draw_toggle");
         Shader.DisableKeyword("_retro_toggle");
         Shader.DisableKeyword("_comic_toggle");
+        Shader.DisableKeyword("_holo_toggle");
+        mat.SetFloat("_holo_toggle", 0);
         mat.SetFloat("_draw_toggle", 0);
         mat.SetFloat("_retro_toggle", 0);
         mat.SetFloat("_comic_toggle", 0);
+        mat.SetFloat("_ZWrite", 0); // W³¹czenie zapisu do bufora Z
+        mat.SetInt("_Cull", 1);
     }
 }

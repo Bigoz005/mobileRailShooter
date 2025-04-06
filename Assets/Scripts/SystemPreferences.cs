@@ -36,7 +36,7 @@ public class SystemPreferences : MonoBehaviour
         }
         else
         {
-            if (PlayerPrefs.GetInt("RetroShader", 1) == 0 || PlayerPrefs.GetInt("ComicShader", 1) == 0)
+            if (PlayerPrefs.GetInt("RetroShader", 1) == 0 || PlayerPrefs.GetInt("ComicShader", 1) == 0 || PlayerPrefs.GetInt("HoloShader", 1) == 0)
             {
                 RenderSettings.skybox = skybox;
                 RenderSettings.skybox.SetColor("_Tint", new(0, 0.05f, 1, 1));
